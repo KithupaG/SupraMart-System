@@ -49,7 +49,7 @@ public class MySQL {
         }
         return connection;
     }
-
+    
     public static ResultSet executePreparedSearch(String query, Object... params) throws SQLException {
         PreparedStatement ps = prepareStatement(query, params);
         return ps.executeQuery();
@@ -67,7 +67,7 @@ public class MySQL {
         }
         return ps;
     }
-
+    
     public static void closeConnection() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -80,5 +80,5 @@ public class MySQL {
 
     public static Properties getAppProperties() {
         return appProperties;
-    }
+    } 
 }
