@@ -49,7 +49,7 @@ public class MySQL {
         }
         return connection;
     }
-    
+
     public static ResultSet executePreparedSearch(String query, Object... params) throws SQLException {
         PreparedStatement ps = prepareStatement(query, params);
         return ps.executeQuery();
@@ -58,16 +58,6 @@ public class MySQL {
     public static int executePreparedIUD(String query, Object... params) throws SQLException {
         PreparedStatement ps = prepareStatement(query, params);
         return ps.executeUpdate();
-    }
-
-    private static PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
-        PreparedStatement ps = getConnection().prepareStatement(query);
-        for (int i = 0; i < params.length; i++) {
-            ps.setObject(i + 1, params[i]);
-        }
-        return ps;
-    }
-  
     }
 
     private static PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
@@ -91,4 +81,4 @@ public class MySQL {
     public static Properties getAppProperties() {
         return appProperties;
     }
-    
+}
