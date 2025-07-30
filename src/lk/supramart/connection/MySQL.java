@@ -67,6 +67,16 @@ public class MySQL {
         }
         return ps;
     }
+  
+    }
+
+    private static PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
+        PreparedStatement ps = getConnection().prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            ps.setObject(i + 1, params[i]);
+        }
+        return ps;
+    }
 
     public static void closeConnection() {
         try {
@@ -82,4 +92,3 @@ public class MySQL {
         return appProperties;
     }
     
-}
