@@ -80,7 +80,5 @@ public class MySQL {
 
     public static Properties getAppProperties() {
         return appProperties;
-    }
-  
+    } 
 }
-
