@@ -65,6 +65,7 @@ public class SplashScreen extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        ProgressBar.setForeground(new java.awt.Color(0, 102, 255));
         ProgressBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         ProgressBar.setMaximumSize(new java.awt.Dimension(32767, 10));
         ProgressBar.setMinimumSize(new java.awt.Dimension(10, 10));
