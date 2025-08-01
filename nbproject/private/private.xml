@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/College/Projects/SupraMart-System/src/lk/supramart/cashier/login.java</file>
+            <file>file:/D:/College/Projects/SupraMart-System/src/lk/supramart/gui/Home.java</file>
+            <file>file:/D:/College/Projects/SupraMart-System/src/lk/supramart/gui/SplashScreen.java</file>
+            <file>file:/D:/College/Projects/SupraMart-System/src/lk/supramart/gui/admin/AddSupplier.java</file>
+        </group>
     </open-files>
 </project-private>
