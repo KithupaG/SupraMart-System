@@ -112,7 +112,7 @@ public class adminSettings extends javax.swing.JDialog {
 
         jLabel3.setText("New Password");
 
-        jLabel4.setText("New Password");
+        jLabel4.setText("Confirm Password");
 
         jButton3.setBackground(new java.awt.Color(255, 153, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
