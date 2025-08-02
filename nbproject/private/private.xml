@@ -3,6 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/branchManager/branchManagerLogin.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/branchManager/editBranch.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/branchManager/branchManagerDashboard.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/branchManager/addBranch.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/inventoryManager/inventoryManagerLogin.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/inventoryManager/inventoryManagerDashboard.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/branchManager/branchManagerSettings.java</file>
+            <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/inventoryManager/inventoryManagerSettings.java</file>
             <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/cashier/cashierSettings.java</file>
             <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/gui/admin/adminDashboard.java</file>
             <file>file:/C:/Users/kithu/Documents/GitHub/SupraMart-System/src/lk/supramart/cashier/cashierDashboard.java</file>

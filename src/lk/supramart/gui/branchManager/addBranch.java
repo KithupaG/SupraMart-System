@@ -5,7 +5,7 @@
 package lk.supramart.gui.branchManager;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import lk.supramart.gui.admin.editProduct;
+import lk.supramart.gui.editProduct;
 
 /**
  *
