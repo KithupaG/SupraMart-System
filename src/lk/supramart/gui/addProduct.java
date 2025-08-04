@@ -5,15 +5,16 @@
 package lk.supramart.gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import lk.supramart.gui.admin.adminDashboard;
 
-public class addProduct extends javax.swing.JFrame{
+public class addProduct extends javax.swing.JDialog{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(addProduct.class.getName());
 
     /**
      * Creates new form addProduct
      */
-    public addProduct() {
+    public addProduct(addProduct aThis, boolean par) {
         setUndecorated(true);
         initComponents();
     }
@@ -199,7 +200,7 @@ public class addProduct extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                addProduct = new  addProduct();
+                addProduct = new  addProduct(addProduct, true);
                 addProduct.setVisible(true);
             }
         });
