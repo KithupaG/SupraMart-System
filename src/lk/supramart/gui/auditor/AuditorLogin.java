@@ -5,6 +5,11 @@
 package lk.supramart.gui.auditor;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import lk.supramart.dao.EmployeeDAO;
+import lk.supramart.dao.EmployeeDAOImpl;
+import lk.supramart.enums.UserRole;
+import lk.supramart.model.Employee;
 
 /**
  *
@@ -15,8 +20,30 @@ public class AuditorLogin extends javax.swing.JFrame {
     /**
      * Creates new form AuditorLogin
      */
+    
     public AuditorLogin() {
         initComponents();
+    }
+    
+    private void login(){
+        String id = auditorIdField.getText().trim();
+        String password = String.valueOf(auditorPasswordField.getText().trim());
+        int roleId = UserRole.AUDITOR.getId();
+        
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        Employee employee = new Employee(id, password,roleId);
+        
+        if (employeeDAO.employeeLogin(employee)) {
+            JOptionPane.showMessageDialog(this, 
+                    "Auditor Login Successfully!", 
+                    "Login", 
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Invalid Credentials.",
+                    "Login",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -32,13 +59,13 @@ public class AuditorLogin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        auditorLoginBtn = new javax.swing.JButton();
+        auditorCancel = new javax.swing.JButton();
+        auditorIdField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        auditorPasswordField = new javax.swing.JTextField();
+        auditorErrorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SupraMart || Auditor Login");
@@ -80,22 +107,27 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton6.setBackground(new java.awt.Color(0, 102, 255));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Log In");
+        auditorLoginBtn.setBackground(new java.awt.Color(0, 102, 255));
+        auditorLoginBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        auditorLoginBtn.setForeground(new java.awt.Color(255, 255, 255));
+        auditorLoginBtn.setText("Log In");
+        auditorLoginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                auditorLoginBtnActionPerformed(evt);
+            }
+        });
 
-        jButton7.setBackground(new java.awt.Color(102, 102, 102));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("cancel");
+        auditorCancel.setBackground(new java.awt.Color(102, 102, 102));
+        auditorCancel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        auditorCancel.setForeground(new java.awt.Color(255, 255, 255));
+        auditorCancel.setText("Cancel");
 
-        jLabel5.setText("Employee ID");
+        jLabel5.setText("Auditor ID");
 
-        jLabel6.setText("Employee ID");
+        jLabel6.setText("Password");
 
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setText("Status Label if error ( show error message ) else status ( empty by default )");
+        auditorErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
+        auditorErrorMessage.setText("Status Label if error ( show error message ) else status ( empty by default )");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,21 +139,21 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(auditorErrorMessage)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                .addComponent(auditorLoginBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)
+                                .addComponent(auditorCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(auditorIdField)
+                            .addComponent(auditorPasswordField)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(15, 15, 15))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,17 +163,17 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(auditorIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(auditorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(auditorErrorMessage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(auditorCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(auditorLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -160,6 +192,10 @@ public class AuditorLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void auditorLoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_auditorLoginBtnActionPerformed
+        login();
+    }//GEN-LAST:event_auditorLoginBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -176,16 +212,16 @@ public class AuditorLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton auditorCancel;
+    private javax.swing.JLabel auditorErrorMessage;
+    private javax.swing.JTextField auditorIdField;
+    private javax.swing.JButton auditorLoginBtn;
+    private javax.swing.JTextField auditorPasswordField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }

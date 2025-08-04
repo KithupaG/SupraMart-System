@@ -6,6 +6,7 @@ package lk.supramart.gui.branchManager;
 
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import lk.supramart.gui.Home;
 
 /**
  *
@@ -43,8 +44,8 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jTable5 = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        editBranchBtn = new javax.swing.JButton();
+        addNewBranchBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -74,9 +75,9 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton23 = new javax.swing.JButton();
         jPanel24 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        branchLogoutBtn = new javax.swing.JButton();
+        closeBtn = new javax.swing.JButton();
+        branchSettingsBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -162,14 +163,19 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Delete Branch");
 
-        jButton11.setBackground(new java.awt.Color(255, 204, 51));
-        jButton11.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton11.setText("Edit Branch");
+        editBranchBtn.setBackground(new java.awt.Color(255, 204, 51));
+        editBranchBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        editBranchBtn.setText("Edit Branch");
+        editBranchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBranchBtnActionPerformed(evt);
+            }
+        });
 
-        jButton12.setBackground(new java.awt.Color(0, 112, 235));
-        jButton12.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Add New Branch");
+        addNewBranchBtn.setBackground(new java.awt.Color(0, 112, 235));
+        addNewBranchBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        addNewBranchBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addNewBranchBtn.setText("Add New Branch");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -184,9 +190,9 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1199, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton12)
+                        .addComponent(addNewBranchBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11)
+                        .addComponent(editBranchBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10)))
                 .addContainerGap())
@@ -201,8 +207,8 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton10)
-                    .addComponent(jButton11)
-                    .addComponent(jButton12))
+                    .addComponent(editBranchBtn)
+                    .addComponent(addNewBranchBtn))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -448,30 +454,30 @@ public class branchManagerDashboard extends javax.swing.JFrame {
 
         jPanel24.setBackground(new java.awt.Color(0, 112, 235));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton1.setText("Logout");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        branchLogoutBtn.setBackground(new java.awt.Color(255, 204, 51));
+        branchLogoutBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        branchLogoutBtn.setText("Logout");
+        branchLogoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                branchLogoutBtnActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 51, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Close");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        closeBtn.setBackground(new java.awt.Color(255, 51, 51));
+        closeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        closeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        closeBtn.setText("Close");
+        closeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                closeBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton3.setText("Settings");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        branchSettingsBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        branchSettingsBtn.setText("Settings");
+        branchSettingsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                branchSettingsBtnActionPerformed(evt);
             }
         });
 
@@ -498,9 +504,9 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(branchLogoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(branchSettingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel24Layout.setVerticalGroup(
@@ -511,11 +517,11 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(branchSettingsBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(branchLogoutBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(closeBtn)
                 .addGap(45, 45, 45))
         );
 
@@ -538,25 +544,30 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }//GEN-LAST:event_closeBtnActionPerformed
+
+    private void branchSettingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchSettingsBtnActionPerformed
+        new branchManagerSettings(this, true).setVisible(true);
+    }//GEN-LAST:event_branchSettingsBtnActionPerformed
+
+    private void branchLogoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchLogoutBtnActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new Home().setVisible(true);
+    }//GEN-LAST:event_branchLogoutBtnActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void editBranchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBranchBtnActionPerformed
+        new editBranch(this, true);
+    }//GEN-LAST:event_editBranchBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -569,13 +580,13 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton addNewBranchBtn;
+    private javax.swing.JButton branchLogoutBtn;
+    private javax.swing.JButton branchSettingsBtn;
+    private javax.swing.JButton closeBtn;
+    private javax.swing.JButton editBranchBtn;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

@@ -169,9 +169,9 @@
                           <Component id="jScrollPane5" pref="1199" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="jButton12" min="-2" max="-2" attributes="0"/>
+                              <Component id="addNewBranchBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jButton11" min="-2" max="-2" attributes="0"/>
+                              <Component id="editBranchBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton10" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -190,8 +190,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton12" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editBranchBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="addNewBranchBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="21" max="32767" attributes="0"/>
                   </Group>
@@ -242,7 +242,7 @@
                 <Property name="text" type="java.lang.String" value="Delete Branch"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton11">
+            <Component class="javax.swing.JButton" name="editBranchBtn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="cc" red="ff" type="rgb"/>
@@ -252,8 +252,11 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Edit Branch"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editBranchBtnActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton12">
+            <Component class="javax.swing.JButton" name="addNewBranchBtn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="eb" green="70" red="0" type="rgb"/>
@@ -715,9 +718,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jButton2" min="-2" pref="101" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="101" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="closeBtn" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="branchLogoutBtn" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="branchSettingsBtn" min="-2" pref="101" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -733,18 +736,18 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                  <Component id="branchSettingsBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="branchLogoutBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Component id="closeBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="branchLogoutBtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="cc" red="ff" type="rgb"/>
@@ -755,10 +758,10 @@
             <Property name="text" type="java.lang.String" value="Logout"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="branchLogoutBtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="closeBtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="ff" type="rgb"/>
@@ -772,10 +775,10 @@
             <Property name="text" type="java.lang.String" value="Close"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeBtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="branchSettingsBtn">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI Variable" size="12" style="1"/>
@@ -783,7 +786,7 @@
             <Property name="text" type="java.lang.String" value="Settings"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="branchSettingsBtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

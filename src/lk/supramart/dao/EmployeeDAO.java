@@ -4,10 +4,12 @@
  */
 package lk.supramart.dao;
 
+import lk.supramart.model.Employee;
+
 /**
  *
  * @author kithu
  */
 public interface EmployeeDAO {
-    
+    boolean employeeLogin(Employee employee);
 }
