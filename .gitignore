@@ -4,3 +4,5 @@ build/classes/MySQL.class
 build/classes/lk/supramart/connection/MySQL.class
 build/classes/lk/supramart/connection/MySQL.class
 .idea
+/nbproject/private/
+/build/
