@@ -5,11 +5,19 @@
 package lk.supramart.gui.auditor;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import lk.supramart.dao.EmployeeDAO;
+import lk.supramart.dao.EmployeeDAOImpl;
+import lk.supramart.enums.UserRole;
+import lk.supramart.model.Employee;
 
 /**
  *
  * @author Yashitha
  */
+
+
+
 public class AuditorLogin extends javax.swing.JFrame {
 
     /**
@@ -17,7 +25,28 @@ public class AuditorLogin extends javax.swing.JFrame {
      */
     public AuditorLogin() {
         initComponents();
+        login();
     }
+    private void login(){
+        String id = jTextField3.getText().trim();
+        String password = String.valueOf(auditorPasswordField.getText().trim());
+        int roleId = UserRole.AUDITOR.getId();
+        
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        Employee employee = new Employee(id, password,roleId);
+        
+        if (employeeDAO.employeeLogin(employee)) {
+            JOptionPane.showMessageDialog(this, 
+                    "Auditor Login Successfully!", 
+                    "Login", 
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Invalid Credentials.",
+                    "Login",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,8 +66,8 @@ public class AuditorLogin extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        auditorPasswordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SupraMart || Auditor Login");
@@ -92,7 +121,7 @@ public class AuditorLogin extends javax.swing.JFrame {
 
         jLabel5.setText("Employee ID");
 
-        jLabel6.setText("Employee ID");
+        jLabel6.setText("Employee Password");
 
         jLabel3.setForeground(new java.awt.Color(255, 51, 51));
         jLabel3.setText("Status Label if error ( show error message ) else status ( empty by default )");
@@ -116,12 +145,12 @@ public class AuditorLogin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextField3)
-                            .addComponent(jTextField4)
+                            .addComponent(auditorPasswordField)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(15, 15, 15))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -135,7 +164,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(auditorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,6 +205,7 @@ public class AuditorLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField auditorPasswordField;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
@@ -186,6 +216,5 @@ public class AuditorLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
