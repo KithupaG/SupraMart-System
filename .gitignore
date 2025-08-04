@@ -4,3 +4,4 @@ build/classes/MySQL.class
 build/classes/lk/supramart/connection/MySQL.class
 build/classes/lk/supramart/connection/MySQL.class
 .idea
+/dist/
