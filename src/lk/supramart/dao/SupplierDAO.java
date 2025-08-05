@@ -4,10 +4,19 @@
  */
 package lk.supramart.dao;
 
+import java.util.List;
+import lk.supramart.model.Supplier;
+
 /**
  *
  * @author kithu
  */
 public interface SupplierDAO {
+    boolean addSupplier(Supplier supplier);
+    boolean updateSupplier(Supplier supplier);
+    boolean deleteSupplier(int supplierId);
+    
+    List<Supplier> getAllSuppliers();
+    List<Supplier> searchSuppliersByName(String keyword);
     
 }

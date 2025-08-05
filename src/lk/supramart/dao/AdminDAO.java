@@ -4,10 +4,12 @@
  */
 package lk.supramart.dao;
 
-/**
- *
- * @author kithu
- */
-public interface PointSystemDAO {
-    
+import java.util.List;
+import lk.supramart.model.Admin;
+import lk.supramart.model.User;
+
+public interface AdminDAO {
+    boolean deleteUser(int userId);
+    boolean updateInfo(Admin admin);
+    List<User> getAllUsers();
 }
