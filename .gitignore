@@ -7,3 +7,5 @@ build/classes/lk/supramart/connection/MySQL.class
 /nbproject/private/
 /build/
 *.class
+nbproject/private/private.xml
+*.xml
