@@ -30,7 +30,7 @@ public class cashierLogin extends javax.swing.JFrame {
     
     private void login() {
         String id = casheirIdField.getText().trim();
-        String password = String.valueOf(cashierPasswordField.getText().trim());
+        String password = String.valueOf(cashierPasswordField.getPassword());
         int roleId = UserRole.CASHIER.getId();
 
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
@@ -38,7 +38,7 @@ public class cashierLogin extends javax.swing.JFrame {
 
         if (employeeDAO.employeeLogin(employee)) {
             JOptionPane.showMessageDialog(this,
-                    "Auditor Login Successfully!",
+                    "Cashier Login Successfully!",
                     "Login",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -81,7 +81,7 @@ public class cashierLogin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMIN");
+        jLabel1.setText("CASHIER");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

@@ -26,7 +26,7 @@ public class AuditorLogin extends javax.swing.JFrame {
 
     private void login() {
         String id = jTextField3.getText().trim();
-        String password = String.valueOf(auditorPasswordField.getText().trim());
+        String password = String.valueOf(auditorPasswordField.getPassword());
         int roleId = UserRole.AUDITOR.getId();
 
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
