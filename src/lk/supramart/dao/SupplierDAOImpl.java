@@ -6,7 +6,7 @@ package lk.supramart.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import lk.supramart.database.MySQL;
+import lk.supramart.connection.MySQL;
 import lk.supramart.model.Supplier;
 
 import java.sql.*;
@@ -19,7 +19,7 @@ public class SupplierDAOImpl {
     public boolean getSupplier(Supplier s) {
         String query = "SELECT * FROM suppliers";
         try {
-            ResultSet rs = MySQL.executeSearch(query);
+            ResultSet rs = MySQL.executePreparedSearch(query);
             return rs.next();
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(SupplierDAOImpl.class, "Invalid ID or Password");
