@@ -16,7 +16,6 @@ public interface SupplierDAO {
     boolean updateSupplier(Supplier supplier);
     boolean deleteSupplier(int supplierId);
     
-    Supplier getSupplierById(int supplierId);
     List<Supplier> getAllSuppliers();
     List<Supplier> searchSuppliersByName(String keyword);
     
