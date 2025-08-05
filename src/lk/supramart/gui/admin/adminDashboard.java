@@ -263,6 +263,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel3.setText("Select Table :");
 
         tableSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Income Table", "Expenses Table", "Stocks Table", "Supplier Table", "Employee Table" }));
+        tableSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tableSelectorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1512,6 +1517,10 @@ public class adminDashboard extends javax.swing.JFrame {
         editEmployee editemployee = new editEmployee(this, true);
         editemployee.setVisible(true);
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void tableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableSelectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableSelectorActionPerformed
 
     /**
      * @param args the command line arguments

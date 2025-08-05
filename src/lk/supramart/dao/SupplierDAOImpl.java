@@ -6,7 +6,7 @@ package lk.supramart.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import lk.supramart.connection.MySQL;
+import lk.supramart.database.MySQL;
 import lk.supramart.model.Supplier;
 
 import java.sql.*;
@@ -16,13 +16,13 @@ import lk.supramart.util.LoggerUtil;
  * @author kithu
  */
 public class SupplierDAOImpl {
-    public boolean addSupplier(Supplier s) {
+    public boolean getSupplier(Supplier s) {
         String query = "SELECT * FROM suppliers";
         try {
-            ResultSet rs = MySQL.executePreparedSearch(query);
+            ResultSet rs = MySQL.executeSearch(query);
             return rs.next();
         } catch (SQLException ex) {
-            LoggerUtil.Log.severe(EmployeeDAOImpl.class, "Invalid ID or Password");
+            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Invalid ID or Password");
             return false;
         }
     }

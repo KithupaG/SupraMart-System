@@ -202,6 +202,8 @@ public class AuditorDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Dashboard", jPanel1);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jComboBox9.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
         jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Table", "Item 2", "Item 3", "Item 4" }));
         jComboBox9.addActionListener(new java.awt.event.ActionListener() {
