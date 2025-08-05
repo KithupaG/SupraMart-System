@@ -36,15 +36,9 @@ public class AuditorLogin extends javax.swing.JFrame {
         Employee employee = new Employee(id, password,roleId);
         
         if (employeeDAO.employeeLogin(employee)) {
-            JOptionPane.showMessageDialog(this, 
-                    "Auditor Login Successfully!", 
-                    "Login", 
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Invalid Credentials.",
-                    "Login",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
         }
    }
 
