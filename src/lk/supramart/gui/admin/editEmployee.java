@@ -107,6 +107,8 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("REGISTER");
 
+        circularImagePanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout circularImagePanel2Layout = new javax.swing.GroupLayout(circularImagePanel2);
         circularImagePanel2.setLayout(circularImagePanel2Layout);
         circularImagePanel2Layout.setHorizontalGroup(
@@ -147,7 +149,7 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -224,12 +226,12 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         });
 
         jButton6.setBackground(new java.awt.Color(0, 102, 255));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton6.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Add Employee");
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("cancel");
 
