@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package lk.supramart.cashier;
+package lk.supramart.gui.cashier;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
@@ -898,7 +898,7 @@ public class cashierDashboard extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

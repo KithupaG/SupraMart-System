@@ -2,10 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package lk.supramart.cashier;
+package lk.supramart.gui.cashier;
 
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import lk.supramart.dao.EmployeeDAO;
+import lk.supramart.dao.EmployeeDAOImpl;
+import lk.supramart.enums.UserRole;
+import lk.supramart.model.Employee;
 
 /**
  *
@@ -21,6 +26,27 @@ public class cashierLogin extends javax.swing.JFrame {
     public cashierLogin() {
         setUndecorated(true);
         initComponents();
+    }
+    
+    private void login() {
+        String id = casheirIdField.getText().trim();
+        String password = String.valueOf(cashierPasswordField.getText().trim());
+        int roleId = UserRole.CASHIER.getId();
+
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        Employee employee = new Employee(id, password, roleId);
+
+        if (employeeDAO.employeeLogin(employee)) {
+            JOptionPane.showMessageDialog(this,
+                    "Auditor Login Successfully!",
+                    "Login",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Invalid Credentials.",
+                    "Login",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -38,10 +64,10 @@ public class cashierLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jButton7 = new javax.swing.JButton();
+        cashierLoginBtn = new javax.swing.JButton();
+        casheirIdField = new javax.swing.JTextField();
+        cashierPasswordField = new javax.swing.JPasswordField();
+        cancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,20 +110,20 @@ public class cashierLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
         jLabel3.setText("Enter Password");
 
-        jButton1.setBackground(new java.awt.Color(0, 122, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Log In");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cashierLoginBtn.setBackground(new java.awt.Color(0, 122, 255));
+        cashierLoginBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        cashierLoginBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cashierLoginBtn.setText("Log In");
+        cashierLoginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cashierLoginBtnActionPerformed(evt);
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(102, 102, 102));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("cancel");
+        cancelBtn.setBackground(new java.awt.Color(102, 102, 102));
+        cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelBtn.setText("cancel");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -108,15 +134,15 @@ public class cashierLogin extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cashierLoginBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(0, 352, Short.MAX_VALUE))
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField2)
-                    .addComponent(jTextField1))
+                    .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cashierPasswordField)
+                    .addComponent(casheirIdField))
                 .addGap(15, 15, 15))
         );
         jPanel2Layout.setVerticalGroup(
@@ -126,15 +152,15 @@ public class cashierLogin extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(casheirIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cashierPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cashierLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -153,9 +179,9 @@ public class cashierLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void cashierLoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashierLoginBtnActionPerformed
+        login();
+    }//GEN-LAST:event_cashierLoginBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,15 +192,15 @@ public class cashierLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton cancelBtn;
+    private javax.swing.JTextField casheirIdField;
+    private javax.swing.JButton cashierLoginBtn;
+    private javax.swing.JPasswordField cashierPasswordField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

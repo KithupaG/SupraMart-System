@@ -15,9 +15,6 @@ import lk.supramart.model.Employee;
  *
  * @author Yashitha
  */
-
-
-
 public class AuditorLogin extends javax.swing.JFrame {
 
     /**
@@ -25,20 +22,20 @@ public class AuditorLogin extends javax.swing.JFrame {
      */
     public AuditorLogin() {
         initComponents();
-        login();
     }
-    private void login(){
+
+    private void login() {
         String id = jTextField3.getText().trim();
         String password = String.valueOf(auditorPasswordField.getText().trim());
         int roleId = UserRole.AUDITOR.getId();
-        
+
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-        Employee employee = new Employee(id, password,roleId);
-        
+        Employee employee = new Employee(id, password, roleId);
+
         if (employeeDAO.employeeLogin(employee)) {
-            JOptionPane.showMessageDialog(this, 
-                    "Auditor Login Successfully!", 
-                    "Login", 
+            JOptionPane.showMessageDialog(this,
+                    "Auditor Login Successfully!",
+                    "Login",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this,
@@ -46,7 +43,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                     "Login",
                     JOptionPane.ERROR_MESSAGE);
         }
-   }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +58,7 @@ public class AuditorLogin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        auditLoginBtn = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -109,10 +106,15 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton6.setBackground(new java.awt.Color(0, 102, 255));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Log In");
+        auditLoginBtn.setBackground(new java.awt.Color(0, 102, 255));
+        auditLoginBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        auditLoginBtn.setForeground(new java.awt.Color(255, 255, 255));
+        auditLoginBtn.setText("Log In");
+        auditLoginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                auditLoginBtnActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -141,7 +143,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                                .addComponent(auditLoginBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextField3)
@@ -170,7 +172,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(auditLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -189,6 +191,10 @@ public class AuditorLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void auditLoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_auditLoginBtnActionPerformed
+        login();
+    }//GEN-LAST:event_auditLoginBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,8 +211,8 @@ public class AuditorLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton auditLoginBtn;
     private javax.swing.JPasswordField auditorPasswordField;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
