@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package lk.supramart.dao;
 
-/**
- *
- * @author kithu
- */
+import java.util.List;
+
 public interface ProductDAO {
-    
+
+    void addProduct(Product product);
+
+    Product getProductById(int id);
+
+    List<Product> getAllProducts();
+
+    void updateProduct(Product product);
+
+    void deleteProduct(int id);
+
 }
