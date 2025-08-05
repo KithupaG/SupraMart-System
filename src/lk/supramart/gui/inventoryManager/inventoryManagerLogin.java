@@ -7,6 +7,11 @@ package lk.supramart.gui.inventoryManager;
 import lk.supramart.gui.branchManager.*;
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import lk.supramart.dao.EmployeeDAO;
+import lk.supramart.dao.EmployeeDAOImpl;
+import lk.supramart.enums.UserRole;
+import lk.supramart.model.Employee;
 
 /**
  *
@@ -22,6 +27,21 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
     public inventoryManagerLogin() {
         setUndecorated(true);
         initComponents();
+    }
+    
+    private void login() {
+        String id = inventoryManagerID.getText().trim();
+        String inventoryManagerPassword = String.valueOf(inventoryPassword.getText().trim());
+        int roleId = UserRole.BRANCH_MANAGER.getId();
+        
+        EmployeeDAO inventoryManager = new EmployeeDAOImpl();
+        Employee inventorymanager = new Employee(id, inventoryManagerPassword, roleId);
+        
+        if(inventoryManager.employeeLogin(inventorymanager)) {
+            JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -43,7 +63,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        inventoryManagerPassword = new javax.swing.JPasswordField();
+        inventoryPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,7 +153,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inventoryManagerID)
-                            .addComponent(inventoryManagerPassword)
+                            .addComponent(inventoryPassword)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
                         .addGap(15, 15, 15))))
@@ -148,7 +168,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inventoryManagerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inventoryPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 478, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -190,7 +210,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField inventoryManagerID;
-    private javax.swing.JPasswordField inventoryManagerPassword;
+    private javax.swing.JPasswordField inventoryPassword;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
