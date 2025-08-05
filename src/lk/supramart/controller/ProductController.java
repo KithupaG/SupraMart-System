@@ -1,3 +1,5 @@
+package lk.supramart.controller;
+
 
 import lk.supramart.dao.Product;
 import lk.supramart.dao.ProductDAO;
