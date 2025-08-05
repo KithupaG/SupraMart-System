@@ -38,10 +38,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                     "Login",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Invalid Credentials.",
-                    "Login",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
         }
     }
 
