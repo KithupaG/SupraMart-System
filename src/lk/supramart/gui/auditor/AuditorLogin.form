@@ -66,7 +66,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton7" min="-2" pref="102" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jTextField3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="auditorID" alignment="0" max="32767" attributes="0"/>
                               <Component id="auditorPasswordField" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -89,7 +89,7 @@
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField3" min="-2" max="-2" attributes="0"/>
+                  <Component id="auditorID" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -194,7 +194,7 @@
             <Property name="text" type="java.lang.String" value="cancel"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
+        <Component class="javax.swing.JTextField" name="auditorID">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>

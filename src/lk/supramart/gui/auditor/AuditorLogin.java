@@ -28,7 +28,7 @@ public class AuditorLogin extends javax.swing.JFrame {
         login();
     }
     private void login(){
-        String id = jTextField3.getText().trim();
+        String id = auditorID.getText().trim();
         String password = String.valueOf(auditorPasswordField.getText().trim());
         int roleId = UserRole.AUDITOR.getId();
         
@@ -57,7 +57,7 @@ public class AuditorLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        auditorID = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -138,7 +138,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                                 .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField3)
+                            .addComponent(auditorID)
                             .addComponent(auditorPasswordField)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +154,7 @@ public class AuditorLogin extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(auditorID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -199,6 +199,7 @@ public class AuditorLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField auditorID;
     private javax.swing.JPasswordField auditorPasswordField;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -209,6 +210,5 @@ public class AuditorLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
