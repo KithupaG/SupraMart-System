@@ -17,9 +17,9 @@ import lk.supramart.util.LoggerUtil;
  */
 public class SupplierDAOImpl {
     public boolean addSupplier(Supplier s) {
-        String query = "SELECT * FROM suppliers WHERE supplier_id = ? AND password = ? AND role_id = ?;";
+        String query = "SELECT * FROM suppliers";
         try {
-            ResultSet rs = MySQL.executePreparedSearch(query,employee.getId(),employee.getPassword(),employee.getId());
+            ResultSet rs = MySQL.executePreparedSearch(query);
             return rs.next();
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(EmployeeDAOImpl.class, "Invalid ID or Password");
