@@ -7,10 +7,8 @@ public class Supplier {
     private String email;
     private String address;
 
-    // No-arg constructor
     public Supplier() {}
 
-    // All-args constructor (you already had this)
     public Supplier(int id, String name, String phone, String email, String address) {
         this.id = id;
         this.name = name;

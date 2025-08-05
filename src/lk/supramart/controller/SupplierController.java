@@ -14,7 +14,7 @@ import lk.supramart.model.Supplier;
  * @author kithu
  */
 public class SupplierController {
-     private final SupplierDAO supplierDAO;
+    private final SupplierDAO supplierDAO;
 
     public SupplierController() {
         this.supplierDAO = new SupplierDAOImpl();

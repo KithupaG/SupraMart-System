@@ -5,15 +5,11 @@
 package lk.supramart.dao;
 
 import java.util.List;
-import lk.supramart.model.Branch;
+import lk.supramart.model.Admin;
 import lk.supramart.model.User;
 
 public interface AdminDAO {
-    boolean addUser(User user);
-    boolean updateUser(User user);
     boolean deleteUser(int userId);
-    User getUserById(int userId);
+    boolean updateInfo(Admin admin);
     List<User> getAllUsers();
-    List<User> searchUsersByRole(String role);
-
 }
