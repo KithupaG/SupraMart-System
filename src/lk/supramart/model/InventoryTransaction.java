@@ -14,7 +14,7 @@ public class InventoryTransaction {
     private String reason;
     private LocalDateTime date;
     private int branchId;
-    private String branchName; // For display purposes
+    private String branchName;
     
     // Default constructor
     public InventoryTransaction() {
