@@ -145,14 +145,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jTable2.getColumnModel().getColumn(6).setPreferredWidth(100); // Reorder Level
         jTable2.getColumnModel().getColumn(7).setPreferredWidth(150); // Added On
         
-        // Add keyboard shortcuts
-        jTable2.getInputMap().put(javax.swing.KeyStroke.getKeyStroke("DELETE"), "deleteProduct");
-        jTable2.getActionMap().put("deleteProduct", new javax.swing.AbstractAction() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                deleteSelectedProduct();
-            }
-        });
+        
         
         // Add double-click to edit
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
