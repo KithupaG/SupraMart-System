@@ -696,7 +696,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
         String selectedSupplier = (String) jComboBox5.getSelectedItem();
         if (selectedSupplier != null && !selectedSupplier.equals("Select Product Supplier")) {
-            // TODO: Implement supplier filtering
+            // Implement supplier filtering
             logger.info("Selected supplier: " + selectedSupplier);
         }
     }//GEN-LAST:event_jComboBox5ActionPerformed
