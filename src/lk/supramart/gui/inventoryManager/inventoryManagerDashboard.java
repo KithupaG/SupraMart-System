@@ -675,7 +675,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         String selectedCategory = (String) jComboBox3.getSelectedItem();
         if (selectedCategory != null && !selectedCategory.equals("Select Product Category")) {
-            // TODO: Implement category filtering
+            // Implement category filtering
             logger.info("Selected category: " + selectedCategory);
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
