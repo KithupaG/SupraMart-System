@@ -27,10 +27,11 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         try {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
-                BranchManager bm = new BranchManager();
-                bm.setId(rs.getInt("branch_id"));
-                bm.setName(rs.getString("branch_name"));
-                bm.setCityId(rs.getInt("City_city_id"));
+                BranchManager bm = new BranchManager.Builder()
+                        .setId(rs.getInt("branch_id"))
+                        .setBranch_name(rs.getString("branch_name"))
+                        .setCity_id(rs.getInt("City_city_id"))
+                        .build();
                 branchManagerList.add(bm);
 
                 return branchManagerList;
@@ -46,32 +47,23 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         String query = "INSERT INTO branch (branch_id, branch_name, City_city_id) VALUES (?,?,?)";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, branch.getId());
-            ps.setString(2, branch.getName());
-            ps.setInt(3, branch.getCityId());
-
-            int rows = ps.executeUpdate();
+            int rows = MySQL.executePreparedIUD(query, branch.getId(),branch.getName(),branch.getCityId());
             return rows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error adding branches: " + e.getMessage());
             return false;
         }
     }
 
     @Override
     public boolean updateBranch(BranchManager branch) {
-        String query = "INSERT INTO branches (branch_name, City_city_id) VALUES (?,?)";
+        String query = "UPDATE branches SET branch_name = ?, City_city_id = ? WHERE branch_id = ?";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branch.getName());
-            ps.setInt(2, branch.getCityId());
-
-            int rows = ps.executeUpdate();
+            int rows = MySQL.executePreparedIUD(query, branch.getName(),branch.getCityId(),branch.getId());
             return rows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error updating branches: " + e.getMessage());
             return false;
         }
     }
@@ -81,13 +73,10 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         String query = "DELETE FROM branches WHERE branch_id = ?";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, branchId);
-
-            int rowsAffected = ps.executeUpdate();
+            int rowsAffected = MySQL.executePreparedIUD(query, branchId);
             return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error deleting branches: " + e.getMessage());
             return false;
         }
     }

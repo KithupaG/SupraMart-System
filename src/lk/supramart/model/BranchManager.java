@@ -9,29 +9,40 @@ package lk.supramart.model;
  * @author kithu
  */
 public class BranchManager {
-    
-    private int id;
+
+    private int id, city_id;
     private String branch_name;
-    private int city_id;
-    
-    public BranchManager() {}
-    
-    public BranchManager(int id, String branch_name, int city_id) {
-        this.id = id;
-        this.branch_name = branch_name;
-        this.city_id = city_id;
+
+    private BranchManager(Builder builder) {
+        this.id = builder.id;
+        this.branch_name = builder.branch_name;
+        this.city_id = builder.city_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static class Builder {
 
-    public void setName(String branch_name) {
-        this.branch_name = branch_name;
-    }
+        private int id, city_id;
+        private String branch_name;
 
-    public void setCityId(int city_id) {
-        this.city_id = city_id;
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setCity_id(int city_id) {
+            this.city_id = city_id;
+            return this;
+        }
+
+        public Builder setBranch_name(String branch_name) {
+            this.branch_name = branch_name;
+            return this;
+        }
+
+        public BranchManager build() {
+            return new BranchManager(this);
+        }
+
     }
 
     public int getId() {
@@ -45,5 +56,5 @@ public class BranchManager {
     public int getCityId() {
         return city_id;
     }
-    
+
 }

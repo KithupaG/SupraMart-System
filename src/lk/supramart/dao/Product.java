@@ -11,23 +11,16 @@ import java.sql.Timestamp;
  * @author nimut
  */
 public class Product {
-
-    private int id;
-    private String productName;
-    private int productCategoryId;
+    private String id, productName;
+    private int productCategoryId, stock;
     private double price;
     private double cost;
-    private int stock;
     private Timestamp addedDateTime;
 
-    public Product(int id, String name, int categoryId, double price, double cost, int stock, Timestamp addedDateTime) {
-        this.id = id;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.price = price;
-        this.cost = cost;
-        this.stock = stock;
-        this.addedDateTime = addedDateTime;
+    
+    
+    public static class Builder{
+        
     }
 
     // Getters
@@ -58,36 +51,7 @@ public class Product {
     public Timestamp getAddedDateTime() {
         return addedDateTime;
     }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setProductCategoryId(int productCategoryId) {
-        this.productCategoryId = productCategoryId;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public void setAddedDateTime(Timestamp addedDateTime) {
-        this.addedDateTime = addedDateTime;
-    }
-
+    
     // toString method just in case 
     @Override
     public String toString() {

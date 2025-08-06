@@ -19,18 +19,12 @@ import java.util.ArrayList;
  */
 public class ProductDAOImpl implements ProductDAO {
 
-    private Connection conn;
-
-    public ProductDAOImpl() {
-        conn = MySQL.getConnection();
-    }
-
     public void addProduct(Product product) {
         String sql = "INSERT INTO products "
                 + "(product_id, product_name, category_id, product_price, product_cost, product_quantity, product_added_datetime)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
+        try {
+            int rowsAffected = MySQL.executePreparedIUD(sql, params);
             stmt.setInt(1, product.getId());
             stmt.setString(2, product.getProductName());
             stmt.setDouble(3, product.getCategoryId());
