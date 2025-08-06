@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author daham
+ * @author dehemi
  */
 public class inventoryManagerDashboard extends javax.swing.JFrame {
     
