@@ -16,11 +16,12 @@ public class SupplierDAOImpl implements SupplierDAO {
         try {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
-                Supplier s = new Supplier();
-                s.setId(rs.getInt("supplier_id"));
-                s.setName(rs.getString("supplier_name"));
-                s.setPhone(rs.getString("phone_number"));
-                s.setEmail(rs.getString("email"));
+                Supplier s = new Supplier.Builder()
+                        .setId(rs.getString("supplier_id"))
+                        .setName(rs.getString("supplier_name"))
+                        .setPhone(rs.getString("phone_number"))
+                        .setEmail(rs.getString("email"))
+                        .build();
                 suppliers.add(s);
             }
         } catch (SQLException ex) {
@@ -31,24 +32,25 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     public List<Supplier> searchSuppliersByName(String name) {
+        List<Supplier> suppliers = new ArrayList<>();
         String query = "SELECT * FROM suppliers WHERE supplier_name = ?";
         try {
-            PreparedStatement stmt = MySQL.getConnection().prepareStatement(query);
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = MySQL.executePreparedSearch(query, name);
 
             if (rs.next()) {
-                Supplier s = new Supplier();
-                s.setId(rs.getInt("supplier_id"));
-                s.setName(rs.getString("supplier_name"));
-                s.setPhone(rs.getString("contact_number"));
-                s.setEmail(rs.getString("email"));
-                s.setAddress(rs.getString("address"));
+                Supplier s = new Supplier.Builder()
+                        .setId(rs.getString("supplier_id"))
+                        .setName(rs.getString("supplier_name"))
+                        .setPhone(rs.getString("contact_number"))
+                        .setEmail(rs.getString("email"))
+                        .setAddress(rs.getString("address"))
+                        .build();
+                suppliers.add(s);
             }
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error searching supplier: " + ex.getMessage());
         }
-        return null;
+        return suppliers;
     }
 
     @Override
@@ -56,14 +58,8 @@ public class SupplierDAOImpl implements SupplierDAO {
         String query = "INSERT INTO suppliers (supplier_name, phone_number, email, address) VALUES (?, ?, ?, ?)";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, supplier.getName());
-            ps.setString(2, supplier.getPhone());
-            ps.setString(3, supplier.getEmail());
-            ps.setString(4, supplier.getAddress());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
+            int rows = MySQL.executePreparedIUD(query, supplier.getName(), supplier.getPhone(), supplier.getEmail(), supplier.getAddress());
+            return rows > 0; // return true if at least one row was inserted
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -74,14 +70,8 @@ public class SupplierDAOImpl implements SupplierDAO {
         String query = "INSERT INTO suppliers (supplier_name, phone_number, email, address) VALUES (?, ?, ?, ?)";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, supplier.getName());
-            ps.setString(2, supplier.getPhone());
-            ps.setString(3, supplier.getEmail());
-            ps.setString(4, supplier.getAddress());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
+            int rows = MySQL.executePreparedIUD(query, supplier.getName(), supplier.getPhone(), supplier.getEmail(), supplier.getAddress());
+            return rows > 0; // return true if at least one row was inserted
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -93,10 +83,7 @@ public class SupplierDAOImpl implements SupplierDAO {
         String query = "DELETE FROM suppliers WHERE supplier_id = ?";
 
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, supplierId);
-
-            int rowsAffected = ps.executeUpdate();
+            int rowsAffected = MySQL.executePreparedIUD(query, supplierId);
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -11,34 +11,74 @@ package lk.supramart.model;
 public class Admin {
 
     private int id;
-    private String fname;
-    private String lname;
-    private String email;
-    private String password;
-    
+    private String fname, lname, email, password;
 
-    public Admin(int id, String fname, String lname, String email, String password) {
-        this.id = id;
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
+    private Admin(Builder builder) {
+        this.id = builder.id;
+        this.fname = builder.fname;
+        this.lname = builder.lname;
+        this.email = builder.email;
+        this.password = builder.password;
     }
-    
+
+    public static class Builder {
+
+        private int id;
+        private String fname, lname, email, password;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setFname(String fname) {
+            this.fname = fname;
+            return this;
+        }
+
+        public Builder setLname(String lname) {
+            this.lname = lname;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Admin build() {
+            return new Admin(this);
+        }
+
+    }
+
     public String getFName() {
         return fname;
-    }
-
-    public String getLName() {
-        return lname;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
     public String getPassword() {
         return password;
     }
-    
+
+    public String getFullName() {
+        return fname + " " + lname;
+    }
+
 }

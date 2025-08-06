@@ -4,14 +4,13 @@
  */
 package lk.supramart.dao;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import lk.supramart.connection.MySQL;
-import lk.supramart.model.User;
 import lk.supramart.util.LoggerUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import lk.supramart.model.Employee;
 import lk.supramart.model.Admin;
 
 /**
@@ -36,11 +35,8 @@ public class AdminDAOImpl implements AdminDAO {
     public boolean updateInfo(Admin admin) {
         String query = "INSERT INTO admin (fname, lname, email, password) VALUES (?, ?, ?, ?)";
         try {
-            int rows = MySQL.executePreparedIUD(query,
-                    admin.getFName(),
-                    admin.getLName(),
-                    admin.getEmail(),
-                    admin.getPassword());
+            int rows = MySQL.executePreparedIUD(query, admin.getFName(),admin.getLname(),admin.getEmail(),admin.getPassword());
+
             return rows > 0;
         } catch (SQLException e) {
             LoggerUtil.Log.severe(AdminDAOImpl.class, "Error updating admin info: " + e.getMessage());
@@ -49,24 +45,27 @@ public class AdminDAOImpl implements AdminDAO {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
+    public List<Employee> getAllUsers() {
+        List<Employee> user = new ArrayList<>();
         String query = "SELECT * FROM employees";
 
         try (ResultSet rs = MySQL.executePreparedSearch(query)) {
             while (rs.next()) {
-                User u = new User();
-                u.setId(rs.getInt("employee_id"));
-                u.setName(rs.getString("first_name"));
-                u.setLastName(rs.getString("last_name"));
-                u.setNumber1(rs.getString("mobile_number_1"));
-                u.setNumber2(rs.getString("mobile_number_2"));
-                u.setEmail(rs.getString("email"));
-                u.setRole(rs.getInt("role_id"));
-                u.setBranchId(rs.getInt("branch_id"));
-                u.setHiredDate(rs.getString("hire_date"));
-                u.setBaseSalary(rs.getString("base_salary"));
-                users.add(u);
+
+                Employee employee = new Employee.Builder(rs.getString("employee_id"))
+                        .setFname(rs.getString("first_name"))
+                        .setLname(rs.getString("last_name"))
+                        .setMobileNumber1(rs.getString("mobile_number_1"))
+                        .setMobileNumber2(rs.getString("mobile_number_1"))
+                        .setEmail(rs.getString("email"))
+                        .setRoleId(rs.getInt("role_id"))
+                        .setBranchId(rs.getInt("branch_id"))
+                        .setHiredDate(rs.getString("hire_date"))
+                        .setBaseSalary(rs.getDouble("base_salary"))
+                        .build();
+                user.add(employee);
+                        
+
             }
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());

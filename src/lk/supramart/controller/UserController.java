@@ -7,7 +7,7 @@ package lk.supramart.controller;
 import java.util.List;
 import lk.supramart.dao.AdminDAO;
 import lk.supramart.dao.AdminDAOImpl;
-import lk.supramart.model.User;
+import lk.supramart.model.Employee;
 
 /**
  *
@@ -24,7 +24,7 @@ public class UserController {
         return adminDAO.deleteUser(userId);
     }
 
-    public List<User> getAllUsers() {
+    public List<Employee> getAllUsers() {
         return adminDAO.getAllUsers();
     }
 }
