@@ -1,60 +1,71 @@
 package lk.supramart.model;
 
 public class Supplier {
+
     private int id;
-    private String name;
-    private String phone;
-    private String email;
-    private String address;
+    private String name, phone, email, address;
 
-    public Supplier() {}
-
-    public Supplier(int id, String name, String phone, String email, String address) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
+    public Supplier(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.phone = builder.phone;
+        this.email = builder.email;
+        this.address = builder.address;
     }
 
-    // Getters and setters
+    public static class Builder {
+
+        private int id;
+        private String name, phone, email, address;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Supplier build() {
+            return new Supplier(this);
+        }
+
+    }
+
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

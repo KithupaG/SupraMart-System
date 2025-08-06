@@ -20,4 +20,21 @@ public enum UserRole {
     public int getId() {
         return this.id;
     }
+    
+    public String getRolePrefix(int id) {
+        switch (id) {
+            case 1:
+                return "CASH";
+            case 2:
+                return "BMAN"; // B + MAN(ager)
+            case 3:
+                return "AUDI";
+            case 4:
+                return "IMAN"; // I + MAN(ager)
+            case 5:
+                return "ADMI";
+            default:
+                return "UNKN";
+        }
+    }
 }

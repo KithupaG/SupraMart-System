@@ -36,9 +36,9 @@ public class adminDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel24 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        closeBtn = new javax.swing.JButton();
+        settingsBtn = new javax.swing.JButton();
+        logoutBtn = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -82,19 +82,19 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         quickPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton12 = new javax.swing.JButton();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        jComboBox11 = new javax.swing.JComboBox<>();
+        employeeSearchBar = new javax.swing.JTextField();
+        searchEmployeeBtn = new javax.swing.JButton();
+        employeeIdCombo = new javax.swing.JComboBox<>();
+        employeeMobileCombo = new javax.swing.JComboBox<>();
         jComboBox12 = new javax.swing.JComboBox<>();
         jComboBox13 = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox14 = new javax.swing.JComboBox<>();
+        employeeRoleCombo = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
+        employeeTable = new javax.swing.JTable();
+        addEmployeeBtn = new javax.swing.JButton();
+        editEmployeeBtn = new javax.swing.JButton();
+        deleteEmployeeBtn = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
@@ -146,31 +146,31 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel24.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setBackground(new java.awt.Color(255, 51, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("X");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        closeBtn.setBackground(new java.awt.Color(255, 51, 51));
+        closeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        closeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        closeBtn.setText("X");
+        closeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                closeBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton3.setText("Settings");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        settingsBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        settingsBtn.setText("Settings");
+        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                settingsBtnActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Logout");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        logoutBtn.setBackground(new java.awt.Color(51, 51, 51));
+        logoutBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
+        logoutBtn.setText("Logout");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                logoutBtnActionPerformed(evt);
             }
         });
 
@@ -650,35 +650,35 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jLabel9.setText("Search Employee:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        employeeSearchBar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                employeeSearchBarActionPerformed(evt);
             }
         });
 
-        jButton12.setBackground(new java.awt.Color(0, 112, 235));
-        jButton12.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Search Supplier");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        searchEmployeeBtn.setBackground(new java.awt.Color(0, 112, 235));
+        searchEmployeeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        searchEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        searchEmployeeBtn.setText("Search Employee");
+        searchEmployeeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                searchEmployeeBtnActionPerformed(evt);
             }
         });
 
-        jComboBox7.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee ID", "Item 2", "Item 3", "Item 4" }));
-        jComboBox7.addActionListener(new java.awt.event.ActionListener() {
+        employeeIdCombo.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
+        employeeIdCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee ID", "Item 2", "Item 3", "Item 4" }));
+        employeeIdCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox7ActionPerformed(evt);
+                employeeIdComboActionPerformed(evt);
             }
         });
 
-        jComboBox11.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
-        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Phone Number.", "Item 2", "Item 3", "Item 4" }));
-        jComboBox11.addActionListener(new java.awt.event.ActionListener() {
+        employeeMobileCombo.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
+        employeeMobileCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Phone Number.", "Item 2", "Item 3", "Item 4" }));
+        employeeMobileCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox11ActionPerformed(evt);
+                employeeMobileComboActionPerformed(evt);
             }
         });
 
@@ -701,11 +701,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jLabel10.setText("Filter:");
 
-        jComboBox14.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
-        jComboBox14.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Role", "Item 2", "Item 3", "Item 4" }));
-        jComboBox14.addActionListener(new java.awt.event.ActionListener() {
+        employeeRoleCombo.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
+        employeeRoleCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Role", "Item 2", "Item 3", "Item 4" }));
+        employeeRoleCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox14ActionPerformed(evt);
+                employeeRoleComboActionPerformed(evt);
             }
         });
 
@@ -717,25 +717,24 @@ public class adminDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(quickPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(employeeSearchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+                        .addGap(150, 150, 150))
                     .addGroup(quickPanel2Layout.createSequentialGroup()
                         .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
                             .addGroup(quickPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(employeeIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(employeeRoleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(employeeMobileCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 6, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(searchEmployeeBtn, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())))
         );
         quickPanel2Layout.setVerticalGroup(
             quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -744,60 +743,72 @@ public class adminDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(employeeSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchEmployeeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(employeeIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(employeeMobileCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(employeeRoleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        employeeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Name", "Branch", "Role", "Status"
             }
-        ));
-        jScrollPane4.setViewportView(jTable4);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
-        jButton13.setBackground(new java.awt.Color(0, 112, 235));
-        jButton13.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton13.setForeground(new java.awt.Color(255, 255, 255));
-        jButton13.setText("Add Employee");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(employeeTable);
+
+        addEmployeeBtn.setBackground(new java.awt.Color(0, 112, 235));
+        addEmployeeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        addEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addEmployeeBtn.setText("Add Employee");
+        addEmployeeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                addEmployeeBtnActionPerformed(evt);
             }
         });
 
-        jButton14.setBackground(new java.awt.Color(51, 51, 51));
-        jButton14.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton14.setForeground(new java.awt.Color(255, 255, 255));
-        jButton14.setText("Edit Employee");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
+        editEmployeeBtn.setBackground(new java.awt.Color(51, 51, 51));
+        editEmployeeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        editEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editEmployeeBtn.setText("Edit Employee");
+        editEmployeeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
+                editEmployeeBtnActionPerformed(evt);
             }
         });
 
-        jButton15.setBackground(new java.awt.Color(255, 51, 51));
-        jButton15.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton15.setForeground(new java.awt.Color(255, 255, 255));
-        jButton15.setText("Delete Employee");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        deleteEmployeeBtn.setBackground(new java.awt.Color(255, 51, 51));
+        deleteEmployeeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        deleteEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteEmployeeBtn.setText("Delete Employee");
+        deleteEmployeeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                deleteEmployeeBtnActionPerformed(evt);
             }
         });
 
@@ -812,11 +823,11 @@ public class adminDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton13)
+                        .addComponent(addEmployeeBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton14)
+                        .addComponent(editEmployeeBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton15))
+                        .addComponent(deleteEmployeeBtn))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1099, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -829,9 +840,9 @@ public class adminDashboard extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton13)
-                    .addComponent(jButton14)
-                    .addComponent(jButton15))
+                    .addComponent(addEmployeeBtn)
+                    .addComponent(editEmployeeBtn)
+                    .addComponent(deleteEmployeeBtn))
                 .addGap(9, 9, 9))
         );
 
@@ -1296,11 +1307,11 @@ public class adminDashboard extends javax.swing.JFrame {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(settingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(closeBtn)))
                 .addContainerGap())
         );
         jPanel24Layout.setVerticalGroup(
@@ -1308,9 +1319,9 @@ public class adminDashboard extends javax.swing.JFrame {
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(settingsBtn)
+                    .addComponent(logoutBtn)
+                    .addComponent(closeBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1332,7 +1343,7 @@ public class adminDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
                 int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to log out?",
                 "Confirm Logout",
@@ -1340,14 +1351,14 @@ public class adminDashboard extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_closeBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
         adminSettings adminsetting = new adminSettings(this, true);
         adminsetting.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_settingsBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to log out?",
                 "Confirm Logout",
@@ -1359,7 +1370,7 @@ public class adminDashboard extends javax.swing.JFrame {
             Home home = new Home();
             home.setVisible(true);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
@@ -1417,29 +1428,29 @@ public class adminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox12ActionPerformed
 
-    private void jComboBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox11ActionPerformed
+    private void employeeMobileComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeMobileComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox11ActionPerformed
+    }//GEN-LAST:event_employeeMobileComboActionPerformed
 
-    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
+    private void employeeIdComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeIdComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox7ActionPerformed
+    }//GEN-LAST:event_employeeIdComboActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void searchEmployeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchEmployeeBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_searchEmployeeBtnActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void employeeSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeSearchBarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_employeeSearchBarActionPerformed
 
-    private void jComboBox14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox14ActionPerformed
+    private void employeeRoleComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeRoleComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox14ActionPerformed
+    }//GEN-LAST:event_employeeRoleComboActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+    private void deleteEmployeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEmployeeBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    }//GEN-LAST:event_deleteEmployeeBtnActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         AddSupplier addsupplier = new AddSupplier(this, true);
@@ -1461,15 +1472,15 @@ public class adminDashboard extends javax.swing.JFrame {
         editproduct.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    private void addEmployeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeBtnActionPerformed
         EmployeeRegistration employeeregistration = new EmployeeRegistration(this, true);
         employeeregistration.setVisible(true);
-    }//GEN-LAST:event_jButton13ActionPerformed
+    }//GEN-LAST:event_addEmployeeBtnActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+    private void editEmployeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEmployeeBtnActionPerformed
         editEmployee editemployee = new editEmployee(this, true);
         editemployee.setVisible(true);
-    }//GEN-LAST:event_jButton14ActionPerformed
+    }//GEN-LAST:event_editEmployeeBtnActionPerformed
 
     private void tableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableSelectorActionPerformed
         // TODO add your handling code here:
@@ -1486,22 +1497,24 @@ public class adminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton addEmployeeBtn;
+    private javax.swing.JButton closeBtn;
+    private javax.swing.JButton deleteEmployeeBtn;
+    private javax.swing.JButton editEmployeeBtn;
+    private javax.swing.JComboBox<String> employeeIdCombo;
+    private javax.swing.JComboBox<String> employeeMobileCombo;
+    private javax.swing.JComboBox<String> employeeRoleCombo;
+    private javax.swing.JTextField employeeSearchBar;
+    private javax.swing.JTable employeeTable;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1509,14 +1522,11 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox10;
-    private javax.swing.JComboBox<String> jComboBox11;
     private javax.swing.JComboBox<String> jComboBox12;
     private javax.swing.JComboBox<String> jComboBox13;
-    private javax.swing.JComboBox<String> jComboBox14;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JComboBox<String> jComboBox8;
     private javax.swing.JComboBox<String> jComboBox9;
     private javax.swing.JLabel jLabel1;
@@ -1578,7 +1588,6 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable13;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable7;
@@ -1586,10 +1595,12 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel quickPanel;
     private javax.swing.JPanel quickPanel1;
     private javax.swing.JPanel quickPanel2;
+    private javax.swing.JButton searchEmployeeBtn;
+    private javax.swing.JButton settingsBtn;
     private javax.swing.JComboBox<String> tableSelector;
     // End of variables declaration//GEN-END:variables
 }

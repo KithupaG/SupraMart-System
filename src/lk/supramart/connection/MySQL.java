@@ -13,7 +13,6 @@ import lk.supramart.util.LoggerUtil;
 public class MySQL {
 
     private static Properties appProperties;
-    private static Connection connection;
 
     static {
         try {
@@ -38,18 +37,10 @@ public class MySQL {
     private static final String DB_USERNAME = appProperties.getProperty("db.username");
     private static final String DB_PASSWORD = appProperties.getProperty("db.password");
 
-    public static Connection getConnection() {
-
-        try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            }
-        } catch (SQLException e) {
-            LoggerUtil.Log.severe(MySQL.class, "SQL Exception :" + e.getMessage());
-        }
-        return connection;
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
     }
-    
+
     public static ResultSet executePreparedSearch(String query, Object... params) throws SQLException {
         PreparedStatement ps = prepareStatement(query, params);
         return ps.executeQuery();
@@ -67,18 +58,8 @@ public class MySQL {
         }
         return ps;
     }
-    
-    public static void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            LoggerUtil.Log.severe(MySQL.class, "SQL Exception :" + e.getMessage());
-        }
-    }
 
     public static Properties getAppProperties() {
         return appProperties;
-    } 
+    }
 }
