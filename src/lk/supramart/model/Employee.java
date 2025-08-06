@@ -1,9 +1,14 @@
 package lk.supramart.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Employee {
 
-    private String id, fname, lname, email, password, mobileNumber1, mobileNumber2, hiredDate;
-    private int branchId, imageId, roleId;
+    private String id, fname, lname, email, password, 
+            mobileNumber1, mobileNumber2, hiredDate;
+    private Date dob;
+    private int branchId, imageId, roleId, genderId;
     private double baseSalary;
 
     private Employee(Builder builder) {
@@ -19,18 +24,18 @@ public class Employee {
         this.imageId = builder.imageId;
         this.baseSalary = builder.baseSalary;
         this.roleId = builder.roleId;
+        this.genderId = builder.genderId;
+        this.dob = builder.dob;
     }
 
     public static class Builder {
 
-        private String id, fname, lname, email, password;
-        private String mobileNumber1, mobileNumber2, hiredDate;
-        private int branchId, imageId, roleId;
+        private String id, fname, lname, email, password,
+                mobileNumber1, mobileNumber2, hiredDate;
+        private Date dob;
+        private int branchId, imageId, roleId, genderId;
         private double baseSalary;
 
-        public Builder() {
-        }
-        
         public Builder(String id) {
             this.id = id;
         }
@@ -95,6 +100,16 @@ public class Employee {
             return this;
         }
 
+        public Builder setDob(Date dob) {
+            this.dob = dob;
+            return this;
+        }
+
+        public Builder setGenderId(int genderId) {
+            this.genderId = genderId;
+            return this;
+        }
+
         public Employee build() {
             return new Employee(this);
         }
@@ -119,11 +134,8 @@ public class Employee {
     public String getLname() {
         return lname;
     }
-    
+
     public String getFullName() {
-        if (fname == null && lname == null) return null;
-        if (fname == null) return lname;
-        if (lname == null) return fname;
         return fname + " " + lname;
     }
 
@@ -157,7 +169,18 @@ public class Employee {
         }
         return baseSalary;
     }
+
+    public String getDob() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(dob);
+    }
+
+    public int getGenderId() {
+        return genderId;
+    }
     
+    
+
     public Builder toBuilder() {//for updating existing employee
         return new Builder(this.id)
                 .setPassword(this.password)
@@ -170,7 +193,9 @@ public class Employee {
                 .setBranchId(this.branchId)
                 .setImageId(this.imageId)
                 .setRoleId(this.roleId)
-                .setBaseSalary(this.baseSalary);
+                .setBaseSalary(this.baseSalary)
+                .setGenderId(this.genderId)
+                .setDob(this.dob);
     }
 
 }
