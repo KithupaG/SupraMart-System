@@ -8,3 +8,4 @@ build/classes/lk/supramart/connection/MySQL.class
 /build/
 *.class
 nbproject/private/private.properties
+nbproject/private/private.xml
