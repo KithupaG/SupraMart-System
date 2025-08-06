@@ -44,4 +44,9 @@ public interface InventoryDAO {
     // Reporting
     List<Product> getStockReport();
     List<InventoryTransaction> getTransactionReport();
+    
+    // Combo Box Data Methods
+    List<String> getAllCategories();
+    List<String> getAllBranches();
+    List<String> getAllSuppliers();
 }
