@@ -34,7 +34,7 @@ public class InventoryController {
     
     /**
      * Get product by ID
-     * @param productId Product ID
+     * @param productId Product
      * @return Product object or null if not found
      */
     public Product getProductById(int productId) {
