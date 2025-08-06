@@ -128,23 +128,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * Initialize the product table
-     */
-    private void initializeTable() {
-        productTableModel = new ProductTableModel();
-        jTable2.setModel(productTableModel);
-        
-        // Set column widths
-        jTable2.getColumnModel().getColumn(0).setPreferredWidth(80);  // Product ID
-        jTable2.getColumnModel().getColumn(1).setPreferredWidth(200); // Name
-        jTable2.getColumnModel().getColumn(2).setPreferredWidth(150); // Category
-        jTable2.getColumnModel().getColumn(3).setPreferredWidth(100); // Price
-        jTable2.getColumnModel().getColumn(4).setPreferredWidth(100); // Cost
-        jTable2.getColumnModel().getColumn(5).setPreferredWidth(100); // Stock Quantity
-        jTable2.getColumnModel().getColumn(6).setPreferredWidth(100); // Reorder Level
-        jTable2.getColumnModel().getColumn(7).setPreferredWidth(150); // Added On
-        
+    
         // Add keyboard shortcuts
         jTable2.getInputMap().put(javax.swing.KeyStroke.getKeyStroke("DELETE"), "deleteProduct");
         jTable2.getActionMap().put("deleteProduct", new javax.swing.AbstractAction() {
