@@ -391,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `supramart`.`employees` (
   `last_name` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `mobile_number_1` VARCHAR(15) NOT NULL,
-  `mobile_number_2` VARCHAR(10) NULL,
+  `mobile_number_2` VARCHAR(15) NULL,
   `hire_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role_id` INT NOT NULL,
   `branch_id` INT NOT NULL,
