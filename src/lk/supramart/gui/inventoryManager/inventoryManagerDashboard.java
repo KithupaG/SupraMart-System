@@ -15,6 +15,9 @@ import lk.supramart.controller.InventoryController;
 import lk.supramart.component.ProductTableModel;
 import lk.supramart.model.Product;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import lk.supramart.connection.MySQL;
 
 /**
  *
@@ -34,6 +37,52 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         inventoryController = new InventoryController();
         initializeTable();
         loadProducts();
+        loadComboBoxes();
+    }
+    
+    /**
+     * Load all combo boxes with data from database
+     */
+    private void loadComboBoxes() {
+        try {
+            // Load categories
+            List<String> categories = inventoryController.getAllCategories();
+            jComboBox3.removeAllItems();
+            jComboBox3.addItem("Select Product Category");
+            for (String category : categories) {
+                jComboBox3.addItem(category);
+            }
+            
+            // Load suppliers
+            List<String> suppliers = inventoryController.getAllSuppliers();
+            jComboBox5.removeAllItems();
+            jComboBox5.addItem("Select Product Supplier");
+            for (String supplier : suppliers) {
+                jComboBox5.addItem(supplier);
+            }
+            
+            // Load branches
+            List<String> branches = inventoryController.getAllBranches();
+            jComboBox1.removeAllItems();
+            jComboBox1.addItem("Select Branch");
+            for (String branch : branches) {
+                jComboBox1.addItem(branch);
+            }
+            
+            // Load brands (for now, we'll use a placeholder since there's no brand table)
+            jComboBox4.removeAllItems();
+            jComboBox4.addItem("Select Product Brand");
+            jComboBox4.addItem("Generic");
+            jComboBox4.addItem("Premium");
+            jComboBox4.addItem("Budget");
+            
+            logger.info("Combo boxes loaded successfully");
+        } catch (Exception e) {
+            logger.severe("Error loading combo boxes: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error loading combo box data: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     /**
@@ -655,7 +704,12 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        String selectedBranch = (String) jComboBox1.getSelectedItem();
+        if (selectedBranch != null && !selectedBranch.equals("Select Branch")) {
+            // Implement branch filtering
+            logger.info("Selected branch: " + selectedBranch);
+            // TODO: Implement branch-specific product filtering
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -677,6 +731,9 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (selectedCategory != null && !selectedCategory.equals("Select Product Category")) {
             // Implement category filtering
             logger.info("Selected category: " + selectedCategory);
+            filterProductsByCategory(selectedCategory);
+        } else {
+            loadProducts(); // Load all products if "Select Product Category" is chosen
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
@@ -690,6 +747,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (selectedBrand != null && !selectedBrand.equals("Select Product Brand")) {
             // Implement brand filtering
             logger.info("Selected brand: " + selectedBrand);
+            // TODO: Implement brand filtering when brand table is available
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
@@ -698,8 +756,66 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (selectedSupplier != null && !selectedSupplier.equals("Select Product Supplier")) {
             // Implement supplier filtering
             logger.info("Selected supplier: " + selectedSupplier);
+            filterProductsBySupplier(selectedSupplier);
+        } else {
+            loadProducts(); // Load all products if "Select Product Supplier" is chosen
         }
     }//GEN-LAST:event_jComboBox5ActionPerformed
+    
+    /**
+     * Filter products by category
+     */
+    private void filterProductsByCategory(String category) {
+        try {
+            // Get category ID first
+            int categoryId = getCategoryIdByName(category);
+            if (categoryId > 0) {
+                List<Product> products = inventoryController.getProductsByCategory(categoryId);
+                productTableModel.setProducts(products);
+                logger.info("Filtered " + products.size() + " products by category: " + category);
+            }
+        } catch (Exception e) {
+            logger.severe("Error filtering products by category: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error filtering products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Filter products by supplier
+     */
+    private void filterProductsBySupplier(String supplier) {
+        try {
+            // For now, we'll search products that might be related to this supplier
+            // This is a simplified implementation since supplier-product relationship 
+            // is stored in branches_has_products table
+            List<Product> products = inventoryController.searchProducts(supplier);
+            productTableModel.setProducts(products);
+            logger.info("Filtered " + products.size() + " products by supplier: " + supplier);
+        } catch (Exception e) {
+            logger.severe("Error filtering products by supplier: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error filtering products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Get category ID by name
+     */
+    private int getCategoryIdByName(String categoryName) {
+        try {
+            String query = "SELECT category_id FROM supramart.product_categories WHERE category_name = ?";
+            ResultSet rs = MySQL.executePreparedSearch(query, categoryName);
+            if (rs.next()) {
+                return rs.getInt("category_id");
+            }
+        } catch (SQLException ex) {
+            logger.severe("Error getting category ID: " + ex.getMessage());
+        }
+        return -1;
+    }
 
     /**
      * @param args the command line arguments
