@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  * InventoryTransaction model class representing inventory movements
- * @author daham
+ * @author dehemi
  */
 public class InventoryTransaction {
     private int transactionId;
