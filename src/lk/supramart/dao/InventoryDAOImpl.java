@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of InventoryDAO interfac
+ * Implementation of InventoryDAO interface
  * @author dehemi
  */
 public class InventoryDAOImpl implements InventoryDAO {
