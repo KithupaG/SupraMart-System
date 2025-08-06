@@ -2,8 +2,7 @@ package lk.supramart.model;
 
 public class Supplier {
 
-    private int id;
-    private String name, phone, email, address;
+    private String id, name, phone, email, address;
 
     public Supplier(Builder builder) {
         this.id = builder.id;
@@ -15,10 +14,9 @@ public class Supplier {
 
     public static class Builder {
 
-        private int id;
-        private String name, phone, email, address;
+        private String id,name, phone, email, address;
 
-        public Builder setId(int id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }
@@ -49,7 +47,7 @@ public class Supplier {
 
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
