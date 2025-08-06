@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Data Access Object interface for inventory management
- * @author daham
+ * @author dehemi
  */
 public interface InventoryDAO {
     
