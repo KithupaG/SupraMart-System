@@ -34,7 +34,10 @@ public class cashierLogin extends javax.swing.JFrame {
         int roleId = UserRole.CASHIER.getId();
 
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-        Employee employee = new Employee(id, password, roleId);
+        Employee employee = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
 
         if (employeeDAO.employeeLogin(employee)) {
             JOptionPane.showMessageDialog(this,

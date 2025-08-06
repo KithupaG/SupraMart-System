@@ -4,7 +4,6 @@
  */
 package lk.supramart.gui.branchManager;
 
-import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
@@ -17,9 +16,6 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class branchManagerLogin extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerLogin.class.getName());
-
     /**
      * Creates new form adminLogin
      */
@@ -30,11 +26,14 @@ public class branchManagerLogin extends javax.swing.JFrame {
     
     private void login() {
         String id = branchManagerID.getText().trim();
-        String branchManagerPassword = String.valueOf(branchPassword.getText().trim());
+        String password = String.valueOf(branchPassword.getPassword());
         int roleId = UserRole.BRANCH_MANAGER.getId();
         
         EmployeeDAO branchManager = new EmployeeDAOImpl();
-        Employee branchmanager = new Employee(id, branchManagerPassword, roleId);
+        Employee branchmanager = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
         
         if(branchManager.employeeLogin(branchmanager)) {
             JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);

@@ -27,4 +27,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             return false;
         }
     }
+
+    @Override
+    public boolean eemployeeRegister(Employee employee) {
+        return  false;
+    }
 }
