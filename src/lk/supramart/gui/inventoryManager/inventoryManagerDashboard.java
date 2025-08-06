@@ -11,20 +11,128 @@ import javax.swing.JOptionPane;
 import lk.supramart.gui.Home;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
+import lk.supramart.controller.InventoryController;
+import lk.supramart.component.ProductTableModel;
+import lk.supramart.model.Product;
+import java.util.List;
 
 /**
  *
- * @author kithu
+ * @author daham
  */
 public class inventoryManagerDashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(inventoryManagerDashboard.class.getName());
+    private final InventoryController inventoryController;
+    private ProductTableModel productTableModel;
 
     /**
      * Creates new form adminDashboard
      */
     public inventoryManagerDashboard() {
         initComponents();
+        inventoryController = new InventoryController();
+        initializeTable();
+        loadProducts();
+    }
+    
+    /**
+     * Initialize the product table
+     */
+    private void initializeTable() {
+        productTableModel = new ProductTableModel();
+        jTable2.setModel(productTableModel);
+        
+        // Set column widths
+        jTable2.getColumnModel().getColumn(0).setPreferredWidth(80);  // Product ID
+        jTable2.getColumnModel().getColumn(1).setPreferredWidth(200); // Name
+        jTable2.getColumnModel().getColumn(2).setPreferredWidth(150); // Category
+        jTable2.getColumnModel().getColumn(3).setPreferredWidth(100); // Price
+        jTable2.getColumnModel().getColumn(4).setPreferredWidth(100); // Cost
+        jTable2.getColumnModel().getColumn(5).setPreferredWidth(100); // Stock Quantity
+        jTable2.getColumnModel().getColumn(6).setPreferredWidth(100); // Reorder Level
+        jTable2.getColumnModel().getColumn(7).setPreferredWidth(150); // Added On
+    }
+    
+    /**
+     * Load all products into the table
+     */
+    private void loadProducts() {
+        try {
+            List<Product> products = inventoryController.getAllProducts();
+            productTableModel.setProducts(products);
+            logger.info("Loaded " + products.size() + " products");
+        } catch (Exception e) {
+            logger.severe("Error loading products: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error loading products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Search products by term
+     */
+    private void searchProducts(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            loadProducts(); // Load all products if search is empty
+            return;
+        }
+        
+        try {
+            List<Product> products = inventoryController.searchProducts(searchTerm.trim());
+            productTableModel.setProducts(products);
+            logger.info("Found " + products.size() + " products matching '" + searchTerm + "'");
+        } catch (Exception e) {
+            logger.severe("Error searching products: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error searching products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Delete selected product
+     */
+    private void deleteSelectedProduct() {
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a product to delete", 
+                "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Product product = productTableModel.getProductAt(selectedRow);
+        if (product == null) {
+            return;
+        }
+        
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete product '" + product.getName() + "'?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                boolean success = inventoryController.deleteProduct(product.getProductId());
+                if (success) {
+                    productTableModel.removeProduct(selectedRow);
+                    JOptionPane.showMessageDialog(this, 
+                        "Product deleted successfully", 
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+                    logger.info("Deleted product: " + product.getName());
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "Failed to delete product", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                logger.severe("Error deleting product: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, 
+                    "Error deleting product: " + e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -561,23 +669,36 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        deleteSelectedProduct();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
+        String selectedCategory = (String) jComboBox3.getSelectedItem();
+        if (selectedCategory != null && !selectedCategory.equals("Select Product Category")) {
+            // TODO: Implement category filtering
+            logger.info("Selected category: " + selectedCategory);
+        }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
+        String searchTerm = jTextField2.getText();
+        searchProducts(searchTerm);
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
+        String selectedBrand = (String) jComboBox4.getSelectedItem();
+        if (selectedBrand != null && !selectedBrand.equals("Select Product Brand")) {
+            // TODO: Implement brand filtering
+            logger.info("Selected brand: " + selectedBrand);
+        }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
+        String selectedSupplier = (String) jComboBox5.getSelectedItem();
+        if (selectedSupplier != null && !selectedSupplier.equals("Select Product Supplier")) {
+            // TODO: Implement supplier filtering
+            logger.info("Selected supplier: " + selectedSupplier);
+        }
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
     /**
