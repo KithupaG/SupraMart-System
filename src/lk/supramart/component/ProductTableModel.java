@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Custom table model for displaying products in JTable
- * @author daham
+ * @author dehemi
  */
 public class ProductTableModel extends AbstractTableModel {
     
