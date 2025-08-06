@@ -467,4 +467,52 @@ public class InventoryDAOImpl implements InventoryDAO {
     public List<InventoryTransaction> getTransactionReport() {
         return getAllTransactions();
     }
+    
+    @Override
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        String query = "SELECT category_name FROM supramart.product_categories ORDER BY category_name";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query);
+            while (rs.next()) {
+                categories.add(rs.getString("category_name"));
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching categories: " + ex.getMessage());
+        }
+        return categories;
+    }
+    
+    @Override
+    public List<String> getAllBranches() {
+        List<String> branches = new ArrayList<>();
+        String query = "SELECT branch_name FROM mydb.branches ORDER BY branch_name";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query);
+            while (rs.next()) {
+                branches.add(rs.getString("branch_name"));
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching branches: " + ex.getMessage());
+        }
+        return branches;
+    }
+    
+    @Override
+    public List<String> getAllSuppliers() {
+        List<String> suppliers = new ArrayList<>();
+        String query = "SELECT supplier_name FROM supramart.suppliers ORDER BY supplier_name";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query);
+            while (rs.next()) {
+                suppliers.add(rs.getString("supplier_name"));
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching suppliers: " + ex.getMessage());
+        }
+        return suppliers;
+    }
 }
