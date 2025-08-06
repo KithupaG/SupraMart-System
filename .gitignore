@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+build/classes/lk/supramart/connection/MySQL.class
+build/classes/MySQL$MySQL.class
+build/classes/MySQL.class
+build/classes/lk/supramart/connection/MySQL.class
+build/classes/lk/supramart/connection/MySQL.class
+.idea
+/nbproject/private/
+/build/
+*.class
+nbproject/private/private.properties
+nbproject/private/
+=======
 # Build files
 build/
 *.class
@@ -24,3 +37,4 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+>>>>>>> origin/main

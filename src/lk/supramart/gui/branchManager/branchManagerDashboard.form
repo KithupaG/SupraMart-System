@@ -379,8 +379,8 @@
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="552" max="-2" attributes="0"/>
-                          <EmptySpace pref="87" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="633" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -715,8 +715,8 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane11" min="-2" pref="637" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane11" min="-2" pref="643" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton23" min="-2" pref="27" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
