@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 /**
  * Product model class representing the products table
- * @author daham
+ * @author dehemi
  */
 public class Product {
     private int productId;
