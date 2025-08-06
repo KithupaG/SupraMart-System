@@ -38,6 +38,49 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         initializeTable();
         loadProducts();
         loadComboBoxes();
+        setupKeyListeners();
+    }
+    
+    /**
+     * Setup key listeners for better user experience
+     */
+    private void setupKeyListeners() {
+        // Add Enter key handling for search fields
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    searchProductsFromTextField();
+                }
+            }
+        });
+        
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    jButton9ActionPerformed(null);
+                }
+            }
+        });
+        
+        // Add F5 key for refresh
+        getRootPane().registerKeyboardAction(
+            evt -> refreshProductTable(),
+            "Refresh",
+            javax.swing.KeyStroke.getKeyStroke("F5"),
+            javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
+        
+        // Add Ctrl+F for search focus
+        getRootPane().registerKeyboardAction(
+            evt -> jTextField1.requestFocusInWindow(),
+            "Search",
+            javax.swing.KeyStroke.getKeyStroke("control F"),
+            javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
+        
+        logger.info("Key listeners setup completed");
     }
     
     /**
@@ -101,6 +144,67 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jTable2.getColumnModel().getColumn(5).setPreferredWidth(100); // Stock Quantity
         jTable2.getColumnModel().getColumn(6).setPreferredWidth(100); // Reorder Level
         jTable2.getColumnModel().getColumn(7).setPreferredWidth(150); // Added On
+        
+        // Add keyboard shortcuts
+        jTable2.getInputMap().put(javax.swing.KeyStroke.getKeyStroke("DELETE"), "deleteProduct");
+        jTable2.getActionMap().put("deleteProduct", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                deleteSelectedProduct();
+            }
+        });
+        
+        // Add double-click to edit
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    editSelectedProduct();
+                }
+            }
+            
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showContextMenu(e);
+                }
+            }
+            
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showContextMenu(e);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Show context menu for product table
+     */
+    private void showContextMenu(java.awt.event.MouseEvent e) {
+        int row = jTable2.rowAtPoint(e.getPoint());
+        if (row >= 0) {
+            jTable2.setRowSelectionInterval(row, row);
+            
+            javax.swing.JPopupMenu popup = new javax.swing.JPopupMenu();
+            
+            javax.swing.JMenuItem viewDetails = new javax.swing.JMenuItem("View Details");
+            viewDetails.addActionListener(evt -> showProductDetails());
+            popup.add(viewDetails);
+            
+            javax.swing.JMenuItem editItem = new javax.swing.JMenuItem("Edit Product");
+            editItem.addActionListener(evt -> editSelectedProduct());
+            popup.add(editItem);
+            
+            popup.addSeparator();
+            
+            javax.swing.JMenuItem deleteItem = new javax.swing.JMenuItem("Delete Product");
+            deleteItem.addActionListener(evt -> deleteSelectedProduct());
+            popup.add(deleteItem);
+            
+            popup.show(jTable2, e.getX(), e.getY());
+        }
     }
     
     /**
@@ -138,6 +242,14 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                 "Error searching products: " + e.getMessage(), 
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    /**
+     * Search products from text field
+     */
+    private void searchProductsFromTextField() {
+        String searchTerm = jTextField1.getText();
+        searchProducts(searchTerm);
     }
     
     /**
@@ -181,6 +293,91 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                     "Error deleting product: " + e.getMessage(), 
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+    
+    /**
+     * Refresh the product table
+     */
+    private void refreshProductTable() {
+        loadProducts();
+        logger.info("Product table refreshed");
+    }
+    
+    /**
+     * Show low stock products
+     */
+    private void showLowStockProducts() {
+        try {
+            List<Product> lowStockProducts = inventoryController.getLowStockProducts();
+            productTableModel.setProducts(lowStockProducts);
+            logger.info("Showing " + lowStockProducts.size() + " low stock products");
+            JOptionPane.showMessageDialog(this, 
+                "Showing " + lowStockProducts.size() + " products with low stock", 
+                "Low Stock Alert", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            logger.severe("Error loading low stock products: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error loading low stock products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Export stock report
+     */
+    private void exportStockReport() {
+        try {
+            List<Product> products = inventoryController.getAllProducts();
+            // TODO: Implement actual export functionality
+            JOptionPane.showMessageDialog(this, 
+                "Stock report export functionality will be implemented here.\n" +
+                "Total products: " + products.size(), 
+                "Export Stock Report", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("Stock report export requested");
+        } catch (Exception e) {
+            logger.severe("Error exporting stock report: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error exporting stock report: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Export supplier report
+     */
+    private void exportSupplierReport() {
+        try {
+            List<String> suppliers = inventoryController.getAllSuppliers();
+            // TODO: Implement actual export functionality
+            JOptionPane.showMessageDialog(this, 
+                "Supplier report export functionality will be implemented here.\n" +
+                "Total suppliers: " + suppliers.size(), 
+                "Export Supplier Report", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("Supplier report export requested");
+        } catch (Exception e) {
+            logger.severe("Error exporting supplier report: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error exporting supplier report: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Export sales report
+     */
+    private void exportSalesReport() {
+        try {
+            // TODO: Implement sales report functionality
+            JOptionPane.showMessageDialog(this, 
+                "Sales report export functionality will be implemented here.", 
+                "Export Sales Report", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("Sales report export requested");
+        } catch (Exception e) {
+            logger.severe("Error exporting sales report: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error exporting sales report: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -298,6 +495,11 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         });
 
         jButton7.setText("Search Product");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Product Category", "Item 1", "Item 2" }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -406,11 +608,21 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jButton8.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Export Expenses Report");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setBackground(new java.awt.Color(0, 112, 235));
         jButton9.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("Search");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -474,6 +686,11 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jButton23.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton23.setForeground(new java.awt.Color(255, 255, 255));
         jButton23.setText("Export Stock Report");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -517,6 +734,11 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jButton25.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton25.setForeground(new java.awt.Color(255, 255, 255));
         jButton25.setText("Export Supplier Report");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -560,6 +782,11 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         jButton24.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton24.setForeground(new java.awt.Color(255, 255, 255));
         jButton24.setText("Export Sales Report");
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -718,8 +945,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        editProduct editproduct = new editProduct(this, true);
-        editproduct.setVisible(true);
+        editSelectedProduct();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -815,6 +1041,167 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
             logger.severe("Error getting category ID: " + ex.getMessage());
         }
         return -1;
+    }
+    
+    /**
+     * Show inventory summary
+     */
+    private void showInventorySummary() {
+        try {
+            List<Product> allProducts = inventoryController.getAllProducts();
+            List<Product> lowStockProducts = inventoryController.getLowStockProducts();
+            
+            double totalValue = inventoryController.calculateTotalInventoryValue(allProducts);
+            
+            String summary = String.format(
+                "Inventory Summary:\n\n" +
+                "Total Products: %d\n" +
+                "Low Stock Items: %d\n" +
+                "Total Inventory Value: LKR %.2f\n\n" +
+                "Low Stock Alerts:\n",
+                allProducts.size(), lowStockProducts.size(), totalValue
+            );
+            
+            for (Product product : lowStockProducts) {
+                summary += String.format("- %s (Stock: %d, Reorder Level: %d)\n", 
+                    product.getName(), product.getStockQuantity(), product.getReorderLevel());
+            }
+            
+            JOptionPane.showMessageDialog(this, summary, "Inventory Summary", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("Inventory summary displayed");
+        } catch (Exception e) {
+            logger.severe("Error showing inventory summary: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error loading inventory summary: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Clear all filters and show all products
+     */
+    private void clearAllFilters() {
+        // Reset combo boxes
+        jComboBox1.setSelectedItem("Select Branch");
+        jComboBox3.setSelectedItem("Select Product Category");
+        jComboBox4.setSelectedItem("Select Product Brand");
+        jComboBox5.setSelectedItem("Select Product Supplier");
+        
+        // Clear search text
+        jTextField1.setText("");
+        jTextField2.setText("");
+        
+        // Load all products
+        loadProducts();
+        
+        logger.info("All filters cleared");
+    }
+    
+    /**
+     * Show product details in a dialog
+     */
+    private void showProductDetails() {
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a product to view details", 
+                "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Product product = productTableModel.getProductAt(selectedRow);
+        if (product == null) {
+            return;
+        }
+        
+        String details = String.format(
+            "Product Details:\n\n" +
+            "ID: %d\n" +
+            "Name: %s\n" +
+            "Category: %s\n" +
+            "Price: LKR %.2f\n" +
+            "Cost: LKR %.2f\n" +
+            "Stock Quantity: %d\n" +
+            "Reorder Level: %d\n" +
+            "Added On: %s\n\n" +
+            "Profit Margin: %.2f%%",
+            product.getProductId(),
+            product.getName(),
+            product.getCategoryName(),
+            product.getPrice(),
+            product.getCost(),
+            product.getStockQuantity(),
+            product.getReorderLevel(),
+            product.getAddedOn(),
+            inventoryController.calculateProfitMargin(product)
+        );
+        
+        JOptionPane.showMessageDialog(this, details, "Product Details", JOptionPane.INFORMATION_MESSAGE);
+        logger.info("Product details shown for: " + product.getName());
+    }
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        searchProductsFromTextField();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        String searchTerm = jTextField2.getText();
+        // TODO: Implement sales search functionality
+        JOptionPane.showMessageDialog(this, 
+            "Sales search functionality will be implemented here.\n" +
+            "Search term: " + searchTerm, 
+            "Sales Search", JOptionPane.INFORMATION_MESSAGE);
+        logger.info("Sales search requested for: " + searchTerm);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO: Implement expenses report export
+        JOptionPane.showMessageDialog(this, 
+            "Expenses report export functionality will be implemented here.", 
+            "Export Expenses Report", JOptionPane.INFORMATION_MESSAGE);
+        logger.info("Expenses report export requested");
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        exportStockReport();
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        exportSupplierReport();
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        exportSalesReport();
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    /**
+     * Edit selected product
+     */
+    private void editSelectedProduct() {
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a product to edit", 
+                "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Product product = productTableModel.getProductAt(selectedRow);
+        if (product == null) {
+            return;
+        }
+        
+        try {
+            editProduct editproduct = new editProduct(this, true);
+            editproduct.setVisible(true);
+            // Refresh table after editing
+            refreshProductTable();
+        } catch (Exception e) {
+            logger.severe("Error opening edit product dialog: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error opening edit dialog: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
