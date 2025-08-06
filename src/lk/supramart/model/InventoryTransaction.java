@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class InventoryTransaction {
     private int transactionId;
     private int productId;
-    private String productName; // For display purposes
+    private String productName;
     private int quantityChange;
     private String reason;
     private LocalDateTime date;
