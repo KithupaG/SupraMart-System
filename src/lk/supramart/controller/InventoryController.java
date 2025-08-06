@@ -348,4 +348,28 @@ public class InventoryController {
         
         return totalValue;
     }
+    
+    /**
+     * Get all product categories for combo box
+     * @return List of category names
+     */
+    public List<String> getAllCategories() {
+        return inventoryDAO.getAllCategories();
+    }
+    
+    /**
+     * Get all branches for combo box
+     * @return List of branch names
+     */
+    public List<String> getAllBranches() {
+        return inventoryDAO.getAllBranches();
+    }
+    
+    /**
+     * Get all suppliers for combo box
+     * @return List of supplier names
+     */
+    public List<String> getAllSuppliers() {
+        return inventoryDAO.getAllSuppliers();
+    }
 }
