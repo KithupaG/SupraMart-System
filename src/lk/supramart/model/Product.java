@@ -11,7 +11,7 @@ public class Product {
     private int productId;
     private String name;
     private int categoryId;
-    private String categoryName; // For display purposes
+    private String categoryName;
     private BigDecimal price;
     private BigDecimal cost;
     private int stockQuantity;
