@@ -688,7 +688,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
         String selectedBrand = (String) jComboBox4.getSelectedItem();
         if (selectedBrand != null && !selectedBrand.equals("Select Product Brand")) {
-            // TODO: Implement brand filtering
+            // Implement brand filtering
             logger.info("Selected brand: " + selectedBrand);
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
