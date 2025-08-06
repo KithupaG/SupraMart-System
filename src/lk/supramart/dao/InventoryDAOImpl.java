@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Implementation of InventoryDAO interface
- * @author daham
+ * @author dehemi
  */
 public class InventoryDAOImpl implements InventoryDAO {
     
