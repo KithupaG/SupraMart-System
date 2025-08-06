@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 /**
  * Controller class for inventory management operations
- * @author daham
+ * @author dehemi
  */
 public class InventoryController {
     private final InventoryDAO inventoryDAO;
