@@ -1,3 +1,5 @@
 
 Aug 05, 2025 4:14:31 PM lk.supramart.connection.MySQL 
 SEVERE: SQL Exception :Access denied for user 'root'@'localhost' (using password: YES)
+Aug 06, 2025 7:14:46 AM lk.supramart.connection.MySQL 
+SEVERE: SQL Exception :Access denied for user 'root'@'localhost' (using password: YES)
