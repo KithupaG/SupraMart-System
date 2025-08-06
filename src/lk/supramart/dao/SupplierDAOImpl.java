@@ -63,7 +63,7 @@ public class SupplierDAOImpl implements SupplierDAO {
             ps.setString(4, supplier.getAddress());
 
             int rows = ps.executeUpdate();
-            return rows > 0; // return true if at least one row was inserted
+            return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -81,7 +81,7 @@ public class SupplierDAOImpl implements SupplierDAO {
             ps.setString(4, supplier.getAddress());
 
             int rows = ps.executeUpdate();
-            return rows > 0; // return true if at least one row was inserted
+            return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
