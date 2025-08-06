@@ -12,4 +12,5 @@ import lk.supramart.model.Employee;
  */
 public interface EmployeeDAO {
     boolean employeeLogin(Employee employee);
+    boolean eemployeeRegister(Employee employee);
 }

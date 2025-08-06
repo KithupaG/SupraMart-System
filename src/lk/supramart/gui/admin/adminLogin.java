@@ -33,7 +33,10 @@ public class adminLogin extends javax.swing.JFrame {
         int roleId = UserRole.ADMIN.getId();
         
         EmployeeDAO admindao = new EmployeeDAOImpl();
-        Employee admin = new Employee(id, password, roleId);
+        Employee admin = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
         
         if(admindao.employeeLogin(admin)) {
             JOptionPane.showMessageDialog(this, "Admin Login Successfully", "Login", JOptionPane.INFORMATION_MESSAGE);

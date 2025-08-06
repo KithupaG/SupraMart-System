@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 build/classes/lk/supramart/connection/MySQL.class
 build/classes/MySQL$MySQL.class
 build/classes/MySQL.class
@@ -7,5 +8,33 @@ build/classes/lk/supramart/connection/MySQL.class
 /nbproject/private/
 /build/
 *.class
-nbproject/private/private.xml
+nbproject/private/private.properties
+nbproject/private/
+=======
+# Build files
+build/
+*.class
+*.jar
+
+# NetBeans IDE files
+nbproject/private/
+.nbproject/
+*.properties
 *.xml
+
+# IDE files
+.idea/
+*.iml
+
+# Log files
+*.log
+*.lck
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+>>>>>>> origin/main

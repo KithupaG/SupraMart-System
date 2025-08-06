@@ -29,13 +29,16 @@ public class AuditorLogin extends javax.swing.JFrame {
     }
     private void login(){
         String id = auditorID.getText().trim();
-        String password = String.valueOf(auditorPasswordField.getText().trim());
+        String password = String.valueOf(auditorPasswordField.getPassword());
         int roleId = UserRole.AUDITOR.getId();
         
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-        Employee employee = new Employee(id, password,roleId);
+        Employee auditor = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
         
-        if (employeeDAO.employeeLogin(employee)) {
+        if (employeeDAO.employeeLogin(auditor)) {
             JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
