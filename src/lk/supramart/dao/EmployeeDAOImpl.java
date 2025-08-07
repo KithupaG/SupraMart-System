@@ -60,7 +60,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public boolean addProfileImage(String imagePath) {
-        String query = "INSERT INTO ";
+        String query = "INSERT INTO employees.image_id";
+        return false;
     }
 
     @Override
