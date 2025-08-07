@@ -527,7 +527,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void exportSupplierReport() {
         try {
             List<String> suppliers = inventoryController.getAllSuppliers();
-            // TODO: Implement actual export functionality
+            // Implement actual export functionality
             JOptionPane.showMessageDialog(this, 
                 "Supplier report export functionality will be implemented here.\n" +
                 "Total suppliers: " + suppliers.size(), 
