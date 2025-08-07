@@ -295,11 +295,26 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         // Check if product can be deleted
         if (!inventoryController.canDeleteProduct(product.getProductId())) {
             String constraints = inventoryController.getDeletionConstraints(product.getProductId());
-            JOptionPane.showMessageDialog(this, 
-                "Cannot delete product '" + product.getName() + "'.\n\n" +
-                "Constraints found:\n" + constraints + "\n" +
-                "Please remove all dependencies before deleting.",
-                "Cannot Delete Product", JOptionPane.WARNING_MESSAGE);
+            
+            // Ask user if they want to force delete
+            int choice = JOptionPane.showConfirmDialog(this,
+                "Cannot delete product '" + product.getName() + "' normally.\n\n" +
+                "Constraints found:\n" + constraints + "\n\n" +
+                "Do you want to force delete this product?\n" +
+                "This will remove all related data (sales, transactions, branch assignments).",
+                "Force Delete Required", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            
+            if (choice == JOptionPane.YES_OPTION) {
+                // Force delete
+                performForceDelete(product);
+            } else if (choice == JOptionPane.NO_OPTION) {
+                // Show constraints and cancel
+                JOptionPane.showMessageDialog(this,
+                    "Product deletion cancelled.\n\n" +
+                    "Constraints found:\n" + constraints + "\n" +
+                    "Please remove all dependencies before deleting.",
+                    "Delete Cancelled", JOptionPane.INFORMATION_MESSAGE);
+            }
             return;
         }
         
@@ -366,6 +381,70 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     }
     
     /**
+     * Perform force delete of a product
+     */
+    private void performForceDelete(Product product) {
+        // Show final confirmation for force delete
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "WARNING: Force Delete\n\n" +
+            "Are you absolutely sure you want to force delete '" + product.getName() + "'?\n\n" +
+            "This will:\n" +
+            "• Delete all sales records for this product\n" +
+            "• Delete all inventory transactions for this product\n" +
+            "• Remove all branch assignments for this product\n" +
+            "• Delete the product itself\n\n" +
+            "This action cannot be undone!",
+            "Confirm Force Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Show progress dialog for better UX
+                javax.swing.SwingWorker<Boolean, Void> worker = new javax.swing.SwingWorker<Boolean, Void>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        return inventoryController.forceDeleteProduct(product.getProductId());
+                    }
+                    
+                    @Override
+                    protected void done() {
+                        try {
+                            boolean success = get();
+                            if (success) {
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Product '" + product.getName() + "' force deleted successfully!\n\n" +
+                                    "All related data has been removed.",
+                                    "Force Delete Success", JOptionPane.INFORMATION_MESSAGE);
+                                logger.info("Force deleted product: " + product.getName() + " (ID: " + product.getProductId() + ")");
+                                
+                                // Refresh the table to ensure consistency
+                                refreshProductTable();
+                            } else {
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Failed to force delete product '" + product.getName() + "'.\n\n" +
+                                    "Please check the logs for more details.",
+                                    "Force Delete Failed", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (Exception e) {
+                            logger.severe("Error during force product deletion: " + e.getMessage());
+                            JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                "Error force deleting product: " + e.getMessage(), 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                };
+                
+                worker.execute();
+                
+            } catch (Exception e) {
+                logger.severe("Error initiating force product deletion: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, 
+                    "Error initiating force product deletion: " + e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    /**
      * Delete multiple products
      */
     private void deleteMultipleProducts(int[] selectedRows) {
@@ -384,13 +463,27 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
             }
         }
         
-        // Show warning if some products have constraints
+        // Show warning if some products have constraints and ask about force delete
         if (!productsWithConstraints.isEmpty()) {
             String constraintMessage = "The following products cannot be deleted due to constraints:\n\n" +
                                      String.join("\n", productsWithConstraints) + "\n\n" +
-                                     "These products will be skipped.";
-            JOptionPane.showMessageDialog(this, constraintMessage, 
-                "Products with Constraints", JOptionPane.WARNING_MESSAGE);
+                                     "Do you want to force delete these products?\n" +
+                                     "This will remove all related data (sales, transactions, branch assignments).";
+            
+            int choice = JOptionPane.showConfirmDialog(this, constraintMessage, 
+                "Products with Constraints", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            
+            if (choice == JOptionPane.YES_OPTION) {
+                // Add constrained products to force delete list
+                for (int row : selectedRows) {
+                    Product product = productTableModel.getProductAt(row);
+                    if (product != null && !productsToDelete.contains(product)) {
+                        productsToDelete.add(product);
+                    }
+                }
+            } else if (choice == JOptionPane.CANCEL_OPTION) {
+                return; // Cancel the entire operation
+            }
         }
         
         if (productsToDelete.isEmpty()) {
@@ -426,7 +519,27 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                 javax.swing.SwingWorker<Boolean, Void> worker = new javax.swing.SwingWorker<Boolean, Void>() {
                     @Override
                     protected Boolean doInBackground() throws Exception {
-                        return inventoryController.deleteMultipleProducts(productIds);
+                        // Check if any products need force delete
+                        boolean needsForceDelete = false;
+                        for (Product product : productsToDelete) {
+                            if (!inventoryController.canDeleteProduct(product.getProductId())) {
+                                needsForceDelete = true;
+                                break;
+                            }
+                        }
+                        
+                        if (needsForceDelete) {
+                            // Use force delete for all products
+                            for (Product product : productsToDelete) {
+                                if (!inventoryController.forceDeleteProduct(product.getProductId())) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        } else {
+                            // Use normal delete
+                            return inventoryController.deleteMultipleProducts(productIds);
+                        }
                     }
                     
                     @Override
@@ -442,10 +555,25 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                                     }
                                 }
                                 
+                                // Check if any products needed force delete
+                                boolean hadForceDelete = false;
+                                for (Product product : productsToDelete) {
+                                    if (!inventoryController.canDeleteProduct(product.getProductId())) {
+                                        hadForceDelete = true;
+                                        break;
+                                    }
+                                }
+                                
+                                String message = "Successfully deleted " + productsToDelete.size() + " products";
+                                if (hadForceDelete) {
+                                    message += "\n\nSome products were force deleted (all related data removed)";
+                                }
+                                
                                 JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
-                                    "Successfully deleted " + productsToDelete.size() + " products", 
+                                    message, 
                                     "Bulk Delete Success", JOptionPane.INFORMATION_MESSAGE);
-                                logger.info("Bulk deleted " + productsToDelete.size() + " products");
+                                logger.info("Bulk deleted " + productsToDelete.size() + " products" + 
+                                          (hadForceDelete ? " (with force delete)" : ""));
                                 
                                 // Refresh the table to ensure consistency
                                 refreshProductTable();
