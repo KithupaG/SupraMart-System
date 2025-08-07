@@ -1509,9 +1509,18 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         
         try {
             editProduct editproduct = new editProduct(this, true);
+            editproduct.loadProduct(product); // Load the selected product into the form
             editproduct.setVisible(true);
-            // Refresh table after editing
-            refreshProductTable();
+            
+            // Refresh table after editing using a timer to check if dialog is closed
+            javax.swing.Timer timer = new javax.swing.Timer(100, e -> {
+                if (!editproduct.isVisible()) {
+                    refreshProductTable();
+                    ((javax.swing.Timer) e.getSource()).stop();
+                }
+            });
+            timer.start();
+            
         } catch (Exception e) {
             logger.severe("Error opening edit product dialog: " + e.getMessage());
             JOptionPane.showMessageDialog(this, 
