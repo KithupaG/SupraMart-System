@@ -96,7 +96,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jLabel3.setText("Available Stock:");
+        jLabel3.setText("Branch Information:");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
