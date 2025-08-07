@@ -7,6 +7,8 @@ package lk.supramart.dao;
 import lk.supramart.connection.MySQL;
 import lk.supramart.model.Product;
 import lk.supramart.model.InventoryTransaction;
+import lk.supramart.model.Sale;
+import lk.supramart.model.SaleItem;
 import lk.supramart.util.LoggerUtil;
 import java.sql.*;
 import java.math.BigDecimal;
@@ -757,5 +759,290 @@ public class InventoryDAOImpl implements InventoryDAO {
             LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching suppliers: " + ex.getMessage());
         }
         return suppliers;
+    }
+    
+    // Sales Management Methods
+    
+    @Override
+    public List<Sale> getAllSales() {
+        List<Sale> sales = new ArrayList<>();
+        String query = "SELECT s.*, b.branch_name, e.first_name, e.last_name, " +
+                      "c.first_name as customer_first_name, c.last_name as customer_last_name " +
+                      "FROM supramart.sales s " +
+                      "LEFT JOIN mydb.branches b ON s.branches_branch_id = b.branch_id " +
+                      "LEFT JOIN supramart.employees e ON s.employee_id = e.employee_id " +
+                      "LEFT JOIN supramart.customers c ON s.customers_customer_id = c.customer_id " +
+                      "ORDER BY s.sale_date DESC";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query);
+            while (rs.next()) {
+                Sale sale = new Sale();
+                sale.setSaleId(rs.getInt("sale_id"));
+                sale.setTotalAmount(rs.getBigDecimal("total_amount"));
+                sale.setPaymentMethod(rs.getString("payment_method"));
+                sale.setSaleDate(rs.getTimestamp("sale_date").toLocalDateTime());
+                sale.setBranchId(rs.getInt("branches_branch_id"));
+                sale.setBranchName(rs.getString("branch_name"));
+                sale.setEmployeeId(rs.getString("employee_id"));
+                
+                // Combine employee first and last name
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    sale.setEmployeeName(firstName + " " + lastName);
+                } else {
+                    sale.setEmployeeName(rs.getString("employee_id"));
+                }
+                
+                sale.setCustomerId(rs.getInt("customers_customer_id"));
+                
+                // Combine customer first and last name
+                String customerFirstName = rs.getString("customer_first_name");
+                String customerLastName = rs.getString("customer_last_name");
+                if (customerFirstName != null && customerLastName != null) {
+                    sale.setCustomerName(customerFirstName + " " + customerLastName);
+                } else {
+                    sale.setCustomerName("Customer " + rs.getInt("customers_customer_id"));
+                }
+                
+                sales.add(sale);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching sales: " + ex.getMessage());
+        }
+        return sales;
+    }
+    
+    @Override
+    public List<Sale> getSalesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        List<Sale> sales = new ArrayList<>();
+        String query = "SELECT s.*, b.branch_name, e.first_name, e.last_name, " +
+                      "c.first_name as customer_first_name, c.last_name as customer_last_name " +
+                      "FROM supramart.sales s " +
+                      "LEFT JOIN mydb.branches b ON s.branches_branch_id = b.branch_id " +
+                      "LEFT JOIN supramart.employees e ON s.employee_id = e.employee_id " +
+                      "LEFT JOIN supramart.customers c ON s.customers_customer_id = c.customer_id " +
+                      "WHERE s.sale_date BETWEEN ? AND ? " +
+                      "ORDER BY s.sale_date DESC";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, startDate, endDate);
+            while (rs.next()) {
+                Sale sale = new Sale();
+                sale.setSaleId(rs.getInt("sale_id"));
+                sale.setTotalAmount(rs.getBigDecimal("total_amount"));
+                sale.setPaymentMethod(rs.getString("payment_method"));
+                sale.setSaleDate(rs.getTimestamp("sale_date").toLocalDateTime());
+                sale.setBranchId(rs.getInt("branches_branch_id"));
+                sale.setBranchName(rs.getString("branch_name"));
+                sale.setEmployeeId(rs.getString("employee_id"));
+                
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    sale.setEmployeeName(firstName + " " + lastName);
+                } else {
+                    sale.setEmployeeName(rs.getString("employee_id"));
+                }
+                
+                sale.setCustomerId(rs.getInt("customers_customer_id"));
+                
+                String customerFirstName = rs.getString("customer_first_name");
+                String customerLastName = rs.getString("customer_last_name");
+                if (customerFirstName != null && customerLastName != null) {
+                    sale.setCustomerName(customerFirstName + " " + customerLastName);
+                } else {
+                    sale.setCustomerName("Customer " + rs.getInt("customers_customer_id"));
+                }
+                
+                sales.add(sale);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching sales by date range: " + ex.getMessage());
+        }
+        return sales;
+    }
+    
+    @Override
+    public List<Sale> getSalesByBranch(int branchId) {
+        List<Sale> sales = new ArrayList<>();
+        String query = "SELECT s.*, b.branch_name, e.first_name, e.last_name, " +
+                      "c.first_name as customer_first_name, c.last_name as customer_last_name " +
+                      "FROM supramart.sales s " +
+                      "LEFT JOIN mydb.branches b ON s.branches_branch_id = b.branch_id " +
+                      "LEFT JOIN supramart.employees e ON s.employee_id = e.employee_id " +
+                      "LEFT JOIN supramart.customers c ON s.customers_customer_id = c.customer_id " +
+                      "WHERE s.branches_branch_id = ? " +
+                      "ORDER BY s.sale_date DESC";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, branchId);
+            while (rs.next()) {
+                Sale sale = new Sale();
+                sale.setSaleId(rs.getInt("sale_id"));
+                sale.setTotalAmount(rs.getBigDecimal("total_amount"));
+                sale.setPaymentMethod(rs.getString("payment_method"));
+                sale.setSaleDate(rs.getTimestamp("sale_date").toLocalDateTime());
+                sale.setBranchId(rs.getInt("branches_branch_id"));
+                sale.setBranchName(rs.getString("branch_name"));
+                sale.setEmployeeId(rs.getString("employee_id"));
+                
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    sale.setEmployeeName(firstName + " " + lastName);
+                } else {
+                    sale.setEmployeeName(rs.getString("employee_id"));
+                }
+                
+                sale.setCustomerId(rs.getInt("customers_customer_id"));
+                
+                String customerFirstName = rs.getString("customer_first_name");
+                String customerLastName = rs.getString("customer_last_name");
+                if (customerFirstName != null && customerLastName != null) {
+                    sale.setCustomerName(customerFirstName + " " + customerLastName);
+                } else {
+                    sale.setCustomerName("Customer " + rs.getInt("customers_customer_id"));
+                }
+                
+                sales.add(sale);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching sales by branch: " + ex.getMessage());
+        }
+        return sales;
+    }
+    
+    @Override
+    public List<Sale> getSalesByEmployee(String employeeId) {
+        List<Sale> sales = new ArrayList<>();
+        String query = "SELECT s.*, b.branch_name, e.first_name, e.last_name, " +
+                      "c.first_name as customer_first_name, c.last_name as customer_last_name " +
+                      "FROM supramart.sales s " +
+                      "LEFT JOIN mydb.branches b ON s.branches_branch_id = b.branch_id " +
+                      "LEFT JOIN supramart.employees e ON s.employee_id = e.employee_id " +
+                      "LEFT JOIN supramart.customers c ON s.customers_customer_id = c.customer_id " +
+                      "WHERE s.employee_id = ? " +
+                      "ORDER BY s.sale_date DESC";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, employeeId);
+            while (rs.next()) {
+                Sale sale = new Sale();
+                sale.setSaleId(rs.getInt("sale_id"));
+                sale.setTotalAmount(rs.getBigDecimal("total_amount"));
+                sale.setPaymentMethod(rs.getString("payment_method"));
+                sale.setSaleDate(rs.getTimestamp("sale_date").toLocalDateTime());
+                sale.setBranchId(rs.getInt("branches_branch_id"));
+                sale.setBranchName(rs.getString("branch_name"));
+                sale.setEmployeeId(rs.getString("employee_id"));
+                
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    sale.setEmployeeName(firstName + " " + lastName);
+                } else {
+                    sale.setEmployeeName(rs.getString("employee_id"));
+                }
+                
+                sale.setCustomerId(rs.getInt("customers_customer_id"));
+                
+                String customerFirstName = rs.getString("customer_first_name");
+                String customerLastName = rs.getString("customer_last_name");
+                if (customerFirstName != null && customerLastName != null) {
+                    sale.setCustomerName(customerFirstName + " " + customerLastName);
+                } else {
+                    sale.setCustomerName("Customer " + rs.getInt("customers_customer_id"));
+                }
+                
+                sales.add(sale);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching sales by employee: " + ex.getMessage());
+        }
+        return sales;
+    }
+    
+    @Override
+    public List<Sale> searchSales(String searchTerm) {
+        List<Sale> sales = new ArrayList<>();
+        String query = "SELECT s.*, b.branch_name, e.first_name, e.last_name, " +
+                      "c.first_name as customer_first_name, c.last_name as customer_last_name " +
+                      "FROM supramart.sales s " +
+                      "LEFT JOIN mydb.branches b ON s.branches_branch_id = b.branch_id " +
+                      "LEFT JOIN supramart.employees e ON s.employee_id = e.employee_id " +
+                      "LEFT JOIN supramart.customers c ON s.customers_customer_id = c.customer_id " +
+                      "WHERE s.sale_id LIKE ? OR b.branch_name LIKE ? OR e.first_name LIKE ? " +
+                      "OR e.last_name LIKE ? OR s.payment_method LIKE ? " +
+                      "ORDER BY s.sale_date DESC";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, 
+                "%" + searchTerm + "%", "%" + searchTerm + "%", 
+                "%" + searchTerm + "%", "%" + searchTerm + "%", 
+                "%" + searchTerm + "%");
+            while (rs.next()) {
+                Sale sale = new Sale();
+                sale.setSaleId(rs.getInt("sale_id"));
+                sale.setTotalAmount(rs.getBigDecimal("total_amount"));
+                sale.setPaymentMethod(rs.getString("payment_method"));
+                sale.setSaleDate(rs.getTimestamp("sale_date").toLocalDateTime());
+                sale.setBranchId(rs.getInt("branches_branch_id"));
+                sale.setBranchName(rs.getString("branch_name"));
+                sale.setEmployeeId(rs.getString("employee_id"));
+                
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    sale.setEmployeeName(firstName + " " + lastName);
+                } else {
+                    sale.setEmployeeName(rs.getString("employee_id"));
+                }
+                
+                sale.setCustomerId(rs.getInt("customers_customer_id"));
+                
+                String customerFirstName = rs.getString("customer_first_name");
+                String customerLastName = rs.getString("customer_last_name");
+                if (customerFirstName != null && customerLastName != null) {
+                    sale.setCustomerName(customerFirstName + " " + customerLastName);
+                } else {
+                    sale.setCustomerName("Customer " + rs.getInt("customers_customer_id"));
+                }
+                
+                sales.add(sale);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error searching sales: " + ex.getMessage());
+        }
+        return sales;
+    }
+    
+    @Override
+    public List<SaleItem> getSaleItems(int saleId) {
+        List<SaleItem> saleItems = new ArrayList<>();
+        String query = "SELECT si.*, p.name as product_name " +
+                      "FROM supramart.sale_items si " +
+                      "LEFT JOIN supramart.products p ON si.product_id = p.product_id " +
+                      "WHERE si.sale_id = ? " +
+                      "ORDER BY si.sale_item_id";
+        
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, saleId);
+            while (rs.next()) {
+                SaleItem saleItem = new SaleItem();
+                saleItem.setSaleItemId(rs.getInt("sale_item_id"));
+                saleItem.setSaleId(rs.getInt("sale_id"));
+                saleItem.setProductId(rs.getInt("product_id"));
+                saleItem.setProductName(rs.getString("product_name"));
+                saleItem.setQuantity(rs.getInt("quantity"));
+                saleItem.setPrice(rs.getBigDecimal("price"));
+                
+                saleItems.add(saleItem);
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching sale items: " + ex.getMessage());
+        }
+        return saleItems;
     }
 }
