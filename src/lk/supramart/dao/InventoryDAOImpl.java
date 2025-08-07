@@ -511,7 +511,7 @@ public class InventoryDAOImpl implements InventoryDAO {
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error fetching transactions by product: " + ex.getMessage());
         }
-        return transactions;
+        
     }
     
     @Override
