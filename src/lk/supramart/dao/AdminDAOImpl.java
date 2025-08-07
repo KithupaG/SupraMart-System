@@ -18,15 +18,15 @@ import lk.supramart.model.Admin;
  * @author kithu
  */
 public class AdminDAOImpl implements AdminDAO {
+
     @Override
     public boolean deleteUser(int userId) {
-        String delete_query = "DELETE FROM employees WHERE employee_id = ?";
-        
+        String deleteQuery = "DELETE FROM employees WHERE employee_id = ?";
         try {
-            int rowsAffected = MySQL.executePreparedIUD(delete_query, userId);
+            int rowsAffected = MySQL.executePreparedIUD(deleteQuery, userId);
             return rowsAffected > 0;
-        }catch(SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error deleting user: " + e.getMessage());
             return false;
         }
     }
@@ -34,12 +34,12 @@ public class AdminDAOImpl implements AdminDAO {
     @Override
     public boolean updateInfo(Admin admin) {
         String query = "INSERT INTO admin (fname, lname, email, password) VALUES (?, ?, ?, ?)";
-        
         try {
             int rows = MySQL.executePreparedIUD(query, admin.getFName(),admin.getLname(),admin.getEmail(),admin.getPassword());
+
             return rows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error updating admin info: " + e.getMessage());
             return false;
         }
     }
@@ -49,9 +49,9 @@ public class AdminDAOImpl implements AdminDAO {
         List<Employee> user = new ArrayList<>();
         String query = "SELECT * FROM employees";
 
-        try {
-            ResultSet rs = MySQL.executePreparedSearch(query);
+        try (ResultSet rs = MySQL.executePreparedSearch(query)) {
             while (rs.next()) {
+
                 Employee employee = new Employee.Builder(rs.getString("employee_id"))
                         .setFname(rs.getString("first_name"))
                         .setLname(rs.getString("last_name"))
@@ -65,12 +65,12 @@ public class AdminDAOImpl implements AdminDAO {
                         .build();
                 user.add(employee);
                         
+
             }
         } catch (SQLException ex) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error fetching suppliers: " + ex.getMessage());
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());
         }
 
         return user;
     }
-    
 }

@@ -4,7 +4,6 @@
  */
 package lk.supramart.dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,10 +21,9 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
     @Override
     public List<BranchManager> getAllBranches() {
         List<BranchManager> branchManagerList = new ArrayList<>();
-        String query = "SELECT * FROM branches WHERE branch_name= ?";
-
-        try {
-            ResultSet rs = MySQL.executePreparedSearch(query);
+        String query = "SELECT * FROM branches";
+        
+        try (ResultSet rs = MySQL.executePreparedSearch(query)) {
             while (rs.next()) {
                 BranchManager bm = new BranchManager.Builder()
                         .setId(rs.getInt("branch_id"))
@@ -33,24 +31,26 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
                         .setCity_id(rs.getInt("City_city_id"))
                         .build();
                 branchManagerList.add(bm);
-
-                return branchManagerList;
             }
         } catch (SQLException ex) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error fetching branches: " + ex.getMessage());
+            LoggerUtil.Log.severe(BranchManagerDAOImpl.class, "Error fetching branches: " + ex.getMessage());
         }
 
         return branchManagerList;
     }
 
+    @Override
     public boolean addBranch(BranchManager branch) {
-        String query = "INSERT INTO branch (branch_id, branch_name, City_city_id) VALUES (?,?,?)";
+        String query = "INSERT INTO branches (branch_id, branch_name, City_city_id) VALUES (?, ?, ?)";
 
         try {
-            int rows = MySQL.executePreparedIUD(query, branch.getId(),branch.getName(),branch.getCityId());
+            int rows = MySQL.executePreparedIUD(query,
+                    branch.getId(),
+                    branch.getName(),
+                    branch.getCityId());
             return rows > 0;
         } catch (SQLException e) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error adding branches: " + e.getMessage());
+            LoggerUtil.Log.severe(BranchManagerDAOImpl.class, "Error adding branch: " + e.getMessage());
             return false;
         }
     }
@@ -60,10 +60,13 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         String query = "UPDATE branches SET branch_name = ?, City_city_id = ? WHERE branch_id = ?";
 
         try {
-            int rows = MySQL.executePreparedIUD(query, branch.getName(),branch.getCityId(),branch.getId());
+            int rows = MySQL.executePreparedIUD(query,
+                    branch.getName(),
+                    branch.getCityId(),
+                    branch.getId());
             return rows > 0;
         } catch (SQLException e) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error updating branches: " + e.getMessage());
+            LoggerUtil.Log.severe(BranchManagerDAOImpl.class, "Error updating branch: " + e.getMessage());
             return false;
         }
     }
@@ -76,7 +79,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
             int rowsAffected = MySQL.executePreparedIUD(query, branchId);
             return rowsAffected > 0;
         } catch (SQLException e) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error deleting branches: " + e.getMessage());
+            LoggerUtil.Log.severe(BranchManagerDAOImpl.class, "Error deleting branch: " + e.getMessage());
             return false;
         }
     }
