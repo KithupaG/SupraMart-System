@@ -345,16 +345,16 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                     protected void done() {
                         try {
                             boolean success = get();
-                            if (success) {
-                                productTableModel.removeProduct(selectedRow);
+                if (success) {
+                    productTableModel.removeProduct(selectedRow);
                                 JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
                                     "Product '" + product.getName() + "' deleted successfully", 
-                                    "Success", JOptionPane.INFORMATION_MESSAGE);
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
                                 logger.info("Deleted product: " + product.getName() + " (ID: " + product.getProductId() + ")");
                                 
                                 // Refresh the table to ensure consistency
                                 refreshProductTable();
-                            } else {
+                } else {
                                 JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
                                     "Failed to delete product '" + product.getName() + "'.\n\n" +
                                     "The product may have dependencies that prevent deletion.",
@@ -373,9 +373,9 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                 
             } catch (Exception e) {
                 logger.severe("Error initiating product deletion: " + e.getMessage());
-                JOptionPane.showMessageDialog(this, 
+                    JOptionPane.showMessageDialog(this, 
                     "Error initiating product deletion: " + e.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -423,8 +423,8 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                                     "Failed to force delete product '" + product.getName() + "'.\n\n" +
                                     "Please check the logs for more details.",
                                     "Force Delete Failed", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } catch (Exception e) {
+                }
+            } catch (Exception e) {
                             logger.severe("Error during force product deletion: " + e.getMessage());
                             JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
                                 "Error force deleting product: " + e.getMessage(), 
@@ -1248,6 +1248,16 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         addProduct addproduct = new addProduct(addProduct.addProduct, true);
         addproduct.setVisible(true);
+        
+        // Refresh the product table after the dialog is closed
+        // Use a timer to check if dialog is still visible
+        javax.swing.Timer timer = new javax.swing.Timer(100, e -> {
+            if (!addproduct.isVisible()) {
+                refreshProductTable();
+                ((javax.swing.Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
