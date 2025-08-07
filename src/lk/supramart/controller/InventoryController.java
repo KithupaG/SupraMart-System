@@ -168,6 +168,29 @@ public class InventoryController {
     }
     
     /**
+     * Force delete product by removing all related data first
+     * @param productId Product ID to force delete
+     * @return true if successful, false otherwise
+     */
+    public boolean forceDeleteProduct(int productId) {
+        if (productId <= 0) {
+            return false;
+        }
+        
+        // First check if product exists
+        Product product = inventoryDAO.getProductById(productId);
+        if (product == null) {
+            return false;
+        }
+        
+        // Log the force delete operation
+        java.util.logging.Logger.getLogger(InventoryController.class.getName())
+            .warning("Force deleting product: " + product.getName() + " (ID: " + productId + ") - this will remove all related data");
+        
+        return inventoryDAO.forceDeleteProduct(productId);
+    }
+    
+    /**
      * Check if product can be deleted (no foreign key constraints)
      * @param productId Product ID to check
      * @return true if can be deleted, false otherwise
