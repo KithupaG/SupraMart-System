@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface ProductDAO {
 
-    void addProduct(Product product);
+    boolean addProduct(Product product);
 
     Product getProductById(int id);
 
     List<Product> getAllProducts();
 
-    void updateProduct(Product product);
+    boolean updateProduct(Product product);
 
-    void deleteProduct(int id);
+    boolean deleteProduct(int id);
 
 }

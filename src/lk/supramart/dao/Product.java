@@ -12,26 +12,71 @@ import java.sql.Timestamp;
  */
 public class Product {
 
-    private int id;
-    private String productName;
-    private int productCategoryId;
-    private double price;
-    private double cost;
-    private int stock;
+    private String id, productName;
+    private int productCategoryId, stock;
+    private double price, cost;
     private Timestamp addedDateTime;
 
-    public Product(int id, String name, int categoryId, double price, double cost, int stock, Timestamp addedDateTime) {
-        this.id = id;
-        this.productName = productName;
-        this.productCategoryId = productCategoryId;
-        this.price = price;
-        this.cost = cost;
-        this.stock = stock;
-        this.addedDateTime = addedDateTime;
+    public Product(Builder builder) {
+        this.id = builder.id;
+        this.productName = builder.productName;
+        this.productCategoryId = builder.productCategoryId;
+        this.stock = builder.stock;
+        this.price = builder.price;
+        this.cost = builder.cost;
+        this.addedDateTime = builder.addedDateTime;
+    }
+    
+
+    public static class Builder {
+        private String id, productName;
+        private int productCategoryId, stock;
+        private double price, cost;
+        private Timestamp addedDateTime;
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setProductName(String productName) {
+            this.productName = productName;
+            return this;
+        }
+
+        public Builder setProductCategoryId(int productCategoryId) {
+            this.productCategoryId = productCategoryId;
+            return this;
+        }
+
+        public Builder setStock(int stock) {
+            this.stock = stock;
+            return this;
+        }
+
+        public Builder setPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder setCost(double cost) {
+            this.cost = cost;
+            return this;
+        }
+
+        public Builder setAddedDateTime(Timestamp addedDateTime) {
+            this.addedDateTime = addedDateTime;
+            return this;
+        }
+        
+        public Product build() {
+            return new Product(this);
+        }
+        
     }
 
     // Getters
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -59,35 +104,6 @@ public class Product {
         return addedDateTime;
     }
 
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setProductCategoryId(int productCategoryId) {
-        this.productCategoryId = productCategoryId;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public void setAddedDateTime(Timestamp addedDateTime) {
-        this.addedDateTime = addedDateTime;
-    }
-
     // toString method just in case 
     @Override
     public String toString() {
@@ -100,10 +116,6 @@ public class Product {
                 + ", stock=" + stock
                 + ", addedDateTime=" + addedDateTime
                 + '}';
-    }
-
-    double getCategoryId() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

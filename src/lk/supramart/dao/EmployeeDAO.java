@@ -13,4 +13,7 @@ import lk.supramart.model.Employee;
 public interface EmployeeDAO {
     boolean employeeLogin(Employee employee);
     boolean employeeRegister(Employee employee);
+    boolean addProfileImage(String imagePath);
+    int getImageId(String imagePath);
+    Employee getEmployeeById(String id);
 }
