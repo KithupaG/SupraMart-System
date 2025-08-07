@@ -257,11 +257,51 @@ public class InventoryDAOImpl implements InventoryDAO {
     
     @Override
     public boolean deleteProduct(int productId) {
+        // First check if product exists
+        Product product = getProductById(productId);
+        if (product == null) {
+            LoggerUtil.Log.warning(InventoryDAOImpl.class, "Product with ID " + productId + " not found for deletion");
+            return false;
+        }
+        
+        // Check for foreign key constraints - check if product is referenced in inventory_transactions
+        String checkTransactionsQuery = "SELECT COUNT(*) FROM supramart.inventory_transactions WHERE product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkTransactionsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "Cannot delete product " + productId + " - has inventory transactions");
+                return false;
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking inventory transactions: " + ex.getMessage());
+            return false;
+        }
+        
+        // Check if product is referenced in branches_has_products
+        String checkBranchProductsQuery = "SELECT COUNT(*) FROM mydb.branches_has_products WHERE products_product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkBranchProductsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "Cannot delete product " + productId + " - is assigned to branches");
+                return false;
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking branch products: " + ex.getMessage());
+            return false;
+        }
+        
+        // If no constraints, proceed with deletion
         String query = "DELETE FROM supramart.products WHERE product_id = ?";
         
         try {
             int rows = MySQL.executePreparedIUD(query, productId);
-            return rows > 0;
+            if (rows > 0) {
+                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully deleted product: " + product.getName() + " (ID: " + productId + ")");
+                return true;
+            } else {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "No rows affected when deleting product " + productId);
+                return false;
+            }
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error deleting product: " + ex.getMessage());
             return false;
@@ -279,6 +319,143 @@ public class InventoryDAOImpl implements InventoryDAO {
             LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error updating stock quantity: " + ex.getMessage());
             return false;
         }
+    }
+    
+    @Override
+    public boolean canDeleteProduct(int productId) {
+        // First check if product exists
+        Product product = getProductById(productId);
+        if (product == null) {
+            return false;
+        }
+        
+        // Check for foreign key constraints - check if product is referenced in inventory_transactions
+        String checkTransactionsQuery = "SELECT COUNT(*) FROM supramart.inventory_transactions WHERE product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkTransactionsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking inventory transactions: " + ex.getMessage());
+            return false;
+        }
+        
+        // Check if product is referenced in branches_has_products
+        String checkBranchProductsQuery = "SELECT COUNT(*) FROM mydb.branches_has_products WHERE products_product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkBranchProductsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking branch products: " + ex.getMessage());
+            return false;
+        }
+        
+        // Check if product is used in sales (if sales table exists)
+        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sales WHERE product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkSalesQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            // Sales table might not exist, so we'll ignore this error
+            LoggerUtil.Log.fine(InventoryDAOImpl.class, "Sales table check skipped: " + ex.getMessage());
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public String getDeletionConstraints(int productId) {
+        StringBuilder constraints = new StringBuilder();
+        
+        // Check if product exists
+        Product product = getProductById(productId);
+        if (product == null) {
+            return "Product not found";
+        }
+        
+        // Check for inventory transactions
+        String checkTransactionsQuery = "SELECT COUNT(*) FROM supramart.inventory_transactions WHERE product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkTransactionsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                constraints.append("• Has inventory transactions\n");
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking inventory transactions: " + ex.getMessage());
+        }
+        
+        // Check if product is referenced in branches_has_products
+        String checkBranchProductsQuery = "SELECT COUNT(*) FROM mydb.branches_has_products WHERE products_product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkBranchProductsQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                constraints.append("• Assigned to branches\n");
+            }
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error checking branch products: " + ex.getMessage());
+        }
+        
+        // Check if product is used in sales (if sales table exists)
+        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sales WHERE product_id = ?";
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(checkSalesQuery, productId);
+            if (rs.next() && rs.getInt(1) > 0) {
+                constraints.append("• Used in sales transactions\n");
+            }
+        } catch (SQLException ex) {
+            // Sales table might not exist, so we'll ignore this error
+            LoggerUtil.Log.fine(InventoryDAOImpl.class, "Sales table check skipped: " + ex.getMessage());
+        }
+        
+        // Check if product has stock
+        if (product.getStockQuantity() > 0) {
+            constraints.append("• Has stock quantity: ").append(product.getStockQuantity()).append("\n");
+        }
+        
+        return constraints.length() > 0 ? constraints.toString() : "No constraints found";
+    }
+    
+    @Override
+    public boolean deleteMultipleProducts(List<Integer> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return false;
+        }
+        
+        boolean allDeleted = true;
+        List<String> failedProducts = new ArrayList<>();
+        
+        for (Integer productId : productIds) {
+            if (productId != null && productId > 0) {
+                Product product = getProductById(productId);
+                if (product != null) {
+                    if (canDeleteProduct(productId)) {
+                        boolean success = deleteProduct(productId);
+                        if (!success) {
+                            allDeleted = false;
+                            failedProducts.add(product.getName() + " (ID: " + productId + ")");
+                        }
+                    } else {
+                        allDeleted = false;
+                        failedProducts.add(product.getName() + " (ID: " + productId + ") - has constraints");
+                    }
+                } else {
+                    allDeleted = false;
+                    failedProducts.add("Unknown product (ID: " + productId + ")");
+                }
+            }
+        }
+        
+        if (!allDeleted && !failedProducts.isEmpty()) {
+            LoggerUtil.Log.warning(InventoryDAOImpl.class, 
+                "Some products could not be deleted: " + String.join(", ", failedProducts));
+        }
+        
+        return allDeleted;
     }
     
     @Override
