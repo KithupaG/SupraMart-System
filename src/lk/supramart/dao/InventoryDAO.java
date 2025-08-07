@@ -28,6 +28,9 @@ public interface InventoryDAO {
     boolean updateProduct(Product product);
     boolean deleteProduct(int productId);
     boolean updateStockQuantity(int productId, int newQuantity);
+    boolean canDeleteProduct(int productId);
+    String getDeletionConstraints(int productId);
+    boolean deleteMultipleProducts(List<Integer> productIds);
     
     // Inventory Transaction Management
     List<InventoryTransaction> getAllTransactions();
