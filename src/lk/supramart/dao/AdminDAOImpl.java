@@ -46,7 +46,7 @@ public class AdminDAOImpl implements AdminDAO {
 
     @Override
     public List<Employee> getAllUsers() {
-        List<Employee> user = new ArrayList<>();
+        List<Employee> users = new ArrayList<>();
         String query = "SELECT * FROM employees";
 
         try (ResultSet rs = MySQL.executePreparedSearch(query)) {
@@ -63,7 +63,7 @@ public class AdminDAOImpl implements AdminDAO {
                         .setHiredDate(rs.getString("hire_date"))
                         .setBaseSalary(rs.getDouble("base_salary"))
                         .build();
-                user.add(employee);
+                users.add(employee);
                         
 
             }
