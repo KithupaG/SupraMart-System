@@ -15,6 +15,7 @@ nbproject/private/
 build/
 *.class
 *.jar
+*.class
 
 # NetBeans IDE files
 nbproject/private/

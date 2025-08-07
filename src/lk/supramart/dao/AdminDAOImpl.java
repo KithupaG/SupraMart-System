@@ -71,6 +71,6 @@ public class AdminDAOImpl implements AdminDAO {
             LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());
         }
 
-        return user;
+        return users;
     }
 }

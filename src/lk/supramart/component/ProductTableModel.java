@@ -53,8 +53,12 @@ public class ProductTableModel extends AbstractTableModel {
                 case 4: return product.getCost() != null ? String.format("%,.2f", product.getCost()) : "0.00";
                 case 5: return product.getStockQuantity();
                 case 6: return product.getReorderLevel();
-                case 7: return product.getAddedOn() != null ? 
-                    product.getAddedOn().toString().substring(0, 19) : "";
+                case 7: 
+                    if (product.getAddedOn() != null) {
+                        String dateStr = product.getAddedOn().toString();
+                        return dateStr.length() > 19 ? dateStr.substring(0, 19) : dateStr;
+                    }
+                    return "";
                 default: return null;
             }
         }
