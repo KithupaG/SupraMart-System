@@ -308,6 +308,72 @@ public class InventoryDAOImpl implements InventoryDAO {
         }
     }
     
+    /**
+     * Force delete a product by first removing all related records from dependent tables
+     */
+    public boolean forceDeleteProduct(int productId) {
+        // First check if product exists
+        Product product = getProductById(productId);
+        if (product == null) {
+            LoggerUtil.Log.warning(InventoryDAOImpl.class, "Product with ID " + productId + " not found for deletion");
+            return false;
+        }
+        
+        try {
+            // Delete from sale_items first (this is the main constraint causing issues)
+            String deleteSaleItemsQuery = "DELETE FROM supramart.sale_items WHERE product_id = ?";
+            try {
+                int saleItemsDeleted = MySQL.executePreparedIUD(deleteSaleItemsQuery, productId);
+                if (saleItemsDeleted > 0) {
+                    LoggerUtil.Log.info(InventoryDAOImpl.class, "Deleted " + saleItemsDeleted + " sale items for product " + productId);
+                }
+            } catch (SQLException ex) {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "Error deleting sale items for product " + productId + ": " + ex.getMessage());
+                // Continue anyway
+            }
+            
+            // Delete from inventory_transactions
+            String deleteTransactionsQuery = "DELETE FROM supramart.inventory_transactions WHERE product_id = ?";
+            try {
+                int transactionsDeleted = MySQL.executePreparedIUD(deleteTransactionsQuery, productId);
+                if (transactionsDeleted > 0) {
+                    LoggerUtil.Log.info(InventoryDAOImpl.class, "Deleted " + transactionsDeleted + " inventory transactions for product " + productId);
+                }
+            } catch (SQLException ex) {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "Error deleting inventory transactions for product " + productId + ": " + ex.getMessage());
+                // Continue anyway
+            }
+            
+            // Delete from branches_has_products
+            String deleteBranchProductsQuery = "DELETE FROM mydb.branches_has_products WHERE products_product_id = ?";
+            try {
+                int branchProductsDeleted = MySQL.executePreparedIUD(deleteBranchProductsQuery, productId);
+                if (branchProductsDeleted > 0) {
+                    LoggerUtil.Log.info(InventoryDAOImpl.class, "Deleted " + branchProductsDeleted + " branch product assignments for product " + productId);
+                }
+            } catch (SQLException ex) {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "Error deleting branch products for product " + productId + ": " + ex.getMessage());
+                // Continue anyway
+            }
+            
+            // Now delete the product itself
+            String deleteProductQuery = "DELETE FROM supramart.products WHERE product_id = ?";
+            int rows = MySQL.executePreparedIUD(deleteProductQuery, productId);
+            
+            if (rows > 0) {
+                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully force deleted product: " + product.getName() + " (ID: " + productId + ")");
+                return true;
+            } else {
+                LoggerUtil.Log.warning(InventoryDAOImpl.class, "No rows affected when force deleting product " + productId);
+                return false;
+            }
+            
+        } catch (SQLException ex) {
+            LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error force deleting product: " + ex.getMessage());
+            return false;
+        }
+    }
+    
     @Override
     public boolean updateStockQuantity(int productId, int newQuantity) {
         String query = "UPDATE supramart.products SET stock_quantity = ? WHERE product_id = ?";
@@ -354,7 +420,7 @@ public class InventoryDAOImpl implements InventoryDAO {
         }
         
         // Check if product is used in sales (if sales table exists)
-        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sales WHERE product_id = ?";
+        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sale_items WHERE product_id = ?";
         try {
             ResultSet rs = MySQL.executePreparedSearch(checkSalesQuery, productId);
             if (rs.next() && rs.getInt(1) > 0) {
@@ -401,7 +467,7 @@ public class InventoryDAOImpl implements InventoryDAO {
         }
         
         // Check if product is used in sales (if sales table exists)
-        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sales WHERE product_id = ?";
+        String checkSalesQuery = "SELECT COUNT(*) FROM supramart.sale_items WHERE product_id = ?";
         try {
             ResultSet rs = MySQL.executePreparedSearch(checkSalesQuery, productId);
             if (rs.next() && rs.getInt(1) > 0) {
