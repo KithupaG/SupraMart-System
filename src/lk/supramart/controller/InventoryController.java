@@ -8,6 +8,8 @@ import lk.supramart.dao.InventoryDAO;
 import lk.supramart.dao.InventoryDAOImpl;
 import lk.supramart.model.Product;
 import lk.supramart.model.InventoryTransaction;
+import lk.supramart.model.Sale;
+import lk.supramart.model.SaleItem;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -466,5 +468,117 @@ public class InventoryController {
                 .severe("Error deleting multiple products: " + e.getMessage());
             return false;
         }
+    }
+    
+    // Sales Management Methods
+    
+    /**
+     * Get all sales
+     * @return List of all sales
+     */
+    public List<Sale> getAllSales() {
+        return inventoryDAO.getAllSales();
+    }
+    
+    /**
+     * Get sales by date range
+     * @param startDate Start date
+     * @param endDate End date
+     * @return List of sales in the date range
+     */
+    public List<Sale> getSalesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null || startDate.isAfter(endDate)) {
+            return null;
+        }
+        return inventoryDAO.getSalesByDateRange(startDate, endDate);
+    }
+    
+    /**
+     * Get sales by branch
+     * @param branchId Branch ID
+     * @return List of sales for the branch
+     */
+    public List<Sale> getSalesByBranch(int branchId) {
+        if (branchId <= 0) {
+            return null;
+        }
+        return inventoryDAO.getSalesByBranch(branchId);
+    }
+    
+    /**
+     * Get sales by employee
+     * @param employeeId Employee ID
+     * @return List of sales by the employee
+     */
+    public List<Sale> getSalesByEmployee(String employeeId) {
+        if (employeeId == null || employeeId.trim().isEmpty()) {
+            return null;
+        }
+        return inventoryDAO.getSalesByEmployee(employeeId);
+    }
+    
+    /**
+     * Search sales by term
+     * @param searchTerm Search term
+     * @return List of matching sales
+     */
+    public List<Sale> searchSales(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            return getAllSales();
+        }
+        return inventoryDAO.searchSales(searchTerm);
+    }
+    
+    /**
+     * Get sale items for a specific sale
+     * @param saleId Sale ID
+     * @return List of sale items
+     */
+    public List<SaleItem> getSaleItems(int saleId) {
+        if (saleId <= 0) {
+            return null;
+        }
+        return inventoryDAO.getSaleItems(saleId);
+    }
+    
+    /**
+     * Calculate total sales amount
+     * @param sales List of sales
+     * @return Total sales amount
+     */
+    public double calculateTotalSalesAmount(List<Sale> sales) {
+        if (sales == null) {
+            return 0.0;
+        }
+        
+        return sales.stream()
+            .mapToDouble(sale -> sale.getTotalAmount() != null ? 
+                sale.getTotalAmount().doubleValue() : 0.0)
+            .sum();
+    }
+    
+    /**
+     * Get sales statistics
+     * @return String with sales statistics
+     */
+    public String getSalesStatistics() {
+        List<Sale> allSales = getAllSales();
+        if (allSales == null || allSales.isEmpty()) {
+            return "No sales data available";
+        }
+        
+        double totalAmount = calculateTotalSalesAmount(allSales);
+        int totalSales = allSales.size();
+        
+        // Calculate average sale amount
+        double averageSale = totalSales > 0 ? totalAmount / totalSales : 0.0;
+        
+        return String.format(
+            "Sales Statistics:\n\n" +
+            "Total Sales: %d\n" +
+            "Total Amount: LKR %.2f\n" +
+            "Average Sale: LKR %.2f",
+            totalSales, totalAmount, averageSale
+        );
     }
 }
