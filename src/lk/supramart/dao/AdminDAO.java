@@ -11,5 +11,8 @@ import lk.supramart.model.Employee;
 public interface AdminDAO {
     boolean deleteUser(int userId);
     boolean updateInfo(Admin admin);
+    
+    
     List<Employee> getAllUsers();
+    List<Employee> getAllTables(int userId);
 }

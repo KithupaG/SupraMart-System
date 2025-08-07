@@ -64,13 +64,16 @@ public class AdminDAOImpl implements AdminDAO {
                         .setBaseSalary(rs.getDouble("base_salary"))
                         .build();
                 users.add(employee);
-                        
-
             }
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());
         }
 
         return users;
+    }
+
+    @Override
+    public List<Employee> getAllTables(int userId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

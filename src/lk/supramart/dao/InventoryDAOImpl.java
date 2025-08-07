@@ -489,44 +489,6 @@ public class InventoryDAOImpl implements InventoryDAO {
     }
     
     @Override
-    public boolean deleteMultipleProducts(List<Integer> productIds) {
-        if (productIds == null || productIds.isEmpty()) {
-            return false;
-        }
-        
-        boolean allDeleted = true;
-        List<String> failedProducts = new ArrayList<>();
-        
-        for (Integer productId : productIds) {
-            if (productId != null && productId > 0) {
-                Product product = getProductById(productId);
-                if (product != null) {
-                    if (canDeleteProduct(productId)) {
-                        boolean success = deleteProduct(productId);
-                        if (!success) {
-                            allDeleted = false;
-                            failedProducts.add(product.getName() + " (ID: " + productId + ")");
-                        }
-                    } else {
-                        allDeleted = false;
-                        failedProducts.add(product.getName() + " (ID: " + productId + ") - has constraints");
-                    }
-                } else {
-                    allDeleted = false;
-                    failedProducts.add("Unknown product (ID: " + productId + ")");
-                }
-            }
-        }
-        
-        if (!allDeleted && !failedProducts.isEmpty()) {
-            LoggerUtil.Log.warning(InventoryDAOImpl.class, 
-                "Some products could not be deleted: " + String.join(", ", failedProducts));
-        }
-        
-        return allDeleted;
-    }
-    
-    @Override
     public List<InventoryTransaction> getAllTransactions() {
         List<InventoryTransaction> transactions = new ArrayList<>();
         String query = "SELECT it.*, p.name as product_name, b.branch_name FROM supramart.inventory_transactions it " +
