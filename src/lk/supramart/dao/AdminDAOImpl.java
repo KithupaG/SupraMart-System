@@ -35,7 +35,7 @@ public class AdminDAOImpl implements AdminDAO {
     public boolean updateInfo(Admin admin) {
         String query = "INSERT INTO admin (fname, lname, email, password) VALUES (?, ?, ?, ?)";
         try {
-            int rows = MySQL.executePreparedIUD(query, admin.getFName(),admin.getLname(),admin.getEmail(),admin.getPassword());
+            int rows = MySQL.executePreparedIUD(query, admin.getFName(), admin.getLname(), admin.getEmail(), admin.getPassword());
 
             return rows > 0;
         } catch (SQLException e) {
@@ -64,13 +64,22 @@ public class AdminDAOImpl implements AdminDAO {
                         .setBaseSalary(rs.getDouble("base_salary"))
                         .build();
                 users.add(employee);
-                        
-
             }
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());
         }
-
         return users;
+    }
+
+    @Override
+    public ResultSet getTableData(String tableName) {
+        String query = "SELECT * FROM " + tableName;
+
+        try {
+            return MySQL.executePreparedSearch(query);
+        } catch (SQLException ex) {
+            LoggerUtil.Log.warning(AdminDAOImpl.class, "Error retrieving table data: " + ex.getMessage());
+            return null;
+        }
     }
 }

@@ -4,11 +4,21 @@
  */
 package lk.supramart.gui.admin;
 
+import lk.supramart.dao.AdminDAO;
+
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import javax.swing.JOptionPane;
 import lk.supramart.gui.Home;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import lk.supramart.dao.AdminDAO;
+import lk.supramart.dao.AdminDAOImpl;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -87,7 +97,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
         jComboBox7 = new javax.swing.JComboBox<>();
-        jComboBox11 = new javax.swing.JComboBox<>();
         jComboBox12 = new javax.swing.JComboBox<>();
         jComboBox13 = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
@@ -263,6 +272,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel3.setText("Select Table :");
 
         tableSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Income Table", "Expenses Table", "Stocks Table", "Supplier Table", "Employee Table" }));
+        tableSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tableSelectorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -709,14 +723,6 @@ public class adminDashboard extends javax.swing.JFrame {
             }
         });
 
-        jComboBox11.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
-        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Phone Number.", "Item 2", "Item 3", "Item 4" }));
-        jComboBox11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox11ActionPerformed(evt);
-            }
-        });
-
         jComboBox12.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
         jComboBox12.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee Email", "Item 2", "Item 3", "Item 4" }));
         jComboBox12.addActionListener(new java.awt.event.ActionListener() {
@@ -759,10 +765,8 @@ public class adminDashboard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox12, 0, 240, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(223, 223, 223)
                         .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(quickPanel2Layout.createSequentialGroup()
                         .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -785,7 +789,6 @@ public class adminDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(quickPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1383,7 +1386,7 @@ public class adminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                int confirm = JOptionPane.showConfirmDialog(this,
+        int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to log out?",
                 "Confirm Logout",
                 JOptionPane.YES_NO_OPTION);
@@ -1479,10 +1482,6 @@ public class adminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox12ActionPerformed
 
-    private void jComboBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox11ActionPerformed
-
     private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox7ActionPerformed
@@ -1533,6 +1532,17 @@ public class adminDashboard extends javax.swing.JFrame {
         editemployee.setVisible(true);
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void tableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableSelectorActionPerformed
+        AdminDAO adminDAO = new AdminDAOImpl();
+        
+        String selectedTable = tableSelector.getSelectedItem().toString();
+        ResultSet rs = adminDAO.getTableData(selectedTable.toLowerCase());
+
+        if (rs != null) {
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+    }//GEN-LAST:event_tableSelectorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1541,6 +1551,27 @@ public class adminDashboard extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new adminDashboard().setVisible(true));
+    }
+
+    public static DefaultTableModel resultSetToTableModel(ResultSet rs) throws SQLException {
+        ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        Vector<String> columnNames = new Vector<>();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        Vector<Vector<Object>> data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> row = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                row.add(rs.getObject(columnIndex));
+            }
+            data.add(row);
+        }
+
+        return new DefaultTableModel(data, columnNames);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1568,7 +1599,6 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox10;
-    private javax.swing.JComboBox<String> jComboBox11;
     private javax.swing.JComboBox<String> jComboBox12;
     private javax.swing.JComboBox<String> jComboBox13;
     private javax.swing.JComboBox<String> jComboBox14;
