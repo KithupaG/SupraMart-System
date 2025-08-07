@@ -421,7 +421,7 @@ public class InventoryDAOImpl implements InventoryDAO {
     }
     
     @Override
-    public boolean deleteMultipleProducts(List<Integer> productIds) {
+    public boolean (List<Integer> productIds) {
         if (productIds == null || productIds.isEmpty()) {
             return false;
         }
