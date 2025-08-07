@@ -5,17 +5,34 @@
 package lk.supramart.gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import lk.supramart.controller.InventoryController;
+import lk.supramart.model.Product;
+import lk.supramart.connection.MySQL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.swing.SwingWorker;
 
 public class editProduct extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(editProduct.class.getName());
+    private final InventoryController inventoryController;
+    private Product currentProduct;
 
     /**
      * Creates new form addProduct
      */
     public editProduct(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         setUndecorated(true);
         initComponents();
+        inventoryController = new InventoryController();
+        setupEventListeners();
+        setupSpinners();
+        populateComboBoxes();
+        clearForm();
     }
 
     /**
@@ -215,6 +232,284 @@ public class editProduct extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Setup event listeners for buttons
+     */
+    private void setupEventListeners() {
+        jButton1.addActionListener(e -> saveProduct());
+        jButton2.addActionListener(e -> cancel());
+    }
+    
+    /**
+     * Setup spinners with proper models
+     */
+    private void setupSpinners() {
+        // Setup quantity spinner (integer, 0 to 10000)
+        javax.swing.SpinnerNumberModel quantityModel = new javax.swing.SpinnerNumberModel(0, 0, 10000, 1);
+        jSpinner1.setModel(quantityModel);
+        
+        // Setup price spinner (double, 0.0 to 10000.0, step 0.01)
+        javax.swing.SpinnerNumberModel priceModel = new javax.swing.SpinnerNumberModel(0.0, 0.0, 10000.0, 0.01);
+        jSpinner2.setModel(priceModel);
+    }
+    
+    /**
+     * Populate combo boxes with data from database
+     */
+    private void populateComboBoxes() {
+        try {
+            // Populate categories
+            List<String> categories = inventoryController.getAllCategories();
+            jComboBox1.removeAllItems();
+            jComboBox1.addItem("Select Category");
+            for (String category : categories) {
+                jComboBox1.addItem(category);
+            }
+            
+            // Populate suppliers
+            List<String> suppliers = inventoryController.getAllSuppliers();
+            jComboBox2.removeAllItems();
+            jComboBox2.addItem("Select Supplier");
+            for (String supplier : suppliers) {
+                jComboBox2.addItem(supplier);
+            }
+            
+            // Populate brands (using a simple list for now)
+            jComboBox4.removeAllItems();
+            jComboBox4.addItem("Select Brand");
+            jComboBox4.addItem("Generic");
+            jComboBox4.addItem("Premium");
+            jComboBox4.addItem("Standard");
+            
+            logger.info("Combo boxes populated successfully");
+        } catch (Exception e) {
+            logger.severe("Error populating combo boxes: " + e.getMessage());
+            showStatus("Error loading data: " + e.getMessage(), true);
+        }
+    }
+    
+    /**
+     * Clear the form
+     */
+    private void clearForm() {
+        jTextField1.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+        jComboBox4.setSelectedIndex(0);
+        jSpinner1.setValue(0);
+        jSpinner2.setValue(0.0);
+        jLabel12.setText("SELECTED PRODUCT ID: None");
+        currentProduct = null;
+        showStatus("", false);
+    }
+    
+    /**
+     * Show status message
+     */
+    private void showStatus(String message, boolean isError) {
+        jLabel9.setText(message);
+        if (isError) {
+            jLabel9.setForeground(new java.awt.Color(255, 51, 51));
+        } else {
+            jLabel9.setForeground(new java.awt.Color(0, 153, 0));
+        }
+    }
+    
+    /**
+     * Load product data into form
+     */
+    public void loadProduct(Product product) {
+        if (product == null) {
+            showStatus("No product selected", true);
+            return;
+        }
+        
+        currentProduct = product;
+        
+        // Update product ID label
+        jLabel12.setText("SELECTED PRODUCT ID: " + product.getProductId());
+        
+        // Populate form fields
+        jTextField1.setText(product.getName());
+        
+        // Set category
+        if (product.getCategoryName() != null) {
+            for (int i = 0; i < jComboBox1.getItemCount(); i++) {
+                if (jComboBox1.getItemAt(i).equals(product.getCategoryName())) {
+                    jComboBox1.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+        
+        // Set supplier (we'll use a default for now since supplier is not in Product model)
+        jComboBox2.setSelectedIndex(0);
+        
+        // Set brand (we'll use a default for now since brand is not in Product model)
+        jComboBox4.setSelectedIndex(0);
+        
+        // Set quantity and price
+        jSpinner1.setValue(product.getStockQuantity());
+        jSpinner2.setValue(product.getPrice().doubleValue());
+        
+        showStatus("Product loaded successfully", false);
+        logger.info("Loaded product for editing: " + product.getName() + " (ID: " + product.getProductId() + ")");
+    }
+    
+    /**
+     * Validate form inputs
+     */
+    private boolean validateForm() {
+        // Check if product is loaded
+        if (currentProduct == null) {
+            showStatus("No product selected for editing", true);
+            return false;
+        }
+        
+        // Check product name
+        String productName = jTextField1.getText().trim();
+        if (productName.isEmpty()) {
+            showStatus("Product name is required", true);
+            return false;
+        }
+        
+        // Check category
+        if (jComboBox1.getSelectedIndex() == 0) {
+            showStatus("Please select a category", true);
+            return false;
+        }
+        
+        // Check supplier
+        if (jComboBox2.getSelectedIndex() == 0) {
+            showStatus("Please select a supplier", true);
+            return false;
+        }
+        
+        // Check brand
+        if (jComboBox4.getSelectedIndex() == 0) {
+            showStatus("Please select a brand", true);
+            return false;
+        }
+        
+        // Check quantity
+        int quantity = (Integer) jSpinner1.getValue();
+        if (quantity < 0) {
+            showStatus("Quantity cannot be negative", true);
+            return false;
+        }
+        
+        // Check price
+        double price = (Double) jSpinner2.getValue();
+        if (price <= 0) {
+            showStatus("Price must be greater than 0", true);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Get category ID by name
+     */
+    private int getCategoryIdByName(String categoryName) {
+        try {
+            String query = "SELECT category_id FROM supramart.product_categories WHERE category_name = ?";
+            ResultSet rs = MySQL.executePreparedSearch(query, categoryName);
+            if (rs.next()) {
+                return rs.getInt("category_id");
+            }
+        } catch (SQLException ex) {
+            logger.severe("Error getting category ID: " + ex.getMessage());
+        }
+        return -1;
+    }
+    
+    /**
+     * Save product functionality
+     */
+    private void saveProduct() {
+        if (!validateForm()) {
+            return;
+        }
+        
+        // Get form values
+        String productName = jTextField1.getText().trim();
+        String categoryName = (String) jComboBox1.getSelectedItem();
+        String supplierName = (String) jComboBox2.getSelectedItem();
+        String brandName = (String) jComboBox4.getSelectedItem();
+        int quantity = (Integer) jSpinner1.getValue();
+        double price = (Double) jSpinner2.getValue();
+        
+        // Get category ID
+        int categoryId = getCategoryIdByName(categoryName);
+        if (categoryId == -1) {
+            showStatus("Invalid category selected", true);
+            return;
+        }
+        
+        // Update product object
+        currentProduct.setName(productName);
+        currentProduct.setCategoryId(categoryId);
+        currentProduct.setCategoryName(categoryName);
+        currentProduct.setPrice(BigDecimal.valueOf(price));
+        currentProduct.setCost(BigDecimal.valueOf(price * 0.8)); // Set cost as 80% of price for now
+        currentProduct.setStockQuantity(quantity);
+        currentProduct.setReorderLevel(Math.max(1, quantity / 10)); // Set reorder level as 10% of quantity
+        
+        // Show loading status
+        showStatus("Updating product...", false);
+        jButton1.setEnabled(false);
+        
+        // Use SwingWorker for background processing
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return inventoryController.updateProduct(currentProduct);
+            }
+            
+            @Override
+            protected void done() {
+                try {
+                    boolean success = get();
+                    if (success) {
+                        showStatus("Product updated successfully!", false);
+                        logger.info("Product updated successfully: " + productName);
+                        
+                        // Show success dialog
+                        javax.swing.JOptionPane.showMessageDialog(editProduct.this,
+                            "Product '" + productName + "' has been updated successfully!",
+                            "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Close dialog after short delay
+                        javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+                            dispose();
+                            ((javax.swing.Timer) e.getSource()).stop();
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                        
+                    } else {
+                        showStatus("Failed to update product. Please try again.", true);
+                        logger.warning("Failed to update product: " + productName);
+                    }
+                } catch (Exception e) {
+                    showStatus("Error: " + e.getMessage(), true);
+                    logger.severe("Error updating product: " + e.getMessage());
+                } finally {
+                    jButton1.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }
+    
+    /**
+     * Cancel button functionality
+     */
+    private void cancel() {
+        dispose();
+    }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
