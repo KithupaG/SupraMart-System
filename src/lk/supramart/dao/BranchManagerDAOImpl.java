@@ -4,6 +4,8 @@
  */
 package lk.supramart.dao;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -90,6 +92,51 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public ResultSet getBranchProducts(String branchName) {
+        String query = "SELECT p.product_id, p.product_name, p.available_stock FROM"
+                + " products p JOIN branches_has_products ON"
+                + " p.product_id = bhp.products_product_id JOIN branches b ON"
+                + " p.product_id = branches_has_products.products_product_id JOIN branches b ON"
+                + " branches_has_products.branches_branch_id = branchName. branch_id WHERE b.branchName = ?";
+        try {
+            return MySQL.executePreparedSearch(query, branchName);
+        }catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ResultSet getBranchEmployees(String branchName) {
+        String query = "SELECT e.employee_id, e.fname, e.lname FROM employee e JOIN"
+                + " branches b ON e.branch_id = b.branch_id WHERE"
+                + " b.branch_name = ?";
+        
+        try {
+            return MySQL.executePreparedSearch(query, branchName);
+        }catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ResultSet getBranchAdmins(String branchName) {
+        String query = "SELECT a.admin_id, a.fname FORM admin a JOIN"
+                + " admin a JOIN admin_has_branches ahb ON"
+                + " a.admin_id = ahb.admin_admin_id JOIN"
+                + " branches b ON ahb.branches_branch_id = b.branch_id WHERE"
+                + " b.branch_name = ?";
+        
+        try {
+            return MySQL.executePreparedSearch(query, branchName);
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -7,7 +7,11 @@ package lk.supramart.gui.branchManager;
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
+import lk.supramart.dao.BranchManagerDAOImpl;
 import lk.supramart.gui.Home;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -32,7 +36,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        branchSelector = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -88,15 +92,15 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jLabel1.setText("Select Branch to View Branch Data");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colombo Branch", "Gampaha", "Kurunegala", "Jaffna" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        branchSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colombo Branch", "Gampaha", "Kurunegala", "Jaffna" }));
+        branchSelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                branchSelectorActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jLabel3.setText("Available Stock:");
+        jLabel3.setText("Branch Information:");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,7 +127,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(branchSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 1337, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -133,7 +137,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(branchSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -556,8 +560,8 @@ public class branchManagerDashboard extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
                 int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to log out?",
-                "Confirm Logout",
+                "Are you sure you want to close this application?",
+                "Confirm",
                 JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
@@ -582,9 +586,31 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void branchSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchSelectorActionPerformed
+        String selectedBranch = branchSelector.getSelectedItem().toString();
+        BranchManagerDAOImpl branchDAO = new BranchManagerDAOImpl();
+        
+                jTable1.setModel(new DefaultTableModel());
+        
+        ResultSet rsProducts = branchDAO.getBranchProducts(selectedBranch);
+        ResultSet rsEmployee = branchDAO.getBranchEmployees(selectedBranch);
+        ResultSet rsAdmins = branchDAO.getBranchAdmins(selectedBranch);
+        
+        if(rsProducts != null) {
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
+        }
+        
+        if(rsEmployee != null) {
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
+        }
+                
+        if(rsAdmins != null) {
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
+        }
+    }//GEN-LAST:event_branchSelectorActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
@@ -614,6 +640,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> branchSelector;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -624,7 +651,6 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
