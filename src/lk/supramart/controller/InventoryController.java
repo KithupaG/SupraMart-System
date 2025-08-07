@@ -410,5 +410,38 @@ public class InventoryController {
         return inventoryDAO.getAllCategories();
     }
     
-  
+    /**
+     * Get all branches for combo box
+     * @return List of branch names
+     */
+    public List<String> getAllBranches() {
+        return inventoryDAO.getAllBranches();
+    }
+    
+    /**
+     * Get all suppliers for combo box
+     * @return List of supplier names
+     */
+    public List<String> getAllSuppliers() {
+        return inventoryDAO.getAllSuppliers();
+    }
+    
+    /**
+     * Delete multiple products
+     * @param productIds List of product IDs to delete
+     * @return true if all products were deleted successfully, false otherwise
+     */
+    public boolean deleteMultipleProducts(List<Integer> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return false;
+        }
+        
+        try {
+            return inventoryDAO.deleteMultipleProducts(productIds);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error deleting multiple products: " + e.getMessage());
+            return false;
+        }
+    }
 }
