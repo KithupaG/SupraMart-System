@@ -507,7 +507,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private void exportStockReport() {
         try {
             List<Product> products = inventoryController.getAllProducts();
-            // TODO: Implement actual export functionality
+            // Implement actual export functionality
             JOptionPane.showMessageDialog(this, 
                 "Stock report export functionality will be implemented here.\n" +
                 "Total products: " + products.size(), 
