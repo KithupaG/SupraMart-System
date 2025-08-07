@@ -1151,7 +1151,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (selectedBrand != null && !selectedBrand.equals("Select Product Brand")) {
             // Implement brand filtering
             logger.info("Selected brand: " + selectedBrand);
-            // TODO: Implement brand filtering when brand table is available
+            // mplement brand filtering when brand table is available
         }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
