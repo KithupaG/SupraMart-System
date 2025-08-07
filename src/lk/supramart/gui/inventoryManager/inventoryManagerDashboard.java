@@ -546,7 +546,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
      */
     private void exportSalesReport() {
         try {
-            // TODO: Implement sales report functionality
+            // Implement sales report functionality
             JOptionPane.showMessageDialog(this, 
                 "Sales report export functionality will be implemented here.", 
                 "Export Sales Report", JOptionPane.INFORMATION_MESSAGE);
