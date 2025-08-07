@@ -53,7 +53,7 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                 .setMobileNumber2((mobile2Field.getText().isEmpty()) ? null : mobile2Field.getText().trim())
                 .setHiredDate(hireDateField.getText().trim())
                 .setBranchId(branchCombo.getSelectedIndex())
-                .setImageId()
+                .setImageId();
                 
     }
 
@@ -76,7 +76,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        circularImagePanel2 = new lk.supramart.component.CircularImagePanel();
         setImageBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -140,19 +139,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("REGISTER");
 
-        circularImagePanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout circularImagePanel2Layout = new javax.swing.GroupLayout(circularImagePanel2);
-        circularImagePanel2.setLayout(circularImagePanel2Layout);
-        circularImagePanel2Layout.setHorizontalGroup(
-            circularImagePanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        circularImagePanel2Layout.setVerticalGroup(
-            circularImagePanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
-        );
-
         setImageBtn.setText("Set Image");
         setImageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,9 +160,7 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(circularImagePanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(setImageBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                        .addComponent(setImageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -186,11 +170,9 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(circularImagePanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(146, 146, 146)
                 .addComponent(setImageBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(505, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -499,7 +481,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> adminCombo;
     private javax.swing.JComboBox<String> branchCombo;
     private javax.swing.JButton cancelBtn;
-    private lk.supramart.component.CircularImagePanel circularImagePanel2;
     private com.toedter.calendar.JDateChooser dobField;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField firstNameField;
