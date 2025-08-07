@@ -5,13 +5,11 @@
 package lk.supramart.dao;
 
 import java.util.List;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Connection;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import lk.supramart.util.LoggerUtil;
 
 /**
  *
@@ -19,95 +17,89 @@ import java.util.ArrayList;
  */
 public class ProductDAOImpl implements ProductDAO {
 
-    private Connection conn;
-
-    public ProductDAOImpl() {
-        conn = MySQL.getConnection();
-    }
-
-    public void addProduct(Product product) {
+    @Override
+    public boolean addProduct(Product product) {
         String sql = "INSERT INTO products "
                 + "(product_id, product_name, category_id, product_price, product_cost, product_quantity, product_added_datetime)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, product.getId());
-            stmt.setString(2, product.getProductName());
-            stmt.setDouble(3, product.getCategoryId());
-            stmt.setDouble(4, product.getPrice());
-            stmt.setDouble(5, product.getPrice());
-            stmt.setDouble(6, product.getPrice());
-            stmt.setDouble(7, product.getPrice());
-            
-            stmt.executeUpdate();
-            
+        try {
+            int rowsAffected = MySQL.executePreparedIUD(sql, product.getId(),
+                    product.getProductName(), product.getProductCategoryId(),
+                    product.getPrice(), product.getCost(), product.getStock(),
+                    product.getAddedDateTime());
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while inserting product" + e.getMessage());
+            return false;
         }
     }
 
+    @Override
     public Product getProductById(int id) {
         String sql = "SELECT * FROM products WHERE id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(sql, id);
             if (rs.next()) {
-                return new Product(
-                        rs.getInt("product_id"), 
-                        rs.getString("product_name"), 
-                        rs.getInt("category_id"), 
-                        rs.getDouble("product_price"), 
-                        rs.getDouble("product_cost"), 
-                        rs.getInt("product_quantity"), 
-                        rs.getTimestamp("product_added_datetime")
-                );
+                return new Product.Builder()
+                        .setId(rs.getString("product_id"))
+                        .setProductName(rs.getString("product_name"))
+                        .setProductCategoryId(rs.getInt("category_id"))
+                        .setPrice(rs.getDouble("product_price"))
+                        .setCost(rs.getDouble("product_cost"))
+                        .setStock(rs.getInt("product_quantity"))
+                        .setAddedDateTime(rs.getTimestamp("product_added_datetime"))
+                        .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while Selecting product" + e.getMessage());
         }
         return null;
     }
 
+    @Override
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM products";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (ResultSet rs = MySQL.executePreparedSearch(sql)) {
             while (rs.next()) {
-                list.add(new Product(
-                        rs.getInt("product_id"), 
-                        rs.getString("product_name"), 
-                        rs.getInt("category_id"), 
-                        rs.getDouble("product_price"), 
-                        rs.getDouble("product_cost"), 
-                        rs.getInt("product_quantity"), 
-                        rs.getTimestamp("product_added_datetime")
-                ));
+                list.add(new Product.Builder()
+                        .setId(rs.getString("product_id"))
+                        .setProductName(rs.getString("product_name"))
+                        .setProductCategoryId(rs.getInt("category_id"))
+                        .setPrice(rs.getDouble("product_price"))
+                        .setCost(rs.getDouble("product_cost"))
+                        .setStock(rs.getInt("product_quantity"))
+                        .setAddedDateTime(rs.getTimestamp("product_added_datetime"))
+                        .build());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while Selecting products" + e.getMessage());
         }
         return list;
     }
 
-    public void updateProduct(Product product) {
+    @Override
+    public boolean updateProduct(Product product) {
         String sql = "UPDATE products SET name=?, price=? WHERE id=?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, product.getProductName());
-            stmt.setDouble(2, product.getPrice());
-            stmt.setInt(3, product.getId());
-            stmt.executeUpdate();
+        try {
+            int rowsAffected = MySQL.executePreparedIUD(sql, product.getProductName(),
+                    product.getPrice(), product.getId());
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while Updating product" + e.getMessage());
+            return false;
         }
     }
 
-    public void deleteProduct(int id) {
+    @Override
+    public boolean deleteProduct(int id) {
         String sql = "DELETE FROM products WHERE id=?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
+        try {
+            int rowsAffected = MySQL.executePreparedIUD(sql, id);
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while Deleting product" + e.getMessage());
+            return false;
         }
     }
 

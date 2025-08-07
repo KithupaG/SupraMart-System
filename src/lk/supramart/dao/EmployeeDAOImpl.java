@@ -57,4 +57,19 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             return false;
         }
     }
+
+    @Override
+    public boolean addProfileImage(String imagePath) {
+        String query = "INSERT INTO ";
+    }
+
+    @Override
+    public int getImageId(String imagePath) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Employee getEmployeeById(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

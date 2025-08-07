@@ -8,6 +8,8 @@ import lk.supramart.dao.InventoryDAO;
 import lk.supramart.dao.InventoryDAOImpl;
 import lk.supramart.model.Product;
 import lk.supramart.model.InventoryTransaction;
+import lk.supramart.model.Sale;
+import lk.supramart.model.SaleItem;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -149,7 +151,83 @@ public class InventoryController {
         if (productId <= 0) {
             return false;
         }
+        
+        // First check if product exists
+        Product product = inventoryDAO.getProductById(productId);
+        if (product == null) {
+            return false;
+        }
+        
+        // Check if product has stock
+        if (product.getStockQuantity() > 0) {
+            // You might want to warn about deleting products with stock
+            // For now, we'll allow it but log it
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .warning("Deleting product with stock: " + product.getName() + " (Stock: " + product.getStockQuantity() + ")");
+        }
+        
         return inventoryDAO.deleteProduct(productId);
+    }
+    
+    /**
+     * Force delete product by removing all related data first
+     * @param productId Product ID to force delete
+     * @return true if successful, false otherwise
+     */
+    public boolean forceDeleteProduct(int productId) {
+        if (productId <= 0) {
+            return false;
+        }
+        
+        // First check if product exists
+        Product product = inventoryDAO.getProductById(productId);
+        if (product == null) {
+            return false;
+        }
+        
+        // Log the force delete operation
+        java.util.logging.Logger.getLogger(InventoryController.class.getName())
+            .warning("Force deleting product: " + product.getName() + " (ID: " + productId + ") - this will remove all related data");
+        
+        return inventoryDAO.forceDeleteProduct(productId);
+    }
+    
+    /**
+     * Check if product can be deleted (no foreign key constraints)
+     * @param productId Product ID to check
+     * @return true if can be deleted, false otherwise
+     */
+    public boolean canDeleteProduct(int productId) {
+        if (productId <= 0) {
+            return false;
+        }
+        
+        try {
+            return inventoryDAO.canDeleteProduct(productId);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error checking if product can be deleted: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Get detailed information about deletion constraints for a product
+     * @param productId Product ID to check
+     * @return String describing constraints or "No constraints found"
+     */
+    public String getDeletionConstraints(int productId) {
+        if (productId <= 0) {
+            return "Invalid product ID";
+        }
+        
+        try {
+            return inventoryDAO.getDeletionConstraints(productId);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error getting deletion constraints: " + e.getMessage());
+            return "Error checking constraints: " + e.getMessage();
+        }
     }
     
     /**
@@ -347,5 +425,160 @@ public class InventoryController {
         }
         
         return totalValue;
+    }
+    
+    /**
+     * Get all product categories for combo box
+     * @return List of category names
+     */
+    public List<String> getAllCategories() {
+        return inventoryDAO.getAllCategories();
+    }
+    
+    /**
+     * Get all branches for combo box
+     * @return List of branch names
+     */
+    public List<String> getAllBranches() {
+        return inventoryDAO.getAllBranches();
+    }
+    
+    /**
+     * Get all suppliers for combo box
+     * @return List of supplier names
+     */
+    public List<String> getAllSuppliers() {
+        return inventoryDAO.getAllSuppliers();
+    }
+    
+    /**
+     * Delete multiple products
+     * @param productIds List of product IDs to delete
+     * @return true if all products were deleted successfully, false otherwise
+     */
+    public boolean deleteMultipleProducts(List<Integer> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return false;
+        }
+        
+        try {
+            return inventoryDAO.deleteMultipleProducts(productIds);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error deleting multiple products: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    // Sales Management Methods
+    
+    /**
+     * Get all sales
+     * @return List of all sales
+     */
+    public List<Sale> getAllSales() {
+        return inventoryDAO.getAllSales();
+    }
+    
+    /**
+     * Get sales by date range
+     * @param startDate Start date
+     * @param endDate End date
+     * @return List of sales in the date range
+     */
+    public List<Sale> getSalesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null || endDate == null || startDate.isAfter(endDate)) {
+            return null;
+        }
+        return inventoryDAO.getSalesByDateRange(startDate, endDate);
+    }
+    
+    /**
+     * Get sales by branch
+     * @param branchId Branch ID
+     * @return List of sales for the branch
+     */
+    public List<Sale> getSalesByBranch(int branchId) {
+        if (branchId <= 0) {
+            return null;
+        }
+        return inventoryDAO.getSalesByBranch(branchId);
+    }
+    
+    /**
+     * Get sales by employee
+     * @param employeeId Employee ID
+     * @return List of sales by the employee
+     */
+    public List<Sale> getSalesByEmployee(String employeeId) {
+        if (employeeId == null || employeeId.trim().isEmpty()) {
+            return null;
+        }
+        return inventoryDAO.getSalesByEmployee(employeeId);
+    }
+    
+    /**
+     * Search sales by term
+     * @param searchTerm Search term
+     * @return List of matching sales
+     */
+    public List<Sale> searchSales(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            return getAllSales();
+        }
+        return inventoryDAO.searchSales(searchTerm);
+    }
+    
+    /**
+     * Get sale items for a specific sale
+     * @param saleId Sale ID
+     * @return List of sale items
+     */
+    public List<SaleItem> getSaleItems(int saleId) {
+        if (saleId <= 0) {
+            return null;
+        }
+        return inventoryDAO.getSaleItems(saleId);
+    }
+    
+    /**
+     * Calculate total sales amount
+     * @param sales List of sales
+     * @return Total sales amount
+     */
+    public double calculateTotalSalesAmount(List<Sale> sales) {
+        if (sales == null) {
+            return 0.0;
+        }
+        
+        return sales.stream()
+            .mapToDouble(sale -> sale.getTotalAmount() != null ? 
+                sale.getTotalAmount().doubleValue() : 0.0)
+            .sum();
+    }
+    
+    /**
+     * Get sales statistics
+     * @return String with sales statistics
+     */
+    public String getSalesStatistics() {
+        List<Sale> allSales = getAllSales();
+        if (allSales == null || allSales.isEmpty()) {
+            return "No sales data available";
+        }
+        
+        double totalAmount = calculateTotalSalesAmount(allSales);
+        int totalSales = allSales.size();
+        
+        // Calculate average sale amount
+        double averageSale = totalSales > 0 ? totalAmount / totalSales : 0.0;
+        
+        return String.format(
+            "Sales Statistics:\n\n" +
+            "Total Sales: %d\n" +
+            "Total Amount: LKR %.2f\n" +
+            "Average Sale: LKR %.2f",
+            totalSales, totalAmount, averageSale
+        );
     }
 }

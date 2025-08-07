@@ -27,10 +27,11 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         try {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
-                BranchManager bm = new BranchManager();
-                bm.setId(rs.getInt("branch_id"));
-                bm.setName(rs.getString("branch_name"));
-                bm.setCityId(rs.getInt("City_city_id"));
+                BranchManager bm = new BranchManager.Builder()
+                        .setId(rs.getInt("branch_id"))
+                        .setBranch_name(rs.getString("branch_name"))
+                        .setCity_id(rs.getInt("City_city_id"))
+                        .build();
                 branchManagerList.add(bm);
 
                 return branchManagerList;
