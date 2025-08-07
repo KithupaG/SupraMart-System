@@ -13,7 +13,10 @@ import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
 import lk.supramart.controller.InventoryController;
 import lk.supramart.component.ProductTableModel;
+import lk.supramart.component.SalesTableModel;
 import lk.supramart.model.Product;
+import lk.supramart.model.Sale;
+import lk.supramart.model.SaleItem;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -29,6 +32,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(inventoryManagerDashboard.class.getName());
     private final InventoryController inventoryController;
     private ProductTableModel productTableModel;
+    private SalesTableModel salesTableModel;
 
     /**
      * Creates new form adminDashboard
@@ -37,7 +41,9 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         initComponents();
         inventoryController = new InventoryController();
         initializeTable();
+        initializeSalesTable();
         loadProducts();
+        loadSales();
         loadComboBoxes();
         setupKeyListeners();
     }
@@ -209,6 +215,49 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
     }
     
     /**
+     * Initialize the sales table
+     */
+    private void initializeSalesTable() {
+        salesTableModel = new SalesTableModel();
+        jTable3.setModel(salesTableModel);
+        
+        // Set column widths
+        jTable3.getColumnModel().getColumn(0).setPreferredWidth(80);   // Sale ID
+        jTable3.getColumnModel().getColumn(1).setPreferredWidth(150);  // Date
+        jTable3.getColumnModel().getColumn(2).setPreferredWidth(120);  // Branch
+        jTable3.getColumnModel().getColumn(3).setPreferredWidth(120);  // Employee
+        jTable3.getColumnModel().getColumn(4).setPreferredWidth(120);  // Customer
+        jTable3.getColumnModel().getColumn(5).setPreferredWidth(100);  // Payment Method
+        jTable3.getColumnModel().getColumn(6).setPreferredWidth(120);  // Total Amount
+        
+        // Add double-click to view sale details
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    showSaleDetails();
+                }
+            }
+        });
+    }
+    
+    /**
+     * Load all sales into the table
+     */
+    private void loadSales() {
+        try {
+            List<Sale> sales = inventoryController.getAllSales();
+            salesTableModel.setSales(sales);
+            logger.info("Loaded " + sales.size() + " sales");
+        } catch (Exception e) {
+            logger.severe("Error loading sales: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error loading sales: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
      * Load all products into the table
      */
     private void loadProducts() {
@@ -241,6 +290,27 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
             logger.severe("Error searching products: " + e.getMessage());
             JOptionPane.showMessageDialog(this, 
                 "Error searching products: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Search sales by term
+     */
+    private void searchSales(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            loadSales(); // Load all sales if search is empty
+            return;
+        }
+        
+        try {
+            List<Sale> sales = inventoryController.searchSales(searchTerm.trim());
+            salesTableModel.setSales(sales);
+            logger.info("Found " + sales.size() + " sales matching '" + searchTerm + "'");
+        } catch (Exception e) {
+            logger.severe("Error searching sales: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, 
+                "Error searching sales: " + e.getMessage(), 
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -674,11 +744,12 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
      */
     private void exportSalesReport() {
         try {
-            // Implement sales report functionality
+            String statistics = inventoryController.getSalesStatistics();
             JOptionPane.showMessageDialog(this, 
-                "Sales report export functionality will be implemented here.", 
-                "Export Sales Report", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("Sales report export requested");
+                "Sales Report:\n\n" + statistics + "\n\n" +
+                "This report shows the current sales statistics for the inventory system.", 
+                "Sales Report", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("Sales report exported");
         } catch (Exception e) {
             logger.severe("Error exporting sales report: " + e.getMessage());
             JOptionPane.showMessageDialog(this, 
@@ -1455,6 +1526,64 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, details, "Product Details", JOptionPane.INFORMATION_MESSAGE);
         logger.info("Product details shown for: " + product.getName());
     }
+    
+    /**
+     * Show sale details in a dialog
+     */
+    private void showSaleDetails() {
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a sale to view details", 
+                "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Sale sale = salesTableModel.getSaleAt(selectedRow);
+        if (sale == null) {
+            return;
+        }
+        
+        // Get sale items
+        List<SaleItem> saleItems = inventoryController.getSaleItems(sale.getSaleId());
+        
+        StringBuilder details = new StringBuilder();
+        details.append(String.format(
+            "Sale Details:\n\n" +
+            "Sale ID: %d\n" +
+            "Date: %s\n" +
+            "Branch: %s\n" +
+            "Employee: %s\n" +
+            "Customer: %s\n" +
+            "Payment Method: %s\n" +
+            "Total Amount: LKR %.2f\n\n" +
+            "Items:\n",
+            sale.getSaleId(),
+            sale.getSaleDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+            sale.getBranchName(),
+            sale.getEmployeeName(),
+            sale.getCustomerName(),
+            sale.getPaymentMethod(),
+            sale.getTotalAmount()
+        ));
+        
+        if (saleItems != null && !saleItems.isEmpty()) {
+            for (SaleItem item : saleItems) {
+                details.append(String.format(
+                    "• %s (Qty: %d, Price: LKR %.2f, Total: LKR %.2f)\n",
+                    item.getProductName(),
+                    item.getQuantity(),
+                    item.getPrice(),
+                    item.getTotalPrice()
+                ));
+            }
+        } else {
+            details.append("No items found for this sale.\n");
+        }
+        
+        JOptionPane.showMessageDialog(this, details.toString(), "Sale Details", JOptionPane.INFORMATION_MESSAGE);
+        logger.info("Sale details shown for: " + sale.getSaleId());
+    }
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         searchProductsFromTextField();
@@ -1462,20 +1591,11 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         String searchTerm = jTextField2.getText();
-        // TODO: Implement sales search functionality
-        JOptionPane.showMessageDialog(this, 
-            "Sales search functionality will be implemented here.\n" +
-            "Search term: " + searchTerm, 
-            "Sales Search", JOptionPane.INFORMATION_MESSAGE);
-        logger.info("Sales search requested for: " + searchTerm);
+        searchSales(searchTerm);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO: Implement expenses report export
-        JOptionPane.showMessageDialog(this, 
-            "Expenses report export functionality will be implemented here.", 
-            "Export Expenses Report", JOptionPane.INFORMATION_MESSAGE);
-        logger.info("Expenses report export requested");
+        exportSalesReport();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
