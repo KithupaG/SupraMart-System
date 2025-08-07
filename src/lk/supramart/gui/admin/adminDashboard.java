@@ -4,11 +4,21 @@
  */
 package lk.supramart.gui.admin;
 
+import lk.supramart.dao.AdminDAO;
+
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import javax.swing.JOptionPane;
 import lk.supramart.gui.Home;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import lk.supramart.dao.AdminDAO;
+import lk.supramart.dao.AdminDAOImpl;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -262,6 +272,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel3.setText("Select Table :");
 
         tableSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Income Table", "Expenses Table", "Stocks Table", "Supplier Table", "Employee Table" }));
+        tableSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tableSelectorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1371,7 +1386,7 @@ public class adminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                int confirm = JOptionPane.showConfirmDialog(this,
+        int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to log out?",
                 "Confirm Logout",
                 JOptionPane.YES_NO_OPTION);
@@ -1517,6 +1532,17 @@ public class adminDashboard extends javax.swing.JFrame {
         editemployee.setVisible(true);
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void tableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableSelectorActionPerformed
+        AdminDAO adminDAO = new AdminDAOImpl();
+        
+        String selectedTable = tableSelector.getSelectedItem().toString();
+        ResultSet rs = adminDAO.getTableData(selectedTable.toLowerCase());
+
+        if (rs != null) {
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+    }//GEN-LAST:event_tableSelectorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1525,6 +1551,27 @@ public class adminDashboard extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new adminDashboard().setVisible(true));
+    }
+
+    public static DefaultTableModel resultSetToTableModel(ResultSet rs) throws SQLException {
+        ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        Vector<String> columnNames = new Vector<>();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        Vector<Vector<Object>> data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> row = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                row.add(rs.getObject(columnIndex));
+            }
+            data.add(row);
+        }
+
+        return new DefaultTableModel(data, columnNames);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

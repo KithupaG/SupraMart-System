@@ -7,6 +7,7 @@ package lk.supramart.dao;
 import java.util.List;
 import lk.supramart.model.Admin;
 import lk.supramart.model.Employee;
+import java.sql.ResultSet;
 
 public interface AdminDAO {
     boolean deleteUser(int userId);
@@ -14,5 +15,5 @@ public interface AdminDAO {
     
     
     List<Employee> getAllUsers();
-    List<Employee> getAllTables(int userId);
+    ResultSet getTableData(String tableName);
 }
