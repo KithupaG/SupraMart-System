@@ -6,6 +6,8 @@ package lk.supramart.dao;
 
 import lk.supramart.model.Product;
 import lk.supramart.model.InventoryTransaction;
+import lk.supramart.model.Sale;
+import lk.supramart.model.SaleItem;
 import java.util.List;
 
 /**
@@ -27,7 +29,11 @@ public interface InventoryDAO {
     boolean addProduct(Product product);
     boolean updateProduct(Product product);
     boolean deleteProduct(int productId);
+    boolean forceDeleteProduct(int productId);
     boolean updateStockQuantity(int productId, int newQuantity);
+    boolean canDeleteProduct(int productId);
+    String getDeletionConstraints(int productId);
+    boolean deleteMultipleProducts(List<Integer> productIds);
     
     // Inventory Transaction Management
     List<InventoryTransaction> getAllTransactions();
@@ -44,4 +50,17 @@ public interface InventoryDAO {
     // Reporting
     List<Product> getStockReport();
     List<InventoryTransaction> getTransactionReport();
+    
+    // Combo Box Data Methods
+    List<String> getAllCategories();
+    List<String> getAllBranches();
+    List<String> getAllSuppliers();
+    
+    // Sales Management Methods
+    List<Sale> getAllSales();
+    List<Sale> getSalesByDateRange(java.time.LocalDateTime startDate, java.time.LocalDateTime endDate);
+    List<Sale> getSalesByBranch(int branchId);
+    List<Sale> getSalesByEmployee(String employeeId);
+    List<Sale> searchSales(String searchTerm);
+    List<SaleItem> getSaleItems(int saleId);
 }
