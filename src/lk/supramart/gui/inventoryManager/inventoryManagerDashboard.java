@@ -15,6 +15,7 @@ import lk.supramart.controller.InventoryController;
 import lk.supramart.component.ProductTableModel;
 import lk.supramart.model.Product;
 import java.util.List;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import lk.supramart.connection.MySQL;
@@ -256,7 +257,26 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
      * Delete selected product
      */
     private void deleteSelectedProduct() {
-        int selectedRow = jTable2.getSelectedRow();
+        int[] selectedRows = jTable2.getSelectedRows();
+        
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select at least one product to delete", 
+                "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (selectedRows.length == 1) {
+            deleteSingleProduct(selectedRows[0]);
+        } else {
+            deleteMultipleProducts(selectedRows);
+        }
+    }
+    
+    /**
+     * Delete a single product
+     */
+    private void deleteSingleProduct(int selectedRow) {
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, 
                 "Please select a product to delete", 
@@ -266,31 +286,189 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         
         Product product = productTableModel.getProductAt(selectedRow);
         if (product == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Invalid product selection", 
+                "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
+        // Check if product can be deleted
+        if (!inventoryController.canDeleteProduct(product.getProductId())) {
+            String constraints = inventoryController.getDeletionConstraints(product.getProductId());
+            JOptionPane.showMessageDialog(this, 
+                "Cannot delete product '" + product.getName() + "'.\n\n" +
+                "Constraints found:\n" + constraints + "\n" +
+                "Please remove all dependencies before deleting.",
+                "Cannot Delete Product", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Show detailed confirmation dialog
+        String message = "Are you sure you want to delete this product?\n\n" +
+                        "Product Details:\n" +
+                        "• Name: " + product.getName() + "\n" +
+                        "• ID: " + product.getProductId() + "\n" +
+                        "• Category: " + product.getCategoryName() + "\n" +
+                        "• Current Stock: " + product.getStockQuantity() + "\n" +
+                        "• Price: LKR " + String.format("%,.2f", product.getPrice()) + "\n\n" +
+                        "This action cannot be undone!";
+        
         int confirm = JOptionPane.showConfirmDialog(this,
-            "Are you sure you want to delete product '" + product.getName() + "'?",
-            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            message,
+            "Confirm Delete Product", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                boolean success = inventoryController.deleteProduct(product.getProductId());
-                if (success) {
-                    productTableModel.removeProduct(selectedRow);
-                    JOptionPane.showMessageDialog(this, 
-                        "Product deleted successfully", 
-                        "Success", JOptionPane.INFORMATION_MESSAGE);
-                    logger.info("Deleted product: " + product.getName());
-                } else {
-                    JOptionPane.showMessageDialog(this, 
-                        "Failed to delete product", 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                // Show progress dialog for better UX
+                javax.swing.SwingWorker<Boolean, Void> worker = new javax.swing.SwingWorker<Boolean, Void>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        return inventoryController.deleteProduct(product.getProductId());
+                    }
+                    
+                    @Override
+                    protected void done() {
+                        try {
+                            boolean success = get();
+                            if (success) {
+                                productTableModel.removeProduct(selectedRow);
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Product '" + product.getName() + "' deleted successfully", 
+                                    "Success", JOptionPane.INFORMATION_MESSAGE);
+                                logger.info("Deleted product: " + product.getName() + " (ID: " + product.getProductId() + ")");
+                                
+                                // Refresh the table to ensure consistency
+                                refreshProductTable();
+                            } else {
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Failed to delete product '" + product.getName() + "'.\n\n" +
+                                    "The product may have dependencies that prevent deletion.",
+                                    "Delete Failed", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (Exception e) {
+                            logger.severe("Error during product deletion: " + e.getMessage());
+                            JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                "Error deleting product: " + e.getMessage(), 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                };
+                
+                worker.execute();
+                
             } catch (Exception e) {
-                logger.severe("Error deleting product: " + e.getMessage());
+                logger.severe("Error initiating product deletion: " + e.getMessage());
                 JOptionPane.showMessageDialog(this, 
-                    "Error deleting product: " + e.getMessage(), 
+                    "Error initiating product deletion: " + e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    /**
+     * Delete multiple products
+     */
+    private void deleteMultipleProducts(int[] selectedRows) {
+        List<Product> productsToDelete = new ArrayList<>();
+        List<String> productsWithConstraints = new ArrayList<>();
+        
+        // Collect products and check constraints
+        for (int row : selectedRows) {
+            Product product = productTableModel.getProductAt(row);
+            if (product != null) {
+                if (inventoryController.canDeleteProduct(product.getProductId())) {
+                    productsToDelete.add(product);
+                } else {
+                    productsWithConstraints.add(product.getName() + " (ID: " + product.getProductId() + ")");
+                }
+            }
+        }
+        
+        // Show warning if some products have constraints
+        if (!productsWithConstraints.isEmpty()) {
+            String constraintMessage = "The following products cannot be deleted due to constraints:\n\n" +
+                                     String.join("\n", productsWithConstraints) + "\n\n" +
+                                     "These products will be skipped.";
+            JOptionPane.showMessageDialog(this, constraintMessage, 
+                "Products with Constraints", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if (productsToDelete.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "No products can be deleted. All selected products have constraints.", 
+                "No Deletable Products", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        // Show confirmation dialog
+        StringBuilder message = new StringBuilder();
+        message.append("Are you sure you want to delete the following ").append(productsToDelete.size()).append(" products?\n\n");
+        
+        for (Product product : productsToDelete) {
+            message.append("• ").append(product.getName()).append(" (ID: ").append(product.getProductId()).append(")\n");
+        }
+        
+        message.append("\nThis action cannot be undone!");
+        
+        int confirm = JOptionPane.showConfirmDialog(this,
+            message.toString(),
+            "Confirm Bulk Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Collect product IDs
+                List<Integer> productIds = new ArrayList<>();
+                for (Product product : productsToDelete) {
+                    productIds.add(product.getProductId());
+                }
+                
+                // Show progress dialog for better UX
+                javax.swing.SwingWorker<Boolean, Void> worker = new javax.swing.SwingWorker<Boolean, Void>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        return inventoryController.deleteMultipleProducts(productIds);
+                    }
+                    
+                    @Override
+                    protected void done() {
+                        try {
+                            boolean success = get();
+                            if (success) {
+                                // Remove products from table (in reverse order to maintain indices)
+                                for (int i = selectedRows.length - 1; i >= 0; i--) {
+                                    Product product = productTableModel.getProductAt(selectedRows[i]);
+                                    if (product != null && productsToDelete.contains(product)) {
+                                        productTableModel.removeProduct(selectedRows[i]);
+                                    }
+                                }
+                                
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Successfully deleted " + productsToDelete.size() + " products", 
+                                    "Bulk Delete Success", JOptionPane.INFORMATION_MESSAGE);
+                                logger.info("Bulk deleted " + productsToDelete.size() + " products");
+                                
+                                // Refresh the table to ensure consistency
+                                refreshProductTable();
+                            } else {
+                                JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                    "Failed to delete some products. Please check the logs for details.", 
+                                    "Bulk Delete Failed", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (Exception e) {
+                            logger.severe("Error during bulk product deletion: " + e.getMessage());
+                            JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
+                                "Error during bulk deletion: " + e.getMessage(), 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                };
+                
+                worker.execute();
+                
+            } catch (Exception e) {
+                logger.severe("Error initiating bulk product deletion: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, 
+                    "Error initiating bulk deletion: " + e.getMessage(), 
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
