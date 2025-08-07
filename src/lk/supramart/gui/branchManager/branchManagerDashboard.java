@@ -560,8 +560,8 @@ public class branchManagerDashboard extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
                 int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to log out?",
-                "Confirm Logout",
+                "Are you sure you want to close this application?",
+                "Confirm",
                 JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
