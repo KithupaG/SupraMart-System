@@ -6,6 +6,7 @@ package lk.supramart.dao;
 
 import java.util.List;
 import lk.supramart.model.BranchManager;
+import java.sql.ResultSet;
 
 /**
  *
@@ -15,5 +16,9 @@ public interface BranchManagerDAO {
     boolean addBranch(BranchManager branch);
     boolean updateBranch(BranchManager branch);
     boolean deleteBranch(int branchId);
+    
     List<BranchManager> getAllBranches();
+    ResultSet getBranchProducts(String branchName);
+    ResultSet getBranchEmployees(String branchName);
+    ResultSet getBranchAdmins(String branchName);
 }
