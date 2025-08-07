@@ -149,7 +149,60 @@ public class InventoryController {
         if (productId <= 0) {
             return false;
         }
+        
+        // First check if product exists
+        Product product = inventoryDAO.getProductById(productId);
+        if (product == null) {
+            return false;
+        }
+        
+        // Check if product has stock
+        if (product.getStockQuantity() > 0) {
+            // You might want to warn about deleting products with stock
+            // For now, we'll allow it but log it
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .warning("Deleting product with stock: " + product.getName() + " (Stock: " + product.getStockQuantity() + ")");
+        }
+        
         return inventoryDAO.deleteProduct(productId);
+    }
+    
+    /**
+     * Check if product can be deleted (no foreign key constraints)
+     * @param productId Product ID to check
+     * @return true if can be deleted, false otherwise
+     */
+    public boolean canDeleteProduct(int productId) {
+        if (productId <= 0) {
+            return false;
+        }
+        
+        try {
+            return inventoryDAO.canDeleteProduct(productId);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error checking if product can be deleted: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Get detailed information about deletion constraints for a product
+     * @param productId Product ID to check
+     * @return String describing constraints or "No constraints found"
+     */
+    public String getDeletionConstraints(int productId) {
+        if (productId <= 0) {
+            return "Invalid product ID";
+        }
+        
+        try {
+            return inventoryDAO.getDeletionConstraints(productId);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error getting deletion constraints: " + e.getMessage());
+            return "Error checking constraints: " + e.getMessage();
+        }
     }
     
     /**
@@ -371,5 +424,24 @@ public class InventoryController {
      */
     public List<String> getAllSuppliers() {
         return inventoryDAO.getAllSuppliers();
+    }
+    
+    /**
+     * Delete multiple products
+     * @param productIds List of product IDs to delete
+     * @return true if all products were deleted successfully, false otherwise
+     */
+    public boolean deleteMultipleProducts(List<Integer> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return false;
+        }
+        
+        try {
+            return inventoryDAO.deleteMultipleProducts(productIds);
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(InventoryController.class.getName())
+                .severe("Error deleting multiple products: " + e.getMessage());
+            return false;
+        }
     }
 }
