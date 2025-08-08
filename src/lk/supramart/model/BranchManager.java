@@ -2,11 +2,12 @@ package lk.supramart.model;
 
 public class BranchManager {
 
-    private int id, city_id;
+    private int city_id;
     private String branch_name;
     private String fname;
     private String email;
     private String password;
+    private String id;
 
     private BranchManager(Builder builder) {
         this.id = builder.id;
@@ -19,13 +20,14 @@ public class BranchManager {
 
     public static class Builder {
 
-        private int id, city_id;
+        private int city_id;
         private String branch_name;
         private String fname;
         private String email;
         private String password;
+        private String id;
 
-        public Builder setId(int id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }
@@ -58,9 +60,15 @@ public class BranchManager {
         public BranchManager build() {
             return new BranchManager(this);
         }
+
+        public Builder setFname(String fname) {
+            this.fname = fname;
+            return this;
+        }
+
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

@@ -12,19 +12,22 @@ import lk.supramart.gui.Home;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+import java.sql.ResultSet;
 
 /**
  *
  * @author kithu
  */
 public class branchManagerDashboard extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerDashboard.class.getName());
+    private String loggedInManagerId;
 
     /**
      * Creates new form adminDashboard
      */
-    public branchManagerDashboard() {
+    public branchManagerDashboard(String loggedInManagerId) {
+        this.loggedInManagerId = loggedInManagerId;
         initComponents();
     }
 
@@ -559,7 +562,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                int confirm = JOptionPane.showConfirmDialog(this,
+        int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to close this application?",
                 "Confirm",
                 JOptionPane.YES_NO_OPTION);
@@ -569,7 +572,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        branchManagerSettings branchmanagersetting = new branchManagerSettings(this, true);
+        branchManagerSettings branchmanagersetting = new branchManagerSettings(this, true, loggedInManagerId);
         branchmanagersetting.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -589,25 +592,25 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     private void branchSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchSelectorActionPerformed
         String selectedBranch = branchSelector.getSelectedItem().toString();
         BranchManagerDAOImpl branchDAO = new BranchManagerDAOImpl();
-        
-                jTable1.setModel(new DefaultTableModel());
-        
+
+        jTable1.setModel(new DefaultTableModel());
+
         ResultSet rsProducts = branchDAO.getBranchProducts(selectedBranch);
         ResultSet rsEmployee = branchDAO.getBranchEmployees(selectedBranch);
         ResultSet rsAdmins = branchDAO.getBranchAdmins(selectedBranch);
-        
-        if(rsProducts != null) {
-            
+
+        if (rsProducts != null) {
+
             jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
         }
-        
-        if(rsEmployee != null) {
-            
+
+        if (rsEmployee != null) {
+
             jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
         }
-                
-        if(rsAdmins != null) {
-            
+
+        if (rsAdmins != null) {
+
             jTable1.setModel(DbUtils.resultSetToTableModel(rsProducts));
         }
     }//GEN-LAST:event_branchSelectorActionPerformed
@@ -636,7 +639,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         FlatMacLightLaf.setup();
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new branchManagerDashboard().setVisible(true));
+//        java.awt.EventQueue.invokeLater(() -> new branchManagerDashboard().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

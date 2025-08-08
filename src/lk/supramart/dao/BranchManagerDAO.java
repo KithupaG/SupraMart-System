@@ -22,4 +22,5 @@ public interface BranchManagerDAO {
     ResultSet getBranchProducts(String branchName);
     ResultSet getBranchEmployees(String branchName);
     ResultSet getBranchAdmins(String branchName);
+    public ResultSet getManagerById(String id);
 }
