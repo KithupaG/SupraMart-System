@@ -87,9 +87,28 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
             PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
             ps.setInt(1, branchId);
 
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+            int rows = ps.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean updateBranchManager(BranchManager branchManager) {
+        String query = "UPDATE employees SET first_name = ?, email = ?, password = ? WHERE employee_id = ? AND role_id = 4";
+        
+        try {
+            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
+            ps.setString(1, branchManager.getName());
+            ps.setString(2, branchManager.getEmail());
+            ps.setString(3, branchManager.getPassword());
+            ps.setInt(4, branchManager.getId());
+            
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

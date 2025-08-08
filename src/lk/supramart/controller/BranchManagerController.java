@@ -35,4 +35,8 @@ public class BranchManagerController {
     public List<BranchManager> getAllBranch() {
         return branchManagerDAO.getAllBranches();
     }
+    
+    public boolean updateBranchManager(BranchManager branchManager) {
+        return branchManagerDAO.updateBranchManager(branchManager);
+    }
 }

@@ -16,6 +16,7 @@ public interface BranchManagerDAO {
     boolean addBranch(BranchManager branch);
     boolean updateBranch(BranchManager branch);
     boolean deleteBranch(int branchId);
+    boolean updateBranchManager(BranchManager branchManager);
     
     List<BranchManager> getAllBranches();
     ResultSet getBranchProducts(String branchName);
