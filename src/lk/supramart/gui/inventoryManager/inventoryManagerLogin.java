@@ -16,7 +16,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class inventoryManagerLogin extends javax.swing.JFrame {
-
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(inventoryManagerLogin.class.getName());
     /**
      * Creates new form adminLogin
      */
@@ -28,7 +28,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
     private void login() {
         String id = inventoryManagerID.getText().trim();
         String password = String.valueOf(inventoryPassword.getPassword());
-        int roleId = UserRole.BRANCH_MANAGER.getId();
+        int roleId = UserRole.INVENTORY_MANAGER.getId();
         
         EmployeeDAO inventoryManager = new EmployeeDAOImpl();
         Employee inventorymanager = new Employee.Builder(id)
@@ -38,6 +38,8 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         
         if(inventoryManager.employeeLogin(inventorymanager)) {
             JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
+            new inventoryManagerDashboard().setVisible(true);
+            this.dispose();
         }else {
             JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
         }
@@ -196,7 +198,15 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            this.dispose();
+            logger.info("User cancelled exit");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

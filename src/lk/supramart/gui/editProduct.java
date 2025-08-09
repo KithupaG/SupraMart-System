@@ -6,13 +6,14 @@ package lk.supramart.gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import lk.supramart.controller.InventoryController;
-import lk.supramart.model.Product;
+import lk.supramart.dao.Product;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 public class editProduct extends javax.swing.JDialog {
@@ -177,7 +178,7 @@ public class editProduct extends javax.swing.JDialog {
         jPanel6.add(jButton2);
 
         jLabel9.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel9.setText("Status Label if error ( show error message ) else status ( empty by default )");
+        jLabel9.setText("Error Text");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -516,7 +517,15 @@ public class editProduct extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

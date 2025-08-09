@@ -1,7 +1,7 @@
 package lk.supramart.dao;
 
 import java.util.List;
-import lk.supramart.model.Product;
+import lk.supramart.dao.Product;
 
 public interface ProductDAO {
 
