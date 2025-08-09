@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lk.supramart.dao;
 
 import java.util.List;
@@ -27,20 +23,20 @@ public class ProductDAOImpl implements ProductDAO {
 
     public void addProduct(Product product) {
         String sql = "INSERT INTO products "
-                + "(product_id, product_name, category_id, product_price, product_cost, product_quantity, product_added_datetime)"
+                + "(product_id, product_name, category_id, product_price, product_cost,"
+                + " product_quantity, product_added_datetime)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, product.getId());
-            stmt.setString(2, product.getProductName());
-            stmt.setDouble(3, product.getCategoryId());
-            stmt.setDouble(4, product.getPrice());
-            stmt.setDouble(5, product.getPrice());
-            stmt.setDouble(6, product.getPrice());
-            stmt.setDouble(7, product.getPrice());
-            
-            stmt.executeUpdate();
-            
+        try{
+            MySQL.executePreparedIUD(
+                    sql
+                    , product.getId()
+                    ,product.getProductName()
+                    ,product.getCategoryId()
+                    ,product.getPrice()
+                    ,product.getPrice()
+                    ,product.getPrice()
+                    ,product.getPrice()
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
