@@ -8,10 +8,10 @@ import java.util.List;
  * @author Sanduni PC
  */
 public interface DiscountDAO {
-    void addDiscount(Discount discount);
-    void updateDiscount(Discount discount);
-    void deleteDiscount(int id);
-    Discount getDiscountById(int id);
-    List<Discount> getAllDiscounts();
-    List<Discount> getActiveDiscounts();
+    void addDiscount(Discount discount) throws Exception;
+    void updateDiscount(Discount discount) throws Exception;
+    void deleteDiscount(int discountId)throws Exception;
+    Discount getDiscountById(int discountId) throws Exception;
+    List<Discount> getAllDiscounts() throws Exception;
 }
+
