@@ -18,4 +18,5 @@ public interface SupplierDAO {
     
     List<Supplier> getAllSuppliers();
     List<Supplier> searchSuppliersByName(String keyword);
+//    List<Supplier> searchProductsBySuppliers(int supplierId);
 }

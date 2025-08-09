@@ -90,4 +90,23 @@ public class SupplierDAOImpl implements SupplierDAO {
             return false;
         }
     }
+
+//    @Override
+//    public List<Supplier> searchProductsBySuppliers(int supplierId) {
+//        String query = "SELECT * FROM products WHERE supplier_id = ?";
+//        ResultSet rs = MySQL.executePreparedSearch(query, supplierId);
+//        
+//        try {
+//            while(rs.next()) {
+//                Supplier supplier = new Supplier();
+//                supplier.getSupplierId(rs.getInt("supplier_id"));
+//                supplier.getSupplierName(rs.getString("supplier_name"));
+//                supplier.getSupplierEmail(rs.getString("email"));
+//                supplier.getPhone(rs.getString("phone_number"));
+//            }
+//        }catch(SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return suppliers;
+//    }
 }
