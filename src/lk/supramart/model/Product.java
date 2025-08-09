@@ -1,127 +1,121 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package lk.supramart.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
- * Product model class representing the products table
- * @author dehemi
+ *
+ * @author nimut
  */
 public class Product {
-    private int productId;
-    private String name;
-    private int categoryId;
-    private String categoryName;
-    private BigDecimal price;
-    private BigDecimal cost;
-    private int stockQuantity;
-    private int reorderLevel;
-    private LocalDateTime addedOn;
-    
-    // Default constructor
-    public Product() {
+
+    private String id, productName;
+    private int productCategoryId, stock;
+    private double price, cost;
+    private Timestamp addedDateTime;
+
+    public Product(Builder builder) {
+        this.id = builder.id;
+        this.productName = builder.productName;
+        this.productCategoryId = builder.productCategoryId;
+        this.stock = builder.stock;
+        this.price = builder.price;
+        this.cost = builder.cost;
+        this.addedDateTime = builder.addedDateTime;
     }
     
-    // Full constructor
-    public Product(int productId, String name, int categoryId, String categoryName, 
-                   BigDecimal price, BigDecimal cost, int stockQuantity, 
-                   int reorderLevel, LocalDateTime addedOn) {
-        this.productId = productId;
-        this.name = name;
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.price = price;
-        this.cost = cost;
-        this.stockQuantity = stockQuantity;
-        this.reorderLevel = reorderLevel;
-        this.addedOn = addedOn;
+
+    public static class Builder {
+        private String id, productName;
+        private int productCategoryId, stock;
+        private double price, cost;
+        private Timestamp addedDateTime;
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setProductName(String productName) {
+            this.productName = productName;
+            return this;
+        }
+
+        public Builder setProductCategoryId(int productCategoryId) {
+            this.productCategoryId = productCategoryId;
+            return this;
+        }
+
+        public Builder setStock(int stock) {
+            this.stock = stock;
+            return this;
+        }
+
+        public Builder setPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder setCost(double cost) {
+            this.cost = cost;
+            return this;
+        }
+
+        public Builder setAddedDateTime(Timestamp addedDateTime) {
+            this.addedDateTime = addedDateTime;
+            return this;
+        }
+        
+        public Product build() {
+            return new Product(this);
+        }
+        
     }
-    
-    // Getters and Setters
-    public int getProductId() {
-        return productId;
+
+    // Getters
+    public String getId() {
+        return id;
     }
-    
-    public void setProductId(int productId) {
-        this.productId = productId;
+
+    public String getProductName() {
+        return productName;
     }
-    
-    public String getName() {
-        return name;
+
+    public int getProductCategoryId() {
+        return productCategoryId;
     }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public int getCategoryId() {
-        return categoryId;
-    }
-    
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-    
-    public String getCategoryName() {
-        return categoryName;
-    }
-    
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-    
-    public BigDecimal getPrice() {
+
+    public double getPrice() {
         return price;
     }
-    
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-    
-    public BigDecimal getCost() {
+
+    public double getCost() {
         return cost;
     }
-    
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+
+    public int getStock() {
+        return stock;
     }
-    
-    public int getStockQuantity() {
-        return stockQuantity;
+
+    public Timestamp getAddedDateTime() {
+        return addedDateTime;
     }
-    
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
-    
-    public int getReorderLevel() {
-        return reorderLevel;
-    }
-    
-    public void setReorderLevel(int reorderLevel) {
-        this.reorderLevel = reorderLevel;
-    }
-    
-    public LocalDateTime getAddedOn() {
-        return addedOn;
-    }
-    
-    public void setAddedOn(LocalDateTime addedOn) {
-        this.addedOn = addedOn;
-    }
-    
+
+    // toString method just in case 
     @Override
     public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
-                ", price=" + price +
-                ", cost=" + cost +
-                ", stockQuantity=" + stockQuantity +
-                ", reorderLevel=" + reorderLevel +
-                ", addedOn=" + addedOn +
-                '}';
+        return "Product{"
+                + "id=" + id
+                + ", productName='" + productName + '\''
+                + ", productCategoryId=" + productCategoryId
+                + ", price=" + price
+                + ", cost=" + cost
+                + ", stock=" + stock
+                + ", addedDateTime=" + addedDateTime
+                + '}';
     }
-} 
+
+}
