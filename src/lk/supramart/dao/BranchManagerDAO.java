@@ -15,8 +15,8 @@ import java.sql.ResultSet;
 public interface BranchManagerDAO {
     boolean addBranch(BranchManager branch);
     boolean updateBranch(BranchManager branch);
-    boolean deleteBranch(int branchId);
-    boolean updateBranchManager(BranchManager branchManager);
+    boolean deleteBranch(String branchId);
+    boolean updateBranchManager(BranchManager branchManagerId);
     
     List<BranchManager> getAllBranches();
     ResultSet getBranchProducts(String branchName);

@@ -9,31 +9,28 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
 import lk.supramart.dao.BranchManagerDAOImpl;
 import lk.supramart.model.BranchManager;
+import lk.supramart.dao.BranchManagerDAO;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import lk.supramart.dao.BranchManagerDAO;
 
 public class branchManagerSettings extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerSettings.class.getName());
-    private String managerId;
-    
-    /**
-     * Creates new form addProduct
-     */
+    private String branchManagerId;
+    private BranchManagerDAO branchManagerDAO;
+
     public branchManagerSettings(java.awt.Frame parent, boolean modal, String managerId) {
-        initComponents();
         super(parent, modal);
+        this.branchManagerId = managerId;
+        this.branchManagerDAO = new BranchManagerDAOImpl(); // initialize DAO
         initComponents();
-        loadManagerDetails();
-        this.managerId = managerId;
-        setUndecorated(true);
     }
 
     private void loadManagerDetails() {
         try {
 
             BranchManagerDAOImpl bmdaoi = new BranchManagerDAOImpl();
-            ResultSet rs = bmdaoi.getManagerById(managerId);
+            ResultSet rs = bmdaoi.getManagerById(branchManagerId);
             if (rs != null && rs.next()) {
                 fnamefield.setText(rs.getString("first_name"));
                 emailfield.setText(rs.getString("email"));
@@ -246,34 +243,33 @@ public class branchManagerSettings extends javax.swing.JDialog {
 
         if (fname.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!password.equals(confirmPassword)) {
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(this, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         BranchManager bm = new BranchManager.Builder()
-                .setId(managerId)
+                .setId(branchManagerId)
                 .setFname(fname)
                 .setEmail(email)
                 .setPassword(password)
                 .build();
-
-        boolean success = managerId.updateBranchManager(bm);
+        boolean success = branchManagerDAO.updateBranchManager(bm);
 
         if (success) {
             JOptionPane.showMessageDialog(this, "Details updated successfully!");
         } else {
-            JOptionPane.showMessageDialog(this, "Update failed. Please try agian");
+            JOptionPane.showMessageDialog(this, "Update failed. Please try again.");
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-
     public static void main(String args[]) {
         FlatMacLightLaf.setup();
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            branchManagerSettings dialog = new branchManagerSettings(new javax.swing.JFrame(), true);
+            branchManagerSettings dialog = new branchManagerSettings(new javax.swing.JFrame(), true, "BM001"); 
             dialog.setVisible(true);
         });
     }

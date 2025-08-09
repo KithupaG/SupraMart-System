@@ -7,10 +7,10 @@ public class BranchManager {
     private String fname;
     private String email;
     private String password;
-    private String id;
+    private String managerId;
 
     private BranchManager(Builder builder) {
-        this.id = builder.id;
+        this.managerId = builder.id;
         this.branch_name = builder.branch_name;
         this.city_id = builder.city_id;
         this.fname = builder.fname;
@@ -69,7 +69,7 @@ public class BranchManager {
     }
 
     public String getId() {
-        return id;
+        return managerId;
     }
 
     public String getName() {

@@ -80,12 +80,12 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
     }
 
     @Override
-    public boolean deleteBranch(int branchId) {
+    public boolean deleteBranch(String branchId) {
         String query = "DELETE FROM branches WHERE branch_id = ?";
 
         try {
             PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, branchId);
+            ps.setString(1, branchId);
 
             int rows = ps.executeUpdate();
             return rows > 0;
@@ -101,10 +101,10 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
 
         try {
             PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branchManager.getName());
-            ps.setString(2, branchManager.getEmail());
-            ps.setString(3, branchManager.getPassword());
-            ps.setString(4, branchManager.getId());
+            ps.setString(1, branchManager.getId());
+            ps.setString(2, branchManager.getName());
+            ps.setString(3, branchManager.getEmail());
+            ps.setString(4, branchManager.getPassword());
 
             int rows = ps.executeUpdate();
             return rows > 0;

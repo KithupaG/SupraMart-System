@@ -28,7 +28,7 @@ public class BranchManagerController {
         return branchManagerDAO.updateBranch(branch);
     }
 
-    public boolean deleteSupplier(int branchId) {
+    public boolean deleteSupplier(String branchId) {
         return branchManagerDAO.deleteBranch(branchId);
     }
 
