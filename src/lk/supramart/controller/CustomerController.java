@@ -1,0 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package lk.supramart.controller;
+
+/**
+ *
+ * @author kithu
+ */
+public class CustomerController {
+    
+}
