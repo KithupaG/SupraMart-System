@@ -12,15 +12,15 @@ import lk.supramart.gui.Home;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
 import lk.supramart.controller.InventoryController;
-import lk.supramart.component.ProductTableModel;
+
 import lk.supramart.component.SalesTableModel;
-import lk.supramart.model.Product;
+import lk.supramart.dao.Product;
 import lk.supramart.model.Sale;
 import lk.supramart.model.SaleItem;
 import java.util.List;
-import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import lk.supramart.component.ProductTableModel;
 import lk.supramart.connection.MySQL;
 
 /**
