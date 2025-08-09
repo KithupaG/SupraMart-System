@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import lk.supramart.model.Product;
 import lk.supramart.util.LoggerUtil;
 
 /**

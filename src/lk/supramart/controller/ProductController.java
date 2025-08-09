@@ -1,7 +1,7 @@
 package lk.supramart.controller;
 
 
-import lk.supramart.dao.Product;
+import lk.supramart.model.Product;
 import lk.supramart.dao.ProductDAO;
 import lk.supramart.dao.ProductDAOImpl;
 import java.util.List;
