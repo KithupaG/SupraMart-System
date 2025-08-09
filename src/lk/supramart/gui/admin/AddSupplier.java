@@ -5,13 +5,15 @@
 package lk.supramart.gui.admin;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Yashitha
  */
 public class AddSupplier extends javax.swing.JDialog {
-
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddSupplier.class.getName());
     /**
      * Creates new form AddSupplier
      */
@@ -100,102 +102,82 @@ public class AddSupplier extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.GridLayout(10, 2, 5, 0));
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Province");
         jLabel2.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel2);
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Last Name");
         jPanel1.add(jLabel3);
 
         jTextField1.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
         jTextField1.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField1);
 
         jTextField2.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
         jTextField2.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField2);
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("First Name");
         jLabel4.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel4);
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("District");
         jLabel5.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel5);
 
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "WESTERN", "NORTH" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(76, 29));
         jPanel1.add(jComboBox1);
 
-        jComboBox2.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colombo", "Gampaha" }));
         jComboBox2.setPreferredSize(new java.awt.Dimension(76, 29));
         jPanel1.add(jComboBox2);
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Postal Code");
         jLabel6.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel6);
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("City");
         jLabel7.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel7);
 
         jTextField3.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
         jTextField3.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField3);
 
-        jComboBox3.setForeground(new java.awt.Color(0, 0, 0));
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colombo", "Gampaha" }));
         jComboBox3.setPreferredSize(new java.awt.Dimension(76, 29));
         jPanel1.add(jComboBox3);
 
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Address Line 1");
         jLabel8.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel8);
 
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Address Line 2");
         jLabel9.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel9);
 
         jTextField4.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(0, 0, 0));
         jTextField4.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField4);
 
         jTextField5.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField5.setForeground(new java.awt.Color(0, 0, 0));
         jTextField5.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField5);
 
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("First Name");
         jLabel10.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel10);
 
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Mobile Number");
         jLabel11.setPreferredSize(new java.awt.Dimension(190, 29));
         jPanel1.add(jLabel11);
 
         jTextField6.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(0, 0, 0));
         jTextField6.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField6);
 
         jTextField7.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
-        jTextField7.setForeground(new java.awt.Color(0, 0, 0));
         jTextField7.setPreferredSize(new java.awt.Dimension(75, 29));
         jPanel1.add(jTextField7);
 
@@ -211,6 +193,11 @@ public class AddSupplier extends javax.swing.JDialog {
         jButton2.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -255,6 +242,18 @@ public class AddSupplier extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

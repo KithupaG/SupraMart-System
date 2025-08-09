@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.model.Employee;
@@ -20,6 +21,7 @@ import lk.supramart.util.LoggerUtil;
  * @author nimut
  */
 public class EmployeeRegistration extends javax.swing.JDialog {
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EmployeeRegistration.class.getName());
     /**
      * Creates new form EmployeeRegistration
      */
@@ -111,7 +113,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         adminCombo = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         salaryField = new javax.swing.JSpinner();
-        messageBox = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         genderCombo = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
@@ -258,6 +259,11 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Remember Save Location");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -273,9 +279,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         adminCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AdminDF0856" }));
 
         jLabel14.setText("Salary");
-
-        messageBox.setForeground(new java.awt.Color(255, 51, 51));
-        messageBox.setText("Status Label if error ( show error message ) else status ( empty by default )");
 
         jLabel16.setText("Set Employee Gender");
 
@@ -293,6 +296,13 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jCheckBox1)
+                            .addComponent(jCheckBox2))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,15 +348,8 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordField)))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(messageBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(15, 15, 15))
+                                    .addComponent(passwordField))))
+                        .addGap(15, 15, 15))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,9 +405,7 @@ public class EmployeeRegistration extends javax.swing.JDialog {
                         .addComponent(jCheckBox2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                        .addComponent(messageBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addEmployeeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -453,6 +454,18 @@ public class EmployeeRegistration extends javax.swing.JDialog {
     private void setImageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setImageBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_setImageBtnActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -514,7 +527,6 @@ public class EmployeeRegistration extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField lastNameField;
-    private static javax.swing.JLabel messageBox;
     private javax.swing.JTextField mobile1Field;
     private javax.swing.JTextField mobile2Field;
     private javax.swing.JPasswordField passwordField;
