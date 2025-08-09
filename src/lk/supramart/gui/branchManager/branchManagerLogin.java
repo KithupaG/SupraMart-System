@@ -16,7 +16,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class branchManagerLogin extends javax.swing.JFrame {
-
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerLogin.class.getName());
     /**
      * Creates new form adminLogin
      */
@@ -127,6 +127,11 @@ public class branchManagerLogin extends javax.swing.JFrame {
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Close");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,6 +197,18 @@ public class branchManagerLogin extends javax.swing.JFrame {
         branchManagerDashboard dashboard = new branchManagerDashboard(loggedInManagerId);
         dashboard.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

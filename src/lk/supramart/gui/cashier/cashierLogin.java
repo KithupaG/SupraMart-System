@@ -17,7 +17,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class cashierLogin extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(cashierLogin.class.getName());
 
     /**
@@ -27,7 +27,7 @@ public class cashierLogin extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
     }
-    
+
     private void login() {
         String id = casheirIdField.getText().trim();
         String password = String.valueOf(cashierPasswordField.getPassword());
@@ -44,6 +44,8 @@ public class cashierLogin extends javax.swing.JFrame {
                     "Cashier Login Successfully!",
                     "Login",
                     JOptionPane.INFORMATION_MESSAGE);
+            new cashierDashboard().setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Invalid Credentials.",
@@ -127,6 +129,11 @@ public class cashierLogin extends javax.swing.JFrame {
         cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("cancel");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -185,6 +192,18 @@ public class cashierLogin extends javax.swing.JFrame {
     private void cashierLoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashierLoginBtnActionPerformed
         login();
     }//GEN-LAST:event_cashierLoginBtnActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
     /**
      * @param args the command line arguments

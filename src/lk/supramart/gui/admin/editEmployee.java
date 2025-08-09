@@ -411,7 +411,7 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
                 JOptionPane.QUESTION_MESSAGE);
 
         if (exitdialog == JOptionPane.OK_OPTION) {
-            System.exit(0);
+            this.dispose();
             logger.info("User cancelled exit");
         }
     }//GEN-LAST:event_jButton7ActionPerformed

@@ -250,7 +250,7 @@ public class AddSupplier extends javax.swing.JDialog {
                 JOptionPane.QUESTION_MESSAGE);
 
         if (exitdialog == JOptionPane.OK_OPTION) {
-            System.exit(0);
+            this.dispose();
             logger.info("User cancelled exit");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
