@@ -1,7 +1,6 @@
 package lk.supramart.model;
 
 import java.time.LocalDate;
-
 /**
  *
  * @author Sanduni PC
@@ -68,6 +67,20 @@ public class Discount {
         this.endDate = endDate;
     }
     
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+    return "Discount{" +
+            "discountId='" + discountId + '\'' +
+            ", discountName='" + discountName + '\'' +
+            ", discountPercentage=" + discountPercentage +
+            ", startDate='" + startDate + '\'' +
+            ", endDate='" + endDate + '\'' +
+            '}';
+    }
     
 }
 
