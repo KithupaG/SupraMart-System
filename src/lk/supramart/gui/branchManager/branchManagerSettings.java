@@ -6,17 +6,38 @@ package lk.supramart.gui.branchManager;
 
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import lk.supramart.dao.BranchManagerDAOImpl;
+import lk.supramart.model.BranchManager;
+import lk.supramart.dao.BranchManagerDAO;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import lk.supramart.dao.BranchManagerDAO;
 
 public class branchManagerSettings extends javax.swing.JDialog {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerSettings.class.getName());
 
-    /**
-     * Creates new form addProduct
-     */
-    public branchManagerSettings(java.awt.Frame parent, boolean modal) {
-        setUndecorated(true);
+    private String branchManagerId;
+    private BranchManagerDAO branchManagerDAO;
+
+    public branchManagerSettings(java.awt.Frame parent, boolean modal, String managerId) {
+        super(parent, modal);
+        this.branchManagerId = managerId;
+        this.branchManagerDAO = new BranchManagerDAOImpl(); // initialize DAO
         initComponents();
+    }
+
+    private void loadManagerDetails() {
+        try {
+
+            BranchManagerDAOImpl bmdaoi = new BranchManagerDAOImpl();
+            ResultSet rs = bmdaoi.getManagerById(branchManagerId);
+            if (rs != null && rs.next()) {
+                fnamefield.setText(rs.getString("first_name"));
+                emailfield.setText(rs.getString("email"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -36,18 +57,17 @@ public class branchManagerSettings extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        fnamefield = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        emailfield = new javax.swing.JTextField();
+        updateButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        passwordfield = new javax.swing.JPasswordField();
+        confirmpasswordfield = new javax.swing.JPasswordField();
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -104,26 +124,21 @@ public class branchManagerSettings extends javax.swing.JDialog {
 
         jLabel11.setText("Edit Email");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        emailfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                emailfieldActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(51, 51, 51));
-        jButton3.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Save");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setBackground(new java.awt.Color(0, 122, 255));
+        updateButton.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("Confirm");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
-
-        jButton1.setBackground(new java.awt.Color(0, 122, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Confirm");
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -143,14 +158,8 @@ public class branchManagerSettings extends javax.swing.JDialog {
 
         jLabel6.setText("Confirm Password");
         jPanel2.add(jLabel6);
-
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jTextField5);
-        jPanel2.add(jTextField6);
+        jPanel2.add(passwordfield);
+        jPanel2.add(confirmpasswordfield);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,11 +171,10 @@ public class branchManagerSettings extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fnamefield, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(emailfield, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -187,17 +195,15 @@ public class branchManagerSettings extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fnamefield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -225,35 +231,54 @@ public class branchManagerSettings extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void emailfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailfieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_emailfieldActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        String fname = fnamefield.getText();
+        String email = emailfield.getText();
+        String password = new String(passwordfield.getPassword());
+        String confirmPassword = new String(confirmpasswordfield.getPassword());
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+        if (fname.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    /**
-     * @param args the command line arguments
-     */
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "Passwords don't match!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        BranchManager bm = new BranchManager.Builder()
+                .setId(branchManagerId)
+                .setFname(fname)
+                .setEmail(email)
+                .setPassword(password)
+                .build();
+        boolean success = branchManagerDAO.updateBranchManager(bm);
+
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Details updated successfully!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Update failed. Please try again.");
+        }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
     public static void main(String args[]) {
         FlatMacLightLaf.setup();
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            branchManagerSettings dialog = new branchManagerSettings(new javax.swing.JFrame(), true);
+            branchManagerSettings dialog = new branchManagerSettings(new javax.swing.JFrame(), true, "BM001"); 
             dialog.setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JPasswordField confirmpasswordfield;
+    private javax.swing.JTextField emailfield;
+    private javax.swing.JTextField fnamefield;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -267,9 +292,7 @@ public class branchManagerSettings extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JPasswordField passwordfield;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,6 +16,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class branchManagerLogin extends javax.swing.JFrame {
+
     /**
      * Creates new form adminLogin
      */
@@ -23,22 +24,22 @@ public class branchManagerLogin extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
     }
-    
+
     private void login() {
         String id = branchManagerID.getText().trim();
         String password = String.valueOf(branchPassword.getPassword());
         int roleId = UserRole.BRANCH_MANAGER.getId();
-        
+
         EmployeeDAO branchManager = new EmployeeDAOImpl();
         Employee branchmanager = new Employee.Builder(id)
                 .setPassword(password)
                 .setRoleId(roleId)
                 .build();
-        
-        if(branchManager.employeeLogin(branchmanager)) {
+
+        if (branchManager.employeeLogin(branchmanager)) {
             JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
-        }else {
-            JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Credentials.", "Login", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -115,12 +116,17 @@ public class branchManagerLogin extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 102, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Add Employee");
+        jButton6.setText("Login");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Add Employee");
+        jButton7.setText("Close");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -180,6 +186,12 @@ public class branchManagerLogin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String loggedInManagerId = branchManagerID.getText().trim();
+        branchManagerDashboard dashboard = new branchManagerDashboard(loggedInManagerId);
+        dashboard.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

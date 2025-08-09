@@ -30,7 +30,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
                 BranchManager bm = new BranchManager.Builder()
-                        .setId(rs.getInt("branch_id"))
+                        .setId(rs.getString("branch_id"))
                         .setBranch_name(rs.getString("branch_name"))
                         .setCity_id(rs.getInt("City_city_id"))
                         .build();
@@ -50,7 +50,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
 
         try {
             PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, branch.getId());
+            ps.setString(1, branch.getId());
             ps.setString(2, branch.getName());
             ps.setInt(3, branch.getCityId());
 
@@ -80,15 +80,34 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
     }
 
     @Override
-    public boolean deleteBranch(int branchId) {
+    public boolean deleteBranch(String branchId) {
         String query = "DELETE FROM branches WHERE branch_id = ?";
 
         try {
             PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setInt(1, branchId);
+            ps.setString(1, branchId);
 
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateBranchManager(BranchManager branchManager) {
+        String query = "UPDATE employees SET first_name = ?, email = ?, password = ? WHERE employee_id = ? AND role_id = 4";
+
+        try {
+            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
+            ps.setString(1, branchManager.getId());
+            ps.setString(2, branchManager.getName());
+            ps.setString(3, branchManager.getEmail());
+            ps.setString(4, branchManager.getPassword());
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -104,7 +123,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
                 + " branches_has_products.branches_branch_id = branchName. branch_id WHERE b.branchName = ?";
         try {
             return MySQL.executePreparedSearch(query, branchName);
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -115,10 +134,10 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         String query = "SELECT e.employee_id, e.fname, e.lname FROM employee e JOIN"
                 + " branches b ON e.branch_id = b.branch_id WHERE"
                 + " b.branch_name = ?";
-        
+
         try {
             return MySQL.executePreparedSearch(query, branchName);
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -131,11 +150,23 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
                 + " a.admin_id = ahb.admin_admin_id JOIN"
                 + " branches b ON ahb.branches_branch_id = b.branch_id WHERE"
                 + " b.branch_name = ?";
-        
+
         try {
             return MySQL.executePreparedSearch(query, branchName);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ResultSet getManagerById(String id) {
+        String query = "SELECT * FROM employees WHERE employee_id = ?";
+        
+        try {    
+            return MySQL.executePreparedSearch(query, id);
+        }catch(SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
     }

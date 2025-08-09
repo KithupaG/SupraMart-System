@@ -1,30 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lk.supramart.model;
 
-/**
- *
- * @author kithu
- */
 public class BranchManager {
 
-    private int id, city_id;
+    private int city_id;
     private String branch_name;
+    private String fname;
+    private String email;
+    private String password;
+    private String managerId;
 
     private BranchManager(Builder builder) {
-        this.id = builder.id;
+        this.managerId = builder.id;
         this.branch_name = builder.branch_name;
         this.city_id = builder.city_id;
+        this.fname = builder.fname;
+        this.email = builder.email;
+        this.password = builder.password;
     }
 
     public static class Builder {
 
-        private int id, city_id;
+        private int city_id;
         private String branch_name;
+        private String fname;
+        private String email;
+        private String password;
+        private String id;
 
-        public Builder setId(int id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }
@@ -39,22 +42,53 @@ public class BranchManager {
             return this;
         }
 
+        public Builder setFName(String fname) {
+            this.fname = fname;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
         public BranchManager build() {
             return new BranchManager(this);
         }
 
+        public Builder setFname(String fname) {
+            this.fname = fname;
+            return this;
+        }
+
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return managerId;
     }
 
     public String getName() {
         return branch_name;
     }
 
+    public String getFName() {
+        return fname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public int getCityId() {
         return city_id;
     }
-
 }

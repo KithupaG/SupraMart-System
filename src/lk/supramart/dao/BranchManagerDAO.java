@@ -15,10 +15,12 @@ import java.sql.ResultSet;
 public interface BranchManagerDAO {
     boolean addBranch(BranchManager branch);
     boolean updateBranch(BranchManager branch);
-    boolean deleteBranch(int branchId);
+    boolean deleteBranch(String branchId);
+    boolean updateBranchManager(BranchManager branchManagerId);
     
     List<BranchManager> getAllBranches();
     ResultSet getBranchProducts(String branchName);
     ResultSet getBranchEmployees(String branchName);
     ResultSet getBranchAdmins(String branchName);
+    public ResultSet getManagerById(String id);
 }

@@ -28,11 +28,15 @@ public class BranchManagerController {
         return branchManagerDAO.updateBranch(branch);
     }
 
-    public boolean deleteSupplier(int branchId) {
+    public boolean deleteSupplier(String branchId) {
         return branchManagerDAO.deleteBranch(branchId);
     }
 
     public List<BranchManager> getAllBranch() {
         return branchManagerDAO.getAllBranches();
+    }
+    
+    public boolean updateBranchManager(BranchManager branchManager) {
+        return branchManagerDAO.updateBranchManager(branchManager);
     }
 }
