@@ -4,14 +4,13 @@
  */
 package lk.supramart.dao;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import lk.supramart.connection.MySQL;
-import lk.supramart.model.User;
 import lk.supramart.util.LoggerUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import lk.supramart.model.Employee;
 import lk.supramart.model.Admin;
 
 /**
@@ -19,18 +18,15 @@ import lk.supramart.model.Admin;
  * @author kithu
  */
 public class AdminDAOImpl implements AdminDAO {
+
     @Override
     public boolean deleteUser(int userId) {
-        String delete_query = "DELETE FROM employees WHERE employee_id = ?";
-        
+        String deleteQuery = "DELETE FROM employees WHERE employee_id = ?";
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(delete_query);
-            ps.setInt(1, userId);
-            
-            int rowsAffected = ps.executeUpdate();
+            int rowsAffected = MySQL.executePreparedIUD(deleteQuery, userId);
             return rowsAffected > 0;
-        }catch(SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error deleting user: " + e.getMessage());
             return false;
         }
     }
@@ -38,48 +34,52 @@ public class AdminDAOImpl implements AdminDAO {
     @Override
     public boolean updateInfo(Admin admin) {
         String query = "INSERT INTO admin (fname, lname, email, password) VALUES (?, ?, ?, ?)";
-        
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, admin.getFName());
-            ps.setString(1, admin.getLName());  
-            ps.setString(3, admin.getEmail());
-            ps.setString(3, admin.getPassword());
+            int rows = MySQL.executePreparedIUD(query, admin.getFName(), admin.getLname(), admin.getEmail(), admin.getPassword());
 
-            int rows = ps.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error updating admin info: " + e.getMessage());
             return false;
         }
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> user = new ArrayList<>();
+    public List<Employee> getAllUsers() {
+        List<Employee> users = new ArrayList<>();
         String query = "SELECT * FROM employees";
 
-        try {
-            ResultSet rs = MySQL.executePreparedSearch(query);
+        try (ResultSet rs = MySQL.executePreparedSearch(query)) {
             while (rs.next()) {
-                User u = new User();
-                u.setId(rs.getInt("employee_id"));
-                u.setName(rs.getString("first_name"));
-                u.setLastName(rs.getString("last_name"));
-                u.setNumber1(rs.getString("mobile_number_1"));
-                u.setNumber2(rs.getString("mobile_number_1"));
-                u.setEmail(rs.getString("email"));
-                u.setRole(rs.getInt("role_id"));
-                u.setRole(rs.getInt("branch_id"));
-                u.setHiredDate(rs.getString("hire_date"));
-                u.setBaseSalary(rs.getString("base_salary"));
-                user.add(u);
+
+                Employee employee = new Employee.Builder(rs.getString("employee_id"))
+                        .setFname(rs.getString("first_name"))
+                        .setLname(rs.getString("last_name"))
+                        .setMobileNumber1(rs.getString("mobile_number_1"))
+                        .setMobileNumber2(rs.getString("mobile_number_1"))
+                        .setEmail(rs.getString("email"))
+                        .setRoleId(rs.getInt("role_id"))
+                        .setBranchId(rs.getInt("branch_id"))
+                        .setHiredDate(rs.getString("hire_date"))
+                        .setBaseSalary(rs.getDouble("base_salary"))
+                        .build();
+                users.add(employee);
             }
         } catch (SQLException ex) {
-            LoggerUtil.Log.severe(SupplierDAOImpl.class, "Error fetching suppliers: " + ex.getMessage());
+            LoggerUtil.Log.severe(AdminDAOImpl.class, "Error fetching employees: " + ex.getMessage());
         }
-
-        return user;
+        return users;
     }
-    
+
+    @Override
+    public ResultSet getTableData(String tableName) {
+        String query = "SELECT * FROM " + tableName;
+
+        try {
+            return MySQL.executePreparedSearch(query);
+        } catch (SQLException ex) {
+            LoggerUtil.Log.warning(AdminDAOImpl.class, "Error retrieving table data: " + ex.getMessage());
+            return null;
+        }
+    }
 }

@@ -6,6 +6,7 @@ package lk.supramart.gui.inventoryManager;
 
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
 
 public class inventoryManagerSettings extends javax.swing.JDialog {
     
@@ -206,7 +207,15 @@ public class inventoryManagerSettings extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            this.dispose();
+            logger.info("User cancelled exit");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

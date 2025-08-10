@@ -6,10 +6,22 @@ package lk.supramart.gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import lk.supramart.gui.admin.adminDashboard;
+import lk.supramart.controller.InventoryController;
+import lk.supramart.model.Product;
+import lk.supramart.connection.MySQL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 public class addProduct extends javax.swing.JDialog{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(addProduct.class.getName());
+    private final InventoryController inventoryController;
 
     /**
      * Creates new form addProduct
@@ -17,6 +29,11 @@ public class addProduct extends javax.swing.JDialog{
     public addProduct(addProduct aThis, boolean par) {
         setUndecorated(true);
         initComponents();
+        inventoryController = new InventoryController();
+        setupEventListeners();
+        setupSpinners();
+        populateComboBoxes();
+        clearForm();
     }
 
     /**
@@ -46,10 +63,10 @@ public class addProduct extends javax.swing.JDialog{
         jLabel8 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
         jSpinner2 = new javax.swing.JSpinner();
-        jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -124,9 +141,6 @@ public class addProduct extends javax.swing.JDialog{
         jPanel1.add(jSpinner1);
         jPanel1.add(jSpinner2);
 
-        jLabel9.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel9.setText("Status Label if error ( show error message ) else status ( empty by default )");
-
         jPanel2.setLayout(new java.awt.GridLayout(1, 2));
 
         jButton6.setBackground(new java.awt.Color(0, 102, 255));
@@ -139,7 +153,15 @@ public class addProduct extends javax.swing.JDialog{
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("cancel");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton7);
+
+        jLabel9.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel9.setText("Error Text");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -148,16 +170,17 @@ public class addProduct extends javax.swing.JDialog{
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(52, 52, 52))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(15, 15, 15))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,9 +188,9 @@ public class addProduct extends javax.swing.JDialog{
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 440, Short.MAX_VALUE)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -186,6 +209,249 @@ public class addProduct extends javax.swing.JDialog{
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            System.exit(0);
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    /**
+     * Setup event listeners for buttons
+     */
+    private void setupEventListeners() {
+        jButton6.addActionListener(e -> addProduct());
+        jButton7.addActionListener(e -> cancel());
+    }
+    
+    /**
+     * Setup spinners with proper models
+     */
+    private void setupSpinners() {
+        // Setup quantity spinner (integer, 0 to 10000)
+        javax.swing.SpinnerNumberModel quantityModel = new javax.swing.SpinnerNumberModel(0, 0, 10000, 1);
+        jSpinner1.setModel(quantityModel);
+        
+        // Setup price spinner (double, 0.0 to 10000.0, step 0.01)
+        javax.swing.SpinnerNumberModel priceModel = new javax.swing.SpinnerNumberModel(0.0, 0.0, 10000.0, 0.01);
+        jSpinner2.setModel(priceModel);
+    }
+    
+    /**
+     * Populate combo boxes with data from database
+     */
+    private void populateComboBoxes() {
+        try {
+            // Populate categories
+            List<String> categories = inventoryController.getAllCategories();
+            jComboBox1.removeAllItems();
+            jComboBox1.addItem("Select Category");
+            for (String category : categories) {
+                jComboBox1.addItem(category);
+            }
+            
+            // Populate suppliers
+            List<String> suppliers = inventoryController.getAllSuppliers();
+            jComboBox2.removeAllItems();
+            jComboBox2.addItem("Select Supplier");
+            for (String supplier : suppliers) {
+                jComboBox2.addItem(supplier);
+            }
+            
+            // Populate brands (using a simple list for now)
+            jComboBox4.removeAllItems();
+            jComboBox4.addItem("Select Brand");
+            jComboBox4.addItem("Generic");
+            jComboBox4.addItem("Premium");
+            jComboBox4.addItem("Standard");
+            
+            logger.info("Combo boxes populated successfully");
+        } catch (Exception e) {
+            logger.severe("Error populating combo boxes: " + e.getMessage());
+            showStatus("Error loading data: " + e.getMessage(), true);
+        }
+    }
+    
+    /**
+     * Clear the form
+     */
+    private void clearForm() {
+        jTextField3.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+        jComboBox4.setSelectedIndex(0);
+        jSpinner1.setValue(0);
+        jSpinner2.setValue(0.0);
+        showStatus("", false);
+    }
+    
+    /**
+     * Show status message
+     */
+    private void showStatus(String message, boolean isError) {
+        jLabel9.setText(message);
+        if (isError) {
+            jLabel9.setForeground(new java.awt.Color(255, 51, 51));
+        } else {
+            jLabel9.setForeground(new java.awt.Color(0, 153, 0));
+        }
+    }
+    
+    /**
+     * Validate form inputs
+     */
+    private boolean validateForm() {
+        // Check product name
+        String productName = jTextField3.getText().trim();
+        if (productName.isEmpty()) {
+            showStatus("Product name is required", true);
+            return false;
+        }
+        
+        // Check category
+        if (jComboBox1.getSelectedIndex() == 0) {
+            showStatus("Please select a category", true);
+            return false;
+        }
+        
+        // Check supplier
+        if (jComboBox2.getSelectedIndex() == 0) {
+            showStatus("Please select a supplier", true);
+            return false;
+        }
+        
+        // Check brand
+        if (jComboBox4.getSelectedIndex() == 0) {
+            showStatus("Please select a brand", true);
+            return false;
+        }
+        
+        // Check quantity
+        int quantity = (Integer) jSpinner1.getValue();
+        if (quantity < 0) {
+            showStatus("Quantity cannot be negative", true);
+            return false;
+        }
+        
+        // Check price
+        double price = (Double) jSpinner2.getValue();
+        if (price <= 0) {
+            showStatus("Price must be greater than 0", true);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Get category ID by name
+     */
+    private int getCategoryIdByName(String categoryName) {
+        try {
+            String query = "SELECT category_id FROM supramart.product_categories WHERE category_name = ?";
+            ResultSet rs = MySQL.executePreparedSearch(query, categoryName);
+            if (rs.next()) {
+                return rs.getInt("category_id");
+            }
+        } catch (SQLException ex) {
+            logger.severe("Error getting category ID: " + ex.getMessage());
+        }
+        return -1;
+    }
+    
+    /**
+     * Add product functionality
+     */
+    private void addProduct() {
+        if (!validateForm()) {
+            return;
+        }
+        
+        // Get form values
+        String productName = jTextField3.getText().trim();
+        String categoryName = (String) jComboBox1.getSelectedItem();
+        String supplierName = (String) jComboBox2.getSelectedItem();
+        String brandName = (String) jComboBox4.getSelectedItem();
+        int quantity = (Integer) jSpinner1.getValue();
+        double price = (Double) jSpinner2.getValue();
+        
+        // Get category ID
+        int categoryId = getCategoryIdByName(categoryName);
+        if (categoryId == -1) {
+            showStatus("Invalid category selected", true);
+            return;
+        }
+        
+        // Create product object
+        Product product = new Product();
+        product.setProductName(productName);
+        product.setCategoryId(categoryId);
+        product.setCategoryName(categoryName);
+        product.setPrice(price);
+        product.setCost(price * 0.8);
+        product.setStock(quantity);
+        product.setReorderLevel(Math.max(1, quantity / 10)); // Set reorder level as 10% of quantity
+        product.setAddedDateTime(Timestamp.valueOf(LocalDateTime.now()));
+        
+        // Show loading status
+        showStatus("Adding product...", false);
+        jButton6.setEnabled(false);
+        
+        // Use SwingWorker for background processing
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return inventoryController.addProduct(product);
+            }
+            
+            @Override
+            protected void done() {
+                try {
+                    boolean success = get();
+                    if (success) {
+                        showStatus("Product added successfully!", false);
+                        logger.info("Product added successfully: " + productName);
+                        
+                        // Show success dialog
+                        javax.swing.JOptionPane.showMessageDialog(addProduct.this,
+                            "Product '" + productName + "' has been added successfully!",
+                            "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Clear form after short delay
+                        javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+                            clearForm();
+                            ((javax.swing.Timer) e.getSource()).stop();
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                        
+                    } else {
+                        showStatus("Failed to add product. Please try again.", true);
+                        logger.warning("Failed to add product: " + productName);
+                    }
+                } catch (Exception e) {
+                    showStatus("Error: " + e.getMessage(), true);
+                    logger.severe("Error adding product: " + e.getMessage());
+                } finally {
+                    jButton6.setEnabled(true);
+                }
+            }
+        };
+        worker.execute();
+    }
+    
+    /**
+     * Cancel button functionality
+     */
+    private void cancel() {
+        dispose();
+    }
 
     /**
      * @param args the command line arguments

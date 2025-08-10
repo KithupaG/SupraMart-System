@@ -57,8 +57,8 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="inventoryManagerID" alignment="0" max="32767" attributes="0"/>
-                              <Component id="inventoryPassword" alignment="0" max="32767" attributes="0"/>
+                              <Component id="auditorID" alignment="0" max="32767" attributes="0"/>
+                              <Component id="auditorPasswordField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
                               <Component id="jButton1" alignment="0" pref="433" max="32767" attributes="0"/>
                           </Group>
@@ -74,11 +74,11 @@
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="inventoryManagerID" min="-2" max="-2" attributes="0"/>
+                  <Component id="auditorID" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="inventoryPassword" min="-2" max="-2" attributes="0"/>
+                  <Component id="auditorPasswordField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="478" max="32767" attributes="0"/>
                   <Component id="jButton1" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -106,7 +106,7 @@
             <Property name="text" type="java.lang.String" value="Enter Password"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="inventoryManagerID">
+        <Component class="javax.swing.JPasswordField" name="auditorID">
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
@@ -201,7 +201,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JPasswordField" name="inventoryPassword">
+        <Component class="javax.swing.JPasswordField" name="auditorPasswordField">
         </Component>
       </SubComponents>
     </Container>

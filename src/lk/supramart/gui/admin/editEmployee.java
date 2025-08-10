@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -85,7 +86,6 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -234,6 +234,11 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("cancel");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Remember Save Location");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -251,9 +256,6 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         jLabel10.setText("Addres Line 1");
 
         jLabel11.setText("Addres Line 2");
-
-        jLabel8.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel8.setText("Status Label if error ( show error message ) else status ( empty by default )");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -305,8 +307,7 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jLabel8))
+                            .addComponent(jCheckBox2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -352,9 +353,7 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
                 .addComponent(jCheckBox2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -405,6 +404,18 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+                "Exit Confirmation",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (exitdialog == JOptionPane.OK_OPTION) {
+            this.dispose();
+            logger.info("User cancelled exit");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -447,7 +458,6 @@ public editEmployee(java.awt.Frame parent, boolean modal) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -73,11 +73,10 @@
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jTextField2" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jTextField3" alignment="1" max="32767" attributes="0"/>
+                      <Component id="fnamefield" alignment="1" max="32767" attributes="0"/>
+                      <Component id="emailfield" alignment="1" max="32767" attributes="0"/>
                       <Component id="jPanel2" alignment="1" pref="433" max="32767" attributes="0"/>
-                      <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="updateButton" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -103,17 +102,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                  <Component id="fnamefield" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField3" min="-2" max="-2" attributes="0"/>
+                  <Component id="emailfield" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" pref="68" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="319" max="32767" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace pref="354" max="32767" attributes="0"/>
+                  <Component id="updateButton" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -209,7 +206,7 @@
             <Property name="text" type="java.lang.String" value="Edit Name"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="fnamefield">
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
@@ -218,29 +215,12 @@
             <Property name="text" type="java.lang.String" value="Edit Email"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
+        <Component class="javax.swing.JTextField" name="emailfield">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailfieldActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="33" red="33" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI Variable" size="12" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Save"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="updateButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="7a" red="0" type="rgb"/>
@@ -253,6 +233,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Confirm"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
@@ -294,15 +277,9 @@
                 <Property name="text" type="java.lang.String" value="Confirm Password"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField5">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jTextField5"/>
-              </Properties>
+            <Component class="javax.swing.JPasswordField" name="passwordfield">
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField6">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jTextField6"/>
-              </Properties>
+            <Component class="javax.swing.JPasswordField" name="confirmpasswordfield">
             </Component>
           </SubComponents>
         </Container>

@@ -18,7 +18,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class cashierLogin extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(cashierLogin.class.getName());
 
     /**
@@ -28,20 +28,25 @@ public class cashierLogin extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
     }
-    
+
     private void login() {
         String id = casheirIdField.getText().trim();
         String password = String.valueOf(cashierPasswordField.getPassword());
         int roleId = UserRole.CASHIER.getId();
 
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-        Employee employee = new Employee(id, password, roleId);
+        Employee employee = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
 
         if (employeeDAO.employeeLogin(employee)) {
             JOptionPane.showMessageDialog(this,
                     "Cashier Login Successfully!",
                     "Login",
                     JOptionPane.INFORMATION_MESSAGE);
+            new cashierDashboard().setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Invalid Credentials.",

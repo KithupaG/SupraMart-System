@@ -34,10 +34,15 @@ public class adminLogin extends javax.swing.JFrame {
         int roleId = UserRole.ADMIN.getId();
         
         EmployeeDAO admindao = new EmployeeDAOImpl();
-        Employee admin = new Employee(id, password, roleId);
+        Employee admin = new Employee.Builder(id)
+                .setPassword(password)
+                .setRoleId(roleId)
+                .build();
         
         if(admindao.employeeLogin(admin)) {
             JOptionPane.showMessageDialog(this, "Admin Login Successfully", "Login", JOptionPane.INFORMATION_MESSAGE);
+            new adminDashboard().setVisible(true);
+            dispose();
         }else {
             JOptionPane.showMessageDialog(this, "Invalid Credentials", "Login", JOptionPane.ERROR_MESSAGE);
         }
@@ -62,7 +67,6 @@ public class adminLogin extends javax.swing.JFrame {
         adminPasswordField = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -128,9 +132,6 @@ public class adminLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel3.setText("Status Label if error ( show error message ) else status ( empty by default )");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -153,10 +154,8 @@ public class adminLogin extends javax.swing.JFrame {
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3))
-                        .addContainerGap())))
+                        .addComponent(jLabel5)
+                        .addContainerGap(396, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +169,7 @@ public class adminLogin extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adminPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 525, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,7 +192,7 @@ public class adminLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        login();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -217,7 +214,6 @@ public class adminLogin extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
