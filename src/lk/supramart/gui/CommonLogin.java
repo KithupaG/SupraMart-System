@@ -8,7 +8,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import lk.supramart.gui.admin.adminDashboard;
 import lk.supramart.gui.admin.adminLogin;
 import lk.supramart.gui.auditor.AuditorDashboard;
-import lk.supramart.gui.auditor.AuditorLogIn;
+import lk.supramart.gui.auditor.AuditorLogin;
 import lk.supramart.gui.branchManager.branchManagerDashboard;
 import lk.supramart.gui.branchManager.branchManagerLogin;
 import lk.supramart.gui.cashier.cashierLogin;
@@ -178,7 +178,7 @@ public class CommonLogin extends javax.swing.JFrame {
         } else if (role == "Inventory Manager") {
             new inventoryManagerLogin().setVisible(true);
         } else if (role == "Auditor") {
-            new AuditorLogIn().setVisible(true);
+            new AuditorLogin().setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
