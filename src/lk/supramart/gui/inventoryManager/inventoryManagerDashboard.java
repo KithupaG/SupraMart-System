@@ -8,7 +8,7 @@ import lk.supramart.gui.branchManager.*;
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
-import lk.supramart.gui.Home;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
 
@@ -541,8 +541,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
 
-            Home home = new Home();
-            home.setVisible(true);
+            CommonLogin.getInstance().setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

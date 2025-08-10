@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.enums.UserRole;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.model.Employee;
 
 /**
@@ -116,12 +117,17 @@ public class branchManagerLogin extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 102, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Add Employee");
+        jButton6.setText("Log In");
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Add Employee");
+        jButton7.setText("Cancel");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -181,6 +187,11 @@ public class branchManagerLogin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        this.dispose();
+        CommonLogin.getInstance().setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

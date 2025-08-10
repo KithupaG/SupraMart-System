@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.enums.UserRole;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.model.Employee;
 
 /**
@@ -121,6 +122,11 @@ public class adminLogin extends javax.swing.JFrame {
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("cancel");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 51, 51));
         jLabel3.setText("Status Label if error ( show error message ) else status ( empty by default )");
@@ -191,6 +197,11 @@ public class adminLogin extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        this.dispose();
+        CommonLogin.getInstance().setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

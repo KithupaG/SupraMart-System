@@ -2,47 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package lk.supramart.gui.inventoryManager;
+package lk.supramart.gui.auditor;
 
-import lk.supramart.gui.branchManager.*;
-import lk.supramart.gui.admin.*;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import javax.swing.JOptionPane;
-import lk.supramart.dao.EmployeeDAO;
-import lk.supramart.dao.EmployeeDAOImpl;
-import lk.supramart.enums.UserRole;
 import lk.supramart.gui.CommonLogin;
-import lk.supramart.model.Employee;
 
 /**
  *
- * @author kithu
+ * @author nimut
  */
-public class inventoryManagerLogin extends javax.swing.JFrame {
+public class AuditorLogIn extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(inventoryManagerLogin.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AuditorLogIn.class.getName());
 
     /**
-     * Creates new form adminLogin
+     * Creates new form AuditorLogIn1
      */
-    public inventoryManagerLogin() {
-        setUndecorated(true);
+    public AuditorLogIn() {
         initComponents();
-    }
-    
-    private void login() {
-        String id = inventoryManagerID.getText().trim();
-        String inventoryManagerPassword = String.valueOf(inventoryPassword.getText().trim());
-        int roleId = UserRole.BRANCH_MANAGER.getId();
-        
-        EmployeeDAO inventoryManager = new EmployeeDAOImpl();
-        Employee inventorymanager = new Employee(id, inventoryManagerPassword, roleId);
-        
-        if(inventoryManager.employeeLogin(inventorymanager)) {
-            JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
-        }else {
-            JOptionPane.showMessageDialog(this,"Invalid Credentials.","Login",JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -63,7 +39,6 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         inventoryPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,17 +76,12 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("MANAGER");
+        jLabel5.setText("LOGIN");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("INVENTORY");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("LOGIN");
+        jLabel1.setText("AUDITOR");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -121,8 +91,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -132,8 +101,6 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -190,7 +157,6 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -206,8 +172,25 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        FlatMacLightLaf.setup();
-        java.awt.EventQueue.invokeLater(() -> new inventoryManagerLogin().setVisible(true));
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new AuditorLogIn().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -219,7 +202,6 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
