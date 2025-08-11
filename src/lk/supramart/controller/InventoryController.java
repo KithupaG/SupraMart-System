@@ -56,16 +56,16 @@ public class InventoryController {
 
     public boolean addProduct(Product product) {
         // Validate product data
-        if (product.getName() == null || product.getName().trim().isEmpty()) {
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
             return false;
         }
-        if (product.getPrice() == null || product.getPrice().doubleValue() <= 0) {
+        if (product.getPrice() <= 0) {
             return false;
         }
-        if (product.getCost() == null || product.getCost().doubleValue() <= 0) {
+        if ( product.getCost() <= 0) {
             return false;
         }
-        if (product.getStockQuantity() < 0) {
+        if (product.getStock() < 0) {
             return false;
         }
         if (product.getReorderLevel() < 0) {
@@ -78,19 +78,19 @@ public class InventoryController {
 
     public boolean updateProduct(Product product) {
         // Validate product data
-        if (product.getProductId() <= 0) {
+        if (product.getId() <= 0) {
             return false;
         }
-        if (product.getName() == null || product.getName().trim().isEmpty()) {
+        if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
             return false;
         }
-        if (product.getPrice() == null || product.getPrice().doubleValue() <= 0) {
+        if (product.getPrice() <= 0) {
             return false;
         }
-        if (product.getCost() == null || product.getCost().doubleValue() <= 0) {
+        if (product.getCost() <= 0) {
             return false;
         }
-        if (product.getStockQuantity() < 0) {
+        if (product.getStock() < 0) {
             return false;
         }
         if (product.getReorderLevel() < 0) {
@@ -113,11 +113,11 @@ public class InventoryController {
         }
         
         // Check if product has stock
-        if (product.getStockQuantity() > 0) {
-            // You might want to warn about deleting products with stock
-            // For now, we'll allow it but log it
+        if (product.getStock() > 0) {
+            // warn about deleting products with stock or let them srew up
+            // For now ima log it
             java.util.logging.Logger.getLogger(InventoryController.class.getName())
-                .warning("Deleting product with stock: " + product.getName() + " (Stock: " + product.getStockQuantity() + ")");
+                .warning("Deleting product with stock: " + product.getProductName() + " (Stock: " + product.getStock() + ")");
         }
         
         return inventoryDAO.deleteProduct(productId);
@@ -246,16 +246,16 @@ public class InventoryController {
         if (product == null) {
             return false;
         }
-        return product.getStockQuantity() <= product.getReorderLevel();
+        return product.getStock() <= product.getReorderLevel();
     }
     
     public double calculateProfitMargin(Product product) {
-        if (product == null || product.getPrice() == null || product.getCost() == null) {
+        if (product == null) {
             return 0.0;
         }
         
-        double price = product.getPrice().doubleValue();
-        double cost = product.getCost().doubleValue();
+        double price = product.getPrice();
+        double cost = product.getCost();
         
         if (cost == 0) {
             return 0.0;
@@ -271,8 +271,8 @@ public class InventoryController {
         
         double totalValue = 0.0;
         for (Product product : products) {
-            if (product.getCost() != null && product.getStockQuantity() > 0) {
-                totalValue += product.getCost().doubleValue() * product.getStockQuantity();
+            if (product.getStock() > 0) {
+                totalValue += product.getCost() * product.getStock();
             }
         }
         

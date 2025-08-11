@@ -8,13 +8,13 @@ import lk.supramart.gui.branchManager.*;
 import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
-import lk.supramart.gui.Home;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.gui.addProduct;
 import lk.supramart.gui.editProduct;
 import lk.supramart.controller.InventoryController;
 
 import lk.supramart.component.SalesTableModel;
-import lk.supramart.dao.Product;
+import lk.supramart.model.Product;
 import lk.supramart.model.Sale;
 import lk.supramart.model.SaleItem;
 import java.util.List;
@@ -358,12 +358,12 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         }
         
         // Check if product can be deleted
-        if (!inventoryController.canDeleteProduct(product.getProductId())) {
-            String constraints = inventoryController.getDeletionConstraints(product.getProductId());
+        if (!inventoryController.canDeleteProduct(product.getId())) {
+            String constraints = inventoryController.getDeletionConstraints(product.getId());
             
             // Ask user if they want to force delete
             int choice = JOptionPane.showConfirmDialog(this,
-                "Cannot delete product '" + product.getName() + "' normally.\n\n" +
+                "Cannot delete product '" + product.getProductName() + "' normally.\n\n" +
                 "Constraints found:\n" + constraints + "\n\n" +
                 "Do you want to force delete this product?\n" +
                 "This will remove all related data (sales, transactions, branch assignments).",
@@ -385,10 +385,10 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         // Show detailed confirmation dialog
         String message = "Are you sure you want to delete this product?\n\n" +
                         "Product Details:\n" +
-                        "• Name: " + product.getName() + "\n" +
-                        "• ID: " + product.getProductId() + "\n" +
+                        "• Name: " + product.getProductName() + "\n" +
+                        "• ID: " + product.getId() + "\n" +
                         "• Category: " + product.getCategoryName() + "\n" +
-                        "• Current Stock: " + product.getStockQuantity() + "\n" +
+                        "• Current Stock: " + product.getStock() + "\n" +
                         "• Price: LKR " + String.format("%,.2f", product.getPrice()) + "\n\n" +
                         "This action cannot be undone!";
         
@@ -402,7 +402,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                 javax.swing.SwingWorker<Boolean, Void> worker = new javax.swing.SwingWorker<Boolean, Void>() {
                     @Override
                     protected Boolean doInBackground() throws Exception {
-                        return inventoryController.deleteProduct(product.getProductId());
+                        return inventoryController.deleteProduct(product.getId());
                     }
                     
                     @Override
@@ -412,15 +412,15 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
                 if (success) {
                     productTableModel.removeProduct(selectedRow);
                                 JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
-                                    "Product '" + product.getName() + "' deleted successfully", 
+                                    "Product '" + product.getProductName() + "' deleted successfully", 
                         "Success", JOptionPane.INFORMATION_MESSAGE);
-                                logger.info("Deleted product: " + product.getName() + " (ID: " + product.getProductId() + ")");
+                                logger.info("Deleted product: " + product.getProductName() + " (ID: " + product.getId() + ")");
                                 
                                 // Refresh the table to ensure consistency
                                 refreshProductTable();
                 } else {
                                 JOptionPane.showMessageDialog(inventoryManagerDashboard.this, 
-                                    "Failed to delete product '" + product.getName() + "'.\n\n" +
+                                    "Failed to delete product '" + product.getProductName() + "'.\n\n" +
                                     "The product may have dependencies that prevent deletion.",
                                     "Delete Failed", JOptionPane.ERROR_MESSAGE);
                             }
@@ -1051,8 +1051,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
 
-            Home home = new Home();
-            home.setVisible(true);
+            CommonLogin.getInstance().setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1200,7 +1199,7 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
             
             for (Product product : lowStockProducts) {
                 summary += String.format("- %s (Stock: %d, Reorder Level: %d)\n", 
-                    product.getName(), product.getStockQuantity(), product.getReorderLevel());
+                    product.getProductName(), product.getStock(), product.getReorderLevel());
             }
             
             JOptionPane.showMessageDialog(this, summary, "Inventory Summary", JOptionPane.INFORMATION_MESSAGE);
@@ -1261,19 +1260,19 @@ public class inventoryManagerDashboard extends javax.swing.JFrame {
             "Reorder Level: %d\n" +
             "Added On: %s\n\n" +
             "Profit Margin: %.2f%%",
-            product.getProductId(),
-            product.getName(),
+            product.getId(),
+            product.getProductName(),
             product.getCategoryName(),
             product.getPrice(),
             product.getCost(),
-            product.getStockQuantity(),
+            product.getStock(),
             product.getReorderLevel(),
-            product.getAddedOn(),
+            product.getAddedDateTime(),
             inventoryController.calculateProfitMargin(product)
         );
         
         JOptionPane.showMessageDialog(this, details, "Product Details", JOptionPane.INFORMATION_MESSAGE);
-        logger.info("Product details shown for: " + product.getName());
+        logger.info("Product details shown for: " + product.getProductName());
     }
     
     /**

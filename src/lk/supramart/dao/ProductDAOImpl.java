@@ -1,15 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lk.supramart.dao;
 
+import lk.supramart.model.Product;
 import java.util.List;
 import java.sql.SQLException;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import lk.supramart.dao.Product;
 import lk.supramart.util.LoggerUtil;
 
 /**
@@ -21,18 +17,24 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public boolean addProduct(Product product) {
         String sql = "INSERT INTO products "
-                + "(product_id, product_name, category_id, product_price, product_cost, product_quantity, product_added_datetime)"
+                + "(product_id, product_name, category_id, product_price, product_cost,"
+                + " product_quantity, product_added_datetime)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try {
-            int rowsAffected = MySQL.executePreparedIUD(sql, product.getId(),
-                    product.getProductName(), product.getProductCategoryId(),
-                    product.getPrice(), product.getCost(), product.getStock(),
-                    product.getAddedDateTime());
-            return rowsAffected > 0;
+        try{
+            MySQL.executePreparedIUD(
+                    sql
+                    ,product.getId()
+                    ,product.getProductName()
+                    ,product.getCategoryId()
+                    ,product.getPrice()
+                    ,product.getPrice()
+                    ,product.getPrice()
+                    ,product.getPrice()
+            );
         } catch (SQLException e) {
             LoggerUtil.Log.severe(ProductDAOImpl.class, "Error while inserting product" + e.getMessage());
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class ProductDAOImpl implements ProductDAO {
             ResultSet rs = MySQL.executePreparedSearch(sql, id);
             if (rs.next()) {
                 return new Product.Builder()
-                        .setId(rs.getString("product_id"))
+                        .setId(rs.getInt("product_id"))
                         .setProductName(rs.getString("product_name"))
                         .setProductCategoryId(rs.getInt("category_id"))
                         .setPrice(rs.getDouble("product_price"))
@@ -64,7 +66,7 @@ public class ProductDAOImpl implements ProductDAO {
         try (ResultSet rs = MySQL.executePreparedSearch(sql)) {
             while (rs.next()) {
                 list.add(new Product.Builder()
-                        .setId(rs.getString("product_id"))
+                        .setId(rs.getInt("product_id"))
                         .setProductName(rs.getString("product_name"))
                         .setProductCategoryId(rs.getInt("category_id"))
                         .setPrice(rs.getDouble("product_price"))

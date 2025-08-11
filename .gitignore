@@ -39,3 +39,4 @@ Thumbs.db
 *.tmp
 *.temp
 >>>>>>> origin/main
+/dist/

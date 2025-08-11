@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.enums.UserRole;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.model.Employee;
 
 /**
@@ -195,14 +196,8 @@ public class adminLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
-                "Exit Confirmation",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-        if (exitdialog == JOptionPane.OK_OPTION) {
-            this.dispose();
-            logger.info("User cancelled exit");
-        }
+        this.dispose();
+        CommonLogin.getInstance().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**

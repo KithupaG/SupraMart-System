@@ -15,7 +15,7 @@ public class DiscountDAOImpl implements DiscountDAO {
 
     private final Connection conn;
 
-    public DiscountDAOImpl() {
+    public DiscountDAOImpl() throws SQLException {
         conn = MySQL.getConnection();
     }
     
