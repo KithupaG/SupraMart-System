@@ -10,17 +10,26 @@ import lk.supramart.util.LoggerUtil;
  *
  * @author Yashitha
  */
-public class EmployeeDAOImpl implements EmployeeDAO{
+public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public synchronized boolean employeeLogin(Employee employee) {
-        String query = "SELECT COUNT(*) FROM employees WHERE employee_id = ? AND password = ? AND role_id = ?;";
+        String query = "SELECT COUNT(*) FROM admin WHERE employee_id = ? AND password = ? AND role_id = ?;";
         try {
-            ResultSet rs = MySQL.executePreparedSearch(query,
-                    employee.getId(),employee.getPassword(),employee.getId());
-            return rs.next();
-        } catch (SQLException ex) {
+            boolean status = false;
+            ResultSet rs = MySQL.executePreparedSearch(query,employee.getId(), employee.getPassword(), employee.getRoleId());
+            if (rs.next()) {
+                System.out.print(rs.getString("fname , "));
+                System.out.print(rs.getString("lname , "));
+                System.out.println(rs.getString("admin_id"));
+                status = true;
+            }
+            return status;
+            
+        } catch (SQLException e) {
             LoggerUtil.Log.severe(EmployeeDAOImpl.class, "Invalid ID or Password");
+            
+            System.err.println(e.getMessage());
             return false;
         }
     }
@@ -33,25 +42,25 @@ public class EmployeeDAOImpl implements EmployeeDAO{
                 + "`mobile_number_1`,`mobile_number_2`,`hire_date`,`branch_id`,"
                 + "`image_id`,`base_salary`,`role_id`,`gender_id`) VALUES"
                 + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        
+
         try {
-            ResultSet rs = MySQL.executePreparedSearch(selectQuery, 
-                    employee.getId(),employee.getEmail());
+            ResultSet rs = MySQL.executePreparedSearch(selectQuery,
+                    employee.getId(), employee.getEmail());
             if (rs.next()) {
-                
+
                 return false;
             } else {
-                int rowCount = MySQL.executePreparedIUD(insertQuery, 
-                        employee.getId(),employee.getFname(),employee.getLname(),
-                        employee.getEmail(),employee.getPassword(),employee.getDob(),
-                        employee.getMobileNumber1(),employee.getMobileNumber2(),
-                        employee.getHiredDate(),employee.getBranchId(),employee.getImageId(),
-                        employee.getBaseSalery(),employee.getRoleId(),employee.getGenderId());
+                int rowCount = MySQL.executePreparedIUD(insertQuery,
+                        employee.getId(), employee.getFname(), employee.getLname(),
+                        employee.getEmail(), employee.getPassword(), employee.getDob(),
+                        employee.getMobileNumber1(), employee.getMobileNumber2(),
+                        employee.getHiredDate(), employee.getBranchId(), employee.getImageId(),
+                        employee.getBaseSalery(), employee.getRoleId(), employee.getGenderId());
                 return rowCount > 0;
-                
+
             }
         } catch (SQLException ex) {
-            LoggerUtil.Log.severe(EmployeeDAOImpl.class, 
+            LoggerUtil.Log.severe(EmployeeDAOImpl.class,
                     "Something went wrong while executing the query");
             return false;
         }

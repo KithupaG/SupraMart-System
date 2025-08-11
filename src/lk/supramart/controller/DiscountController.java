@@ -1,5 +1,6 @@
 package lk.supramart.controller;
 
+import java.sql.SQLException;
 import lk.supramart.dao.DiscountDAO;
 import lk.supramart.dao.DiscountDAOImpl;
 import lk.supramart.model.Discount;
@@ -12,7 +13,7 @@ import java.util.List;
 public class DiscountController {
    private final DiscountDAO discountDAO;
 
-    public DiscountController() {
+    public DiscountController() throws SQLException {
         this.discountDAO = new DiscountDAOImpl();
     }
 

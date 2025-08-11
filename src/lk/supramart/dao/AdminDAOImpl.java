@@ -82,4 +82,20 @@ public class AdminDAOImpl implements AdminDAO {
             return null;
         }
     }
+
+    @Override
+    public boolean adminLogin(Admin admin) {
+
+        String query = "SELECT COUNT(*) FROM admin WHERE admin_id = ? AND password = ?;";
+
+        try {
+            ResultSet rs = MySQL.executePreparedSearch(query, admin.getId(), admin.getPassword());
+            return rs.next();
+        } catch (SQLException e) {
+            LoggerUtil.Log.severe(EmployeeDAOImpl.class, "Invalid ID or Password");
+
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }

@@ -10,6 +10,8 @@ import lk.supramart.model.Employee;
 import java.sql.ResultSet;
 
 public interface AdminDAO {
+    
+    public boolean adminLogin(Admin admin);
     boolean deleteUser(int userId);
     boolean updateInfo(Admin admin);
     

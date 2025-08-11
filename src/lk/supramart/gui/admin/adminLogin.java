@@ -6,10 +6,13 @@ package lk.supramart.gui.admin;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
+import lk.supramart.dao.AdminDAO;
+import lk.supramart.dao.AdminDAOImpl;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.enums.UserRole;
 import lk.supramart.gui.CommonLogin;
+import lk.supramart.model.Admin;
 import lk.supramart.model.Employee;
 
 /**
@@ -31,20 +34,19 @@ public class adminLogin extends javax.swing.JFrame {
     private void login() {
         String id = adminID.getText().trim();
         String password = String.valueOf(adminPasswordField.getText().trim());
-        int roleId = UserRole.ADMIN.getId();
         
-        EmployeeDAO admindao = new EmployeeDAOImpl();
-        Employee admin = new Employee.Builder(id)
+        AdminDAO admindao = new AdminDAOImpl();
+        Admin admin = new Admin.Builder()
                 .setPassword(password)
-                .setRoleId(roleId)
                 .build();
         
-        if(admindao.employeeLogin(admin)) {
-            JOptionPane.showMessageDialog(this, "Admin Login Successfully", "Login", JOptionPane.INFORMATION_MESSAGE);
+        if(admindao.adminLogin(admin)) {
             new adminDashboard().setVisible(true);
             dispose();
         }else {
             JOptionPane.showMessageDialog(this, "Invalid Credentials", "Login", JOptionPane.ERROR_MESSAGE);
+            adminID.setText("");
+            adminPasswordField.setText("");
         }
     }
 
@@ -67,6 +69,7 @@ public class adminLogin extends javax.swing.JFrame {
         adminPasswordField = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -132,6 +135,9 @@ public class adminLogin extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel3.setText("Status Label if error ( show error message ) else status ( empty by default )");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -141,7 +147,6 @@ public class adminLogin extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(adminID, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -155,7 +160,10 @@ public class adminLogin extends javax.swing.JFrame {
                         .addGap(15, 15, 15))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addContainerGap(396, Short.MAX_VALUE))))
+                        .addContainerGap(396, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(adminID)
+                        .addGap(15, 15, 15))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,6 +222,7 @@ public class adminLogin extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

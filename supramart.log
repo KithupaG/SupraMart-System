@@ -7,3 +7,27 @@ Aug 10, 2025 12:41:19 AM lk.supramart.dao.AdminDAOImpl
 WARNING: Error retrieving table data: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table' at line 1
 Aug 10, 2025 12:41:20 AM lk.supramart.dao.AdminDAOImpl 
 WARNING: Error retrieving table data: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table' at line 1
+Aug 11, 2025 9:24:46 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 11, 2025 9:25:11 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 11, 2025 9:26:08 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 11, 2025 9:26:36 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 11, 2025 9:36:47 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 11, 2025 11:58:52 PM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:01:16 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:03:02 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:05:40 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:28:54 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:32:12 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password
+Aug 12, 2025 12:32:57 AM lk.supramart.dao.EmployeeDAOImpl 
+SEVERE: Invalid ID or Password

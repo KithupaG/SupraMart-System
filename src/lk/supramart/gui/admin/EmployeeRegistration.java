@@ -274,6 +274,11 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         addEmployeeBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         addEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
         addEmployeeBtn.setText("Add Employee");
+        addEmployeeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEmployeeBtnActionPerformed(evt);
+            }
+        });
 
         cancelBtn.setBackground(new java.awt.Color(102, 102, 102));
         cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -489,6 +494,10 @@ public class EmployeeRegistration extends javax.swing.JDialog {
             logger.info("User cancelled exit");
         }
     }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void addEmployeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeBtnActionPerformed
+       
+    }//GEN-LAST:event_addEmployeeBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEmployeeBtn;
