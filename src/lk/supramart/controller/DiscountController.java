@@ -1,5 +1,6 @@
 package lk.supramart.controller;
 
+import java.sql.SQLException;
 import lk.supramart.dao.DiscountDAO;
 import lk.supramart.dao.DiscountDAOImpl;
 import lk.supramart.model.Discount;
