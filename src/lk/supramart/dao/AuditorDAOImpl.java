@@ -1,11 +1,10 @@
 package lk.supramart.dao;
 
-import lk.supramart.auditor.Auditor;
-import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import lk.supramart.model.Auditor;
 
 /**
  *
