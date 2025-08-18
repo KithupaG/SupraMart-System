@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import lk.supramart.dao.EmployeeDAO;
 import lk.supramart.dao.EmployeeDAOImpl;
 import lk.supramart.enums.UserRole;
+import lk.supramart.gui.CommonLogin;
 import lk.supramart.model.Employee;
 
 /**
@@ -17,9 +18,7 @@ import lk.supramart.model.Employee;
  */
 public class branchManagerLogin extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerLogin.class.getName());
-    /**
-     * Creates new form adminLogin
-     */
+
     public branchManagerLogin() {
         setUndecorated(true);
         initComponents();
@@ -116,17 +115,13 @@ public class branchManagerLogin extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 102, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Login");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
+        jButton6.setText("Log In");
 
         jButton7.setBackground(new java.awt.Color(102, 102, 102));
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Close");
+        jButton7.setText("Cancel");
+
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -192,22 +187,10 @@ public class branchManagerLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String loggedInManagerId = branchManagerID.getText().trim();
-        branchManagerDashboard dashboard = new branchManagerDashboard(loggedInManagerId);
-        dashboard.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        var exitdialog = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
-                "Exit Confirmation",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
+        this.dispose();
+        CommonLogin.getInstance().setVisible(true);
 
-        if (exitdialog == JOptionPane.OK_OPTION) {
-            System.exit(0);
-            logger.info("User cancelled exit");
-        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**

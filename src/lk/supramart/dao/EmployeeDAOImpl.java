@@ -38,8 +38,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             ResultSet rs = MySQL.executePreparedSearch(selectQuery, 
                     employee.getId(),employee.getEmail());
             if (rs.next()) {
-                lk.supramart.gui.admin.EmployeeRegistration.getMessageBox()
-                        .setText("This Employee already exists.");
+                
                 return false;
             } else {
                 int rowCount = MySQL.executePreparedIUD(insertQuery, 

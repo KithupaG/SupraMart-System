@@ -40,7 +40,7 @@ public class SplashScreen extends javax.swing.JFrame {
                     }
                 }
 
-                new Home().setVisible(true);
+                CommonLogin.getInstance().setVisible(true);
                 splashScreen.dispose();
             }
         });

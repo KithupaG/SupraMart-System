@@ -7,11 +7,12 @@ package lk.supramart.gui;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import lk.supramart.gui.admin.adminDashboard;
 import lk.supramart.controller.InventoryController;
-import lk.supramart.dao.Product;
+import lk.supramart.model.Product;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -389,14 +390,14 @@ public class addProduct extends javax.swing.JDialog{
         
         // Create product object
         Product product = new Product();
-        product.setName(productName);
+        product.setProductName(productName);
         product.setCategoryId(categoryId);
         product.setCategoryName(categoryName);
-        product.setPrice(BigDecimal.valueOf(price));
-        product.setCost(BigDecimal.valueOf(price * 0.8)); // Set cost as 80% of price for now
-        product.setStockQuantity(quantity);
+        product.setPrice(price);
+        product.setCost(price * 0.8);
+        product.setStock(quantity);
         product.setReorderLevel(Math.max(1, quantity / 10)); // Set reorder level as 10% of quantity
-        product.setAddedOn(LocalDateTime.now());
+        product.setAddedDateTime(Timestamp.valueOf(LocalDateTime.now()));
         
         // Show loading status
         showStatus("Adding product...", false);

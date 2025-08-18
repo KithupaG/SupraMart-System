@@ -8,11 +8,11 @@ import lk.supramart.gui.admin.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
 import lk.supramart.dao.BranchManagerDAOImpl;
-import lk.supramart.gui.Home;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import java.sql.ResultSet;
+import lk.supramart.gui.CommonLogin;
 
 /**
  *
@@ -561,8 +561,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
 
-            Home home = new Home();
-            home.setVisible(true);
+            CommonLogin.getInstance().setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

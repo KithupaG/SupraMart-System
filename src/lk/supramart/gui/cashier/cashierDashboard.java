@@ -6,7 +6,7 @@ package lk.supramart.gui.cashier;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
-import lk.supramart.gui.Home;
+import lk.supramart.gui.CommonLogin;
 
 /**
  *
@@ -926,8 +926,7 @@ public class cashierDashboard extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             this.dispose();
 
-            Home home = new Home();
-            home.setVisible(true);
+            CommonLogin.getInstance().setVisible(true);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

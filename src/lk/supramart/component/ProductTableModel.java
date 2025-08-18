@@ -3,7 +3,7 @@ package lk.supramart.component;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.ArrayList;
-import lk.supramart.dao.Product;
+import lk.supramart.model.Product;
 
 /**
  * Custom table model for displaying products in JTable
@@ -46,16 +46,16 @@ public class ProductTableModel extends AbstractTableModel {
             Product product = products.get(rowIndex);
             
             switch (columnIndex) {
-                case 0: return product.getProductId();
-                case 1: return product.getName();
+                case 0: return product.getId();
+                case 1: return product.getProductName();
                 case 2: return product.getCategoryName();
-                case 3: return product.getPrice() != null ? String.format("%,.2f", product.getPrice()) : "0.00";
-                case 4: return product.getCost() != null ? String.format("%,.2f", product.getCost()) : "0.00";
-                case 5: return product.getStockQuantity();
+                case 3: return product.getPrice();
+                case 4: return product.getCost();
+                case 5: return product.getStock();
                 case 6: return product.getReorderLevel();
                 case 7: 
-                    if (product.getAddedOn() != null) {
-                        String dateStr = product.getAddedOn().toString();
+                    if (product.getAddedDateTime()!= null) {
+                        String dateStr = product.getAddedDateTime().toString();
                         return dateStr.length() > 19 ? dateStr.substring(0, 19) : dateStr;
                     }
                     return "";
@@ -81,7 +81,7 @@ public class ProductTableModel extends AbstractTableModel {
                     try {
                         int newQuantity = Integer.parseInt(value.toString());
                         if (newQuantity >= 0) {
-                            product.setStockQuantity(newQuantity);
+                            product.setStock(newQuantity);
                         }
                     } catch (NumberFormatException e) {
                         // Invalid input, ignore
@@ -171,7 +171,7 @@ public class ProductTableModel extends AbstractTableModel {
      */
     public Product findProductById(int productId) {
         for (Product product : products) {
-            if (product.getProductId() == productId) {
+            if (product.getId() == productId) {
                 return product;
             }
         }
@@ -188,8 +188,8 @@ public class ProductTableModel extends AbstractTableModel {
         String searchName = name.toLowerCase();
         
         for (Product product : products) {
-            if (product.getName() != null && 
-                product.getName().toLowerCase().contains(searchName)) {
+            if (product.getProductName() != null && 
+                product.getProductName().toLowerCase().contains(searchName)) {
                 matches.add(product);
             }
         }
@@ -205,7 +205,7 @@ public class ProductTableModel extends AbstractTableModel {
         List<Product> lowStockProducts = new ArrayList<>();
         
         for (Product product : products) {
-            if (product.getStockQuantity() <= product.getReorderLevel()) {
+            if (product.getStock() <= product.getReorderLevel()) {
                 lowStockProducts.add(product);
             }
         }

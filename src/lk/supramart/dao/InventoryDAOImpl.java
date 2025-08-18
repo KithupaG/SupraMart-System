@@ -31,15 +31,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -58,15 +58,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query, productId);
             if (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 return product;
             }
         } catch (SQLException ex) {
@@ -85,15 +85,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query, "%" + productName + "%");
             if (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 return product;
             }
         } catch (SQLException ex) {
@@ -113,15 +113,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query, categoryId);
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -142,15 +142,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query, branchId);
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -170,15 +170,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query);
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -198,15 +198,15 @@ public class InventoryDAOImpl implements InventoryDAO {
             ResultSet rs = MySQL.executePreparedSearch(query, "%" + searchTerm + "%", "%" + searchTerm + "%");
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductId(rs.getInt("product_id"));
-                product.setName(rs.getString("name"));
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
                 product.setCategoryId(rs.getInt("category_id"));
                 product.setCategoryName(rs.getString("category_name"));
-                product.setPrice(rs.getBigDecimal("price"));
-                product.setCost(rs.getBigDecimal("cost"));
-                product.setStockQuantity(rs.getInt("stock_quantity"));
+                product.setPrice(rs.getDouble("price"));
+                product.setCost(rs.getDouble("cost"));
+                product.setStock(rs.getInt("stock_quantity"));
                 product.setReorderLevel(rs.getInt("reorder_level"));
-                product.setAddedOn(rs.getTimestamp("added_on").toLocalDateTime());
+                product.setAddedDateTime(rs.getTimestamp("added_on"));
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -222,11 +222,11 @@ public class InventoryDAOImpl implements InventoryDAO {
         
         try {
             int rows = MySQL.executePreparedIUD(query, 
-                product.getName(), 
+                product.getProductName(), 
                 product.getCategoryId(), 
                 product.getPrice(), 
                 product.getCost(), 
-                product.getStockQuantity(), 
+                product.getStock(), 
                 product.getReorderLevel());
             return rows > 0;
         } catch (SQLException ex) {
@@ -242,13 +242,13 @@ public class InventoryDAOImpl implements InventoryDAO {
         
         try {
             int rows = MySQL.executePreparedIUD(query, 
-                product.getName(), 
+                product.getProductName(), 
                 product.getCategoryId(), 
                 product.getPrice(), 
                 product.getCost(), 
-                product.getStockQuantity(), 
+                product.getStock(), 
                 product.getReorderLevel(), 
-                product.getProductId());
+                product.getId());
             return rows > 0;
         } catch (SQLException ex) {
             LoggerUtil.Log.severe(InventoryDAOImpl.class, "Error updating product: " + ex.getMessage());
@@ -297,7 +297,7 @@ public class InventoryDAOImpl implements InventoryDAO {
         try {
             int rows = MySQL.executePreparedIUD(query, productId);
             if (rows > 0) {
-                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully deleted product: " + product.getName() + " (ID: " + productId + ")");
+                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully deleted product: " + product.getProductName() + " (ID: " + productId + ")");
                 return true;
             } else {
                 LoggerUtil.Log.warning(InventoryDAOImpl.class, "No rows affected when deleting product " + productId);
@@ -362,7 +362,7 @@ public class InventoryDAOImpl implements InventoryDAO {
             int rows = MySQL.executePreparedIUD(deleteProductQuery, productId);
             
             if (rows > 0) {
-                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully force deleted product: " + product.getName() + " (ID: " + productId + ")");
+                LoggerUtil.Log.info(InventoryDAOImpl.class, "Successfully force deleted product: " + product.getProductName() + " (ID: " + productId + ")");
                 return true;
             } else {
                 LoggerUtil.Log.warning(InventoryDAOImpl.class, "No rows affected when force deleting product " + productId);
@@ -480,8 +480,8 @@ public class InventoryDAOImpl implements InventoryDAO {
         }
         
         // Check if product has stock
-        if (product.getStockQuantity() > 0) {
-            constraints.append("• Has stock quantity: ").append(product.getStockQuantity()).append("\n");
+        if (product.getStock() > 0) {
+            constraints.append("• Has stock quantity: ").append(product.getStock()).append("\n");
         }
         
         return constraints.length() > 0 ? constraints.toString() : "No constraints found";

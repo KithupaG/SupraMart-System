@@ -6,7 +6,7 @@ package lk.supramart.gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import lk.supramart.controller.InventoryController;
-import lk.supramart.dao.Product;
+import lk.supramart.model.Product;
 import lk.supramart.connection.MySQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -329,10 +329,10 @@ public class editProduct extends javax.swing.JDialog {
         currentProduct = product;
         
         // Update product ID label
-        jLabel12.setText("SELECTED PRODUCT ID: " + product.getProductId());
+        jLabel12.setText("SELECTED PRODUCT ID: " + product.getId());
         
         // Populate form fields
-        jTextField1.setText(product.getName());
+        jTextField1.setText(product.getProductName());
         
         // Set category
         if (product.getCategoryName() != null) {
@@ -351,11 +351,11 @@ public class editProduct extends javax.swing.JDialog {
         jComboBox4.setSelectedIndex(0);
         
         // Set quantity and price
-        jSpinner1.setValue(product.getStockQuantity());
-        jSpinner2.setValue(product.getPrice().doubleValue());
+        jSpinner1.setValue(product.getStock());
+        jSpinner2.setValue(product.getPrice());
         
         showStatus("Product loaded successfully", false);
-        logger.info("Loaded product for editing: " + product.getName() + " (ID: " + product.getProductId() + ")");
+        logger.info("Loaded product for editing: " + product.getProductName() + " (ID: " + product.getId() + ")");
     }
     
     /**
@@ -450,12 +450,12 @@ public class editProduct extends javax.swing.JDialog {
         }
         
         // Update product object
-        currentProduct.setName(productName);
+        currentProduct.setProductName(productName);
         currentProduct.setCategoryId(categoryId);
         currentProduct.setCategoryName(categoryName);
-        currentProduct.setPrice(BigDecimal.valueOf(price));
-        currentProduct.setCost(BigDecimal.valueOf(price * 0.8)); // Set cost as 80% of price for now
-        currentProduct.setStockQuantity(quantity);
+        currentProduct.setPrice(price);
+        currentProduct.setCost(price * 0.8); // Set cost as 80% of price for now
+        currentProduct.setStock(quantity);
         currentProduct.setReorderLevel(Math.max(1, quantity / 10)); // Set reorder level as 10% of quantity
         
         // Show loading status
