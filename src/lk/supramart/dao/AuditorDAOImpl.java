@@ -1,6 +1,6 @@
 package lk.supramart.dao;
 
-import lk.supramart.auditor.Auditor;
+import lk.supramart.model.Auditor;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.*;
@@ -48,7 +48,7 @@ public class AuditorDAOImpl implements AuditorDAO {
 
     @Override
     public boolean addAuditor(Auditor auditor) {
-        String sql = "INSERT INTO auditor (auditor_name, auditor_email, auditor_password, auditor_role) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO auditor (auditor_name, auditor_email, auditor_password) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, auditor.getName());
             ps.setString(2, auditor.getEmail());
@@ -61,7 +61,7 @@ public class AuditorDAOImpl implements AuditorDAO {
 
     @Override
     public boolean updateAuditor(Auditor auditor) {
-        String sql = "UPDATE auditor SET auditor_name=?, auditor_email=?, auditor_password=?, auditor_role=? WHERE auditor_id=?";
+        String sql = "UPDATE auditor SET auditor_name=?, auditor_email=?, auditor_password=? WHERE auditor_id=?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, auditor.getName());
             ps.setString(2, auditor.getEmail());

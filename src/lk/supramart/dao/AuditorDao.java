@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lk.supramart.dao;
+
+import java.util.List;
+import lk.supramart.model.Auditor;
 
 /**
  *
- * @author daham
+ * @author Shenu
  */
-public class AuditorDao {
-    
+public interface AuditorDAO {
+
+    Auditor getAuditorById(int id);
+
+    List<Auditor> getAllAuditors();
+
+    boolean addAuditor(Auditor auditor);
+
+    boolean updateAuditor(Auditor auditor);
+
+    boolean deleteAuditor(int id);
 }
