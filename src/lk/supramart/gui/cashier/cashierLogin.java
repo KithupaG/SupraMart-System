@@ -119,7 +119,7 @@ public class cashierLogin extends javax.swing.JFrame {
         jLabel3.setText("Enter Password");
 
         cashierLoginBtn.setBackground(new java.awt.Color(0, 122, 255));
-        cashierLoginBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        cashierLoginBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         cashierLoginBtn.setForeground(new java.awt.Color(255, 255, 255));
         cashierLoginBtn.setText("Log In");
         cashierLoginBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -129,9 +129,9 @@ public class cashierLogin extends javax.swing.JFrame {
         });
 
         cancelBtn.setBackground(new java.awt.Color(102, 102, 102));
-        cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cancelBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
-        cancelBtn.setText("cancel");
+        cancelBtn.setText("Cancel");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelBtnActionPerformed(evt);

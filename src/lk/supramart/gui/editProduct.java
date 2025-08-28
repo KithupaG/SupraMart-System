@@ -161,13 +161,13 @@ public class editProduct extends javax.swing.JDialog {
         jPanel6.setLayout(new java.awt.GridLayout(1, 2, 5, 0));
 
         jButton1.setBackground(new java.awt.Color(0, 122, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Save Product");
         jPanel6.add(jButton1);
 
         jButton2.setBackground(new java.awt.Color(255, 59, 48));
-        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
         jButton2.addActionListener(new java.awt.event.ActionListener() {

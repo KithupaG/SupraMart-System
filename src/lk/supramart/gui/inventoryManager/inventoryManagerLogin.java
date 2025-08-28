@@ -78,7 +78,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         jLabel3.setText("Enter Password");
 
         loginBtn.setBackground(new java.awt.Color(0, 122, 255));
-        loginBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        loginBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         loginBtn.setForeground(new java.awt.Color(255, 255, 255));
         loginBtn.setText("Log In");
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +88,7 @@ public class inventoryManagerLogin extends javax.swing.JFrame {
         });
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
-        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
