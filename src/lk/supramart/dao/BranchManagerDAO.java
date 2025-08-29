@@ -7,7 +7,9 @@ package lk.supramart.dao;
 import java.util.List;
 import lk.supramart.model.BranchManager;
 import lk.supramart.model.BranchProduct;
+import lk.supramart.model.BranchProfit;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -25,5 +27,6 @@ public interface BranchManagerDAO {
     ResultSet getBranchAdmins(String branchName);
     public ResultSet getManagerById(String id);
     List<BranchProduct> getAllBranchProducts() throws Exception;
+    public List<BranchProfit> getBranchProfitsPerMonth() throws SQLException;
 
 }

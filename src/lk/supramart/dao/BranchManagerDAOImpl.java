@@ -14,6 +14,7 @@ import java.util.List;
 import lk.supramart.model.BranchManager;
 import lk.supramart.connection.MySQL;
 import lk.supramart.model.BranchProduct;
+import lk.supramart.model.BranchProfit;
 import lk.supramart.util.LoggerUtil;
 
 /**
@@ -21,6 +22,7 @@ import lk.supramart.util.LoggerUtil;
  * @author kithu
  */
 public class BranchManagerDAOImpl implements BranchManagerDAO {
+
     @Override
     public List<BranchManager> getAllBranches() {
         List<BranchManager> branchManagerList = new ArrayList<>();
@@ -59,29 +61,29 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
     }
 
     public List<BranchProduct> getAllBranchProducts() throws Exception {
-        String sql = "SELECT b.branch_name, " +
-                 "       p.product_id, p.name, " +
-                 "       bhp.quantity_change AS available_stock, " +
-                 "       s.supplier_name " +
-                 "FROM branches_has_products bhp " +
-                 "JOIN branches b ON bhp.branches_branch_id = b.branch_id " +
-                 "JOIN products p ON bhp.products_product_id = p.product_id " +
-                 "JOIN suppliers s ON bhp.suppliers_supplier_id = s.supplier_id";
+        String sql = "SELECT b.branch_name, "
+                + "       p.product_id, p.name, "
+                + "       bhp.quantity_change AS available_stock, "
+                + "       s.supplier_name "
+                + "FROM branches_has_products bhp "
+                + "JOIN branches b ON bhp.branches_branch_id = b.branch_id "
+                + "JOIN products p ON bhp.products_product_id = p.product_id "
+                + "JOIN suppliers s ON bhp.suppliers_supplier_id = s.supplier_id";
 
-    ResultSet rs = MySQL.executePreparedSearch(sql);
-    List<BranchProduct> list = new ArrayList<>();
+        ResultSet rs = MySQL.executePreparedSearch(sql);
+        List<BranchProduct> list = new ArrayList<>();
 
-    while (rs.next()) {
-        BranchProduct bp = new BranchProduct(
-                rs.getString("branch_name"),
-                rs.getInt("product_id"),
-                rs.getString("name"),
-                rs.getInt("available_stock"),
-                rs.getString("supplier_name")
-        );
-        list.add(bp);
-    }
-    return list;
+        while (rs.next()) {
+            BranchProduct bp = new BranchProduct(
+                    rs.getString("branch_name"),
+                    rs.getInt("product_id"),
+                    rs.getString("name"),
+                    rs.getInt("available_stock"),
+                    rs.getString("supplier_name")
+            );
+            list.add(bp);
+        }
+        return list;
     }
 
     @Override
@@ -212,4 +214,44 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
             return null;
         }
     }
+
+    @Override
+    public List<BranchProfit> getBranchProfitsPerMonth() throws SQLException {
+        String sql
+                = "SELECT b.branch_name, "
+                + "       m.month, "
+                + "       COALESCE(i.total_income, 0) AS total_income, "
+                + "       COALESCE(e.total_expense, 0) AS total_expense "
+                + "FROM branches b "
+                + "LEFT JOIN ( "
+                + "    SELECT branches_branch_id, DATE_FORMAT(date, '%Y-%m') AS month, SUM(monthly_income) AS total_income "
+                + "    FROM income "
+                + "    GROUP BY branches_branch_id, DATE_FORMAT(date, '%Y-%m') "
+                + ") i ON b.branch_id = i.branches_branch_id "
+                + "LEFT JOIN ( "
+                + "    SELECT branches_branch_id, DATE_FORMAT(date, '%Y-%m') AS month, SUM(monthly_expenses) AS total_expense "
+                + "    FROM expenses "
+                + "    GROUP BY branches_branch_id, DATE_FORMAT(date, '%Y-%m') "
+                + ") e ON b.branch_id = e.branches_branch_id AND i.month = e.month "
+                + "LEFT JOIN ( "
+                + "    SELECT DATE_FORMAT(date, '%Y-%m') AS month FROM income "
+                + "    UNION "
+                + "    SELECT DATE_FORMAT(date, '%Y-%m') AS month FROM expenses "
+                + ") m ON m.month = i.month OR m.month = e.month "
+                + "ORDER BY m.month, b.branch_name";
+
+        ResultSet rs = MySQL.executePreparedSearch(sql);
+        List<BranchProfit> profits = new ArrayList<>();
+
+        while (rs.next()) {
+            profits.add(new BranchProfit(
+                    rs.getString("branch_name"),
+                    rs.getString("month"),
+                    rs.getDouble("total_income"),
+                    rs.getDouble("total_expense")
+            ));
+        }
+        return profits;
+    }
+
 }

@@ -9,6 +9,7 @@ import lk.supramart.dao.BranchManagerDAO;
 import lk.supramart.dao.BranchManagerDAOImpl;
 import lk.supramart.model.BranchManager;
 import lk.supramart.model.BranchProduct;
+import lk.supramart.model.BranchProfit;
 
 /**
  *
@@ -45,5 +46,9 @@ public class BranchManagerController {
 
     public List<BranchProduct> getAllBranchProducts() throws Exception {
         return dao.getAllBranchProducts();
+    }
+
+    public List<BranchProfit> getBranchProfitsPerMonth() throws Exception {
+        return dao.getBranchProfitsPerMonth();
     }
 }
