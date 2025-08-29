@@ -13,6 +13,7 @@ import lk.supramart.model.Employee;
  * @author kithu
  */
 public class branchManagerLogin extends javax.swing.JFrame {
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerLogin.class.getName());
 
     public branchManagerLogin() {
@@ -25,17 +26,23 @@ public class branchManagerLogin extends javax.swing.JFrame {
         String password = String.valueOf(branchPassword.getPassword());
         int roleId = UserRole.BRANCH_MANAGER.getId();
 
-        EmployeeDAO branchManager = new EmployeeDAOImpl();
-        Employee branchmanager = new Employee.Builder(id)
+        EmployeeDAO dao = new EmployeeDAOImpl();
+        Employee branchManager = new Employee.Builder(id)
                 .setPassword(password)
                 .setRoleId(roleId)
                 .build();
 
-        if (branchManager.employeeLogin(branchmanager)) {
-            JOptionPane.showMessageDialog(this, "Auditor Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
+        if (dao.employeeLogin(branchManager)) {
+            JOptionPane.showMessageDialog(this, "Branch Manager Login Successfully!", "Login", JOptionPane.INFORMATION_MESSAGE);
+
+            new branchManagerDashboard(id).setVisible(true);
+            this.dispose();
+
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Credentials.", "Login", JOptionPane.ERROR_MESSAGE);
         }
+        
+        
     }
 
     /**
@@ -190,8 +197,11 @@ public class branchManagerLogin extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         this.dispose();
         CommonLogin.getInstance().setVisible(true);
-
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
+        login();
+    }
 
     /**
      * @param args the command line arguments
@@ -199,6 +209,7 @@ public class branchManagerLogin extends javax.swing.JFrame {
     public static void main(String args[]) {
         FlatMacLightLaf.setup();
         java.awt.EventQueue.invokeLater(() -> new branchManagerLogin().setVisible(true));
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
