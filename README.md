@@ -1,5 +1,5 @@
 # SupraMart-System
-Here lies the Operating System for the SupraMart store.
+Here lies the POS for the SupraMart store.
 
 # How to use
 1. Download the project
