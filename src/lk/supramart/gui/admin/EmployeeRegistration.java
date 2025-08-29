@@ -271,14 +271,14 @@ public class EmployeeRegistration extends javax.swing.JDialog {
         });
 
         addEmployeeBtn.setBackground(new java.awt.Color(0, 102, 255));
-        addEmployeeBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        addEmployeeBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         addEmployeeBtn.setForeground(new java.awt.Color(255, 255, 255));
         addEmployeeBtn.setText("Add Employee");
 
         cancelBtn.setBackground(new java.awt.Color(102, 102, 102));
-        cancelBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cancelBtn.setFont(new java.awt.Font("Segoe UI Variable", 1, 14)); // NOI18N
         cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
-        cancelBtn.setText("cancel");
+        cancelBtn.setText("Cancel");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelBtnActionPerformed(evt);

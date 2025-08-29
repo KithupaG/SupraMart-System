@@ -189,7 +189,7 @@ public class AddSupplier extends javax.swing.JDialog {
         jButton1.setText("Add Supplier");
         jPanel2.add(jButton1);
 
-        jButton2.setBackground(new java.awt.Color(255, 59, 48));
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setFont(new java.awt.Font("Exo", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");

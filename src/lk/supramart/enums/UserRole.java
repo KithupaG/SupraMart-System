@@ -9,7 +9,7 @@ package lk.supramart.enums;
  * @author Yashitha
  */
 public enum UserRole {
-    CASHIER(1), BRANCH_MANAGER(2), AUDITOR(3), INVENTORY_MANAGER(4), ADMIN (5);
+    CASHIER(1), BRANCH_MANAGER(5), AUDITOR(3), INVENTORY_MANAGER(4), ADMIN(2);
 
     private final int id;
 
@@ -26,13 +26,13 @@ public enum UserRole {
             case 1:
                 return "CASH";
             case 2:
-                return "BMAN"; // B + MAN(ager)
+                return "ADMI";
             case 3:
                 return "AUDI";
             case 4:
                 return "IMAN"; // I + MAN(ager)
             case 5:
-                return "ADMI";
+                return "BMAN"; // B + MAN(ager)
             default:
                 return "UNKN";
         }

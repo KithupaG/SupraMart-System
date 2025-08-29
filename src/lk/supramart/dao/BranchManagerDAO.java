@@ -6,16 +6,16 @@ package lk.supramart.dao;
 
 import java.util.List;
 import lk.supramart.model.BranchManager;
+import lk.supramart.model.BranchProduct;
+import lk.supramart.model.BranchProfit;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author kithu
  */
 public interface BranchManagerDAO {
-    boolean addBranch(BranchManager branch);
-    boolean updateBranch(BranchManager branch);
-    boolean deleteBranch(String branchId);
     boolean updateBranchManager(BranchManager branchManagerId);
     
     List<BranchManager> getAllBranches();
@@ -23,4 +23,7 @@ public interface BranchManagerDAO {
     ResultSet getBranchEmployees(String branchName);
     ResultSet getBranchAdmins(String branchName);
     public ResultSet getManagerById(String id);
+    List<BranchProduct> getAllBranchProducts() throws Exception;
+    public List<BranchProfit> getBranchProfitsPerMonth() throws SQLException;
+
 }

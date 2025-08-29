@@ -1,7 +1,7 @@
 package lk.supramart.dao;
 
-import lk.supramart.model.Auditor;
 import java.util.List;
+import lk.supramart.model.Auditor;
 
 /**
  *
