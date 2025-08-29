@@ -12,8 +12,11 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import java.sql.ResultSet;
+import java.util.List;
 import lk.supramart.connection.MySQL;
+import lk.supramart.controller.BranchManagerController;
 import lk.supramart.gui.CommonLogin;
+import lk.supramart.model.BranchProduct;
 
 /**
  *
@@ -22,6 +25,7 @@ import lk.supramart.gui.CommonLogin;
 public class branchManagerDashboard extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(branchManagerDashboard.class.getName());
+    private final BranchManagerController controller = new BranchManagerController();
     private String loggedInManagerId;
 
     /**
@@ -31,6 +35,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         this.loggedInManagerId = loggedInManagerId;
         initComponents();
         loadBranchesIntoSelector();
+        loadBranchProducts();
     }
 
     private void loadBranchesIntoSelector() {
@@ -38,6 +43,32 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         BranchManagerDAOImpl dao = new BranchManagerDAOImpl();
         for (var bm : dao.getAllBranches()) {
             branchSelector.addItem(bm.getName()); // branch_name
+        }
+    }
+
+
+
+    public void loadBranchProducts() {
+        try {
+            List<BranchProduct> list = controller.getAllBranchProducts();
+            DefaultTableModel model = (DefaultTableModel) productSupplierTable.getModel();
+            model.setRowCount(0); // clear table before loading
+
+            for (BranchProduct bp : list) {
+                model.addRow(new Object[]{
+                        bp.getBranchName(),
+                        bp.getProductId(),
+                        bp.getProductName(),
+                        bp.getAvailableStock(),
+                        bp.getSupplierName()
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Failed to load Branch Products: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -55,7 +86,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        productSupplierTable = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
@@ -126,7 +157,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(branchSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 1337, Short.MAX_VALUE)))
+                        .addGap(0, 1349, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,21 +178,21 @@ public class branchManagerDashboard extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        productSupplierTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Branch ID", "Location", "Manager", "Stock"
+                "Branch Name", "Product ID", "Product Name", "Available Stock", "Supplier"
             }
         ));
-        jScrollPane5.setViewportView(jTable5);
+        jScrollPane5.setViewportView(productSupplierTable);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jLabel11.setText("Branch Table");
+        jLabel11.setText("Product & Supplier Information per Branch");
 
         jButton10.setBackground(new java.awt.Color(51, 51, 51));
         jButton10.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -196,7 +227,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1528, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1540, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton12)
@@ -211,7 +242,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -247,7 +278,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
-        jLabel6.setText("Financial Information per Branch");
+        jLabel6.setText("Financial Performance per Branch");
 
         jButton7.setBackground(new java.awt.Color(0, 102, 255));
         jButton7.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -261,10 +292,10 @@ public class branchManagerDashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1528, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1540, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 1345, Short.MAX_VALUE))
+                        .addGap(0, 1352, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton7)))
@@ -332,7 +363,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                        .addGap(0, 1210, Short.MAX_VALUE)
+                        .addGap(0, 1222, Short.MAX_VALUE)
                         .addComponent(jButton23)))
                 .addContainerGap())
         );
@@ -346,7 +377,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -411,11 +442,9 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jTabbedPane1)))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -577,6 +606,6 @@ public class branchManagerDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable5;
+    private javax.swing.JTable productSupplierTable;
     // End of variables declaration//GEN-END:variables
 }

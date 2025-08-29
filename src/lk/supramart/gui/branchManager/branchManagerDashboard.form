@@ -55,13 +55,10 @@
                           <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          <Component id="jTabbedPane1" max="32767" attributes="0"/>
-                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
+              <Component id="jTabbedPane1" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -119,7 +116,7 @@
                                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="branchSelector" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="1337" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1349" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -221,7 +218,7 @@
                                   <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane5" pref="1528" max="32767" attributes="0"/>
+                              <Component id="jScrollPane5" pref="1540" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="jButton12" min="-2" max="-2" attributes="0"/>
@@ -240,7 +237,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane5" min="-2" pref="704" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -261,14 +258,15 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable5">
+                    <Component class="javax.swing.JTable" name="productSupplierTable">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="4" rowCount="4">
-                            <Column editable="true" title="Branch ID" type="java.lang.Object"/>
-                            <Column editable="true" title="Location" type="java.lang.Object"/>
-                            <Column editable="true" title="Manager" type="java.lang.Object"/>
-                            <Column editable="true" title="Stock" type="java.lang.Object"/>
+                          <Table columnCount="5" rowCount="4">
+                            <Column editable="true" title="Branch Name" type="java.lang.Object"/>
+                            <Column editable="true" title="Product ID" type="java.lang.Object"/>
+                            <Column editable="true" title="Product Name" type="java.lang.Object"/>
+                            <Column editable="true" title="Available Stock" type="java.lang.Object"/>
+                            <Column editable="true" title="Supplier" type="java.lang.Object"/>
                           </Table>
                         </Property>
                       </Properties>
@@ -280,7 +278,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI Variable" size="12" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Branch Table"/>
+                    <Property name="text" type="java.lang.String" value="Product &amp; Supplier Information per Branch"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton10">
@@ -347,10 +345,10 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" pref="1528" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="1540" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="1345" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1352" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -402,7 +400,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI Variable" size="12" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Financial Information per Branch"/>
+                    <Property name="text" type="java.lang.String" value="Financial Performance per Branch"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton7">
@@ -492,7 +490,7 @@
                                       </Group>
                                       <Component id="jComboBox2" max="32767" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="0" pref="1210" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="1222" max="32767" attributes="0"/>
                                           <Component id="jButton23" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -510,7 +508,7 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jScrollPane11" min="-2" pref="643" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton23" min="-2" pref="27" max="-2" attributes="0"/>
+                                  <Component id="jButton23" pref="31" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>

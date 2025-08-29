@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lk.supramart.model.BranchManager;
 import lk.supramart.connection.MySQL;
+import lk.supramart.model.BranchProduct;
 import lk.supramart.util.LoggerUtil;
 
 /**
@@ -20,7 +21,6 @@ import lk.supramart.util.LoggerUtil;
  * @author kithu
  */
 public class BranchManagerDAOImpl implements BranchManagerDAO {
-
     @Override
     public List<BranchManager> getAllBranches() {
         List<BranchManager> branchManagerList = new ArrayList<>();
@@ -54,6 +54,50 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
             return MySQL.executePreparedSearch(sql, managerRoleId, branchName);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<BranchProduct> getAllBranchProducts() throws Exception {
+        String sql = "SELECT b.branch_name, " +
+                 "       p.product_id, p.name, " +
+                 "       bhp.quantity_change AS available_stock, " +
+                 "       s.supplier_name " +
+                 "FROM branches_has_products bhp " +
+                 "JOIN branches b ON bhp.branches_branch_id = b.branch_id " +
+                 "JOIN products p ON bhp.products_product_id = p.product_id " +
+                 "JOIN suppliers s ON bhp.suppliers_supplier_id = s.supplier_id";
+
+    ResultSet rs = MySQL.executePreparedSearch(sql);
+    List<BranchProduct> list = new ArrayList<>();
+
+    while (rs.next()) {
+        BranchProduct bp = new BranchProduct(
+                rs.getString("branch_name"),
+                rs.getInt("product_id"),
+                rs.getString("name"),
+                rs.getInt("available_stock"),
+                rs.getString("supplier_name")
+        );
+        list.add(bp);
+    }
+    return list;
+    }
+
+    @Override
+    public ResultSet getBranchProducts(String branchName) {
+        // Return a ResultSet for a given branch name (if you prefer direct ResultSet usage)
+        String query
+                = "SELECT b.branch_name, p.product_id, p.name, s.supplier_id, s.supplier_name, bhp.available_stock "
+                + "FROM branches_has_products bhp "
+                + "JOIN branches b ON bhp.branches_branch_id = b.branch_id "
+                + "JOIN products p ON bhp.products_product_id = p.product_id "
+                + "LEFT JOIN suppliers s ON p.supplier_id = s.supplier_id "
+                + "WHERE b.branch_name = ?";
+        try {
+            return MySQL.executePreparedSearch(query, branchName);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -124,21 +168,6 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    @Override
-    public ResultSet getBranchProducts(String branchName) {
-        String query = "SELECT p.product_id, p.product_name, bhp.available_stock\n"
-                + "FROM products p\n"
-                + "JOIN branches_has_products bhp ON p.product_id = bhp.products_product_id\n"
-                + "JOIN branches b ON bhp.branches_branch_id = b.branch_id\n"
-                + "WHERE b.branch_name = ?";
-        try {
-            return MySQL.executePreparedSearch(query, branchName);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
