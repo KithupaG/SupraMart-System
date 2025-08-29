@@ -16,9 +16,6 @@ import java.sql.SQLException;
  * @author kithu
  */
 public interface BranchManagerDAO {
-    boolean addBranch(BranchManager branch);
-    boolean updateBranch(BranchManager branch);
-    boolean deleteBranch(String branchId);
     boolean updateBranchManager(BranchManager branchManagerId);
     
     List<BranchManager> getAllBranches();

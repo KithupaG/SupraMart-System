@@ -22,7 +22,8 @@ import lk.supramart.util.LoggerUtil;
  * @author kithu
  */
 public class BranchManagerDAOImpl implements BranchManagerDAO {
-
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BranchManagerDAOImpl.class.getName());
+    
     @Override
     public List<BranchManager> getAllBranches() {
         List<BranchManager> branchManagerList = new ArrayList<>();
@@ -104,70 +105,30 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
         }
     }
 
-    public boolean addBranch(BranchManager branch) {
-        String query = "INSERT INTO branch (branch_id, branch_name, City_city_id) VALUES (?,?,?)";
-
-        try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branch.getId());
-            ps.setString(2, branch.getName());
-            ps.setInt(3, branch.getCityId());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean updateBranch(BranchManager branch) {
-        String query = "INSERT INTO branches (branch_name, City_city_id) VALUES (?,?)";
-
-        try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branch.getName());
-            ps.setInt(2, branch.getCityId());
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean deleteBranch(String branchId) {
-        String query = "DELETE FROM branches WHERE branch_id = ?";
-
-        try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branchId);
-
-            int rows = ps.executeUpdate();
-            return rows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     @Override
     public boolean updateBranchManager(BranchManager branchManager) {
-        String query = "UPDATE employees SET first_name = ?, email = ?, password = ? WHERE employee_id = ? AND role_id = 4";
+        String query = "UPDATE employees "
+                + "SET first_name = ?, email = ?, password = ? "
+                + "WHERE employee_id = ? AND role_id = 5";
 
-        try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement(query);
-            ps.setString(1, branchManager.getId());
-            ps.setString(2, branchManager.getName());
-            ps.setString(3, branchManager.getEmail());
-            ps.setString(4, branchManager.getPassword());
+        try (PreparedStatement ps = MySQL.getConnection().prepareStatement(query)) {
+            ps.setString(1, branchManager.getFName());
+            ps.setString(2, branchManager.getEmail());
+            ps.setString(3, branchManager.getPassword());
+            ps.setString(4, branchManager.getId());
+
+            // <<< Add these logging lines here, right before executeUpdate() >>>
+            logger.info("Updating employee_id: " + branchManager.getId());
+            logger.info("first_name: " + branchManager.getFName());
+            logger.info("email: " + branchManager.getEmail());
+            logger.info("password: " + branchManager.getPassword());
 
             int rows = ps.executeUpdate();
+            logger.info("Rows affected: " + rows);
+
             return rows > 0;
         } catch (SQLException e) {
+            logger.severe("SQLException while updating branch manager: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

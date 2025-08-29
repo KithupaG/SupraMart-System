@@ -24,18 +24,6 @@ public class BranchManagerController {
         this.branchManagerDAO = new BranchManagerDAOImpl();
     }
 
-    public boolean addSupplier(BranchManager branch) {
-        return branchManagerDAO.addBranch(branch);
-    }
-
-    public boolean updateSupplier(BranchManager branch) {
-        return branchManagerDAO.updateBranch(branch);
-    }
-
-    public boolean deleteSupplier(String branchId) {
-        return branchManagerDAO.deleteBranch(branchId);
-    }
-
     public List<BranchManager> getAllBranch() {
         return branchManagerDAO.getAllBranches();
     }

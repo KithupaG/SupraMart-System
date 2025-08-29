@@ -24,11 +24,12 @@ public class branchManagerSettings extends javax.swing.JDialog {
         this.branchManagerId = managerId;
         this.branchManagerDAO = new BranchManagerDAOImpl(); // initialize DAO
         initComponents();
+        loadManagerDetails();
     }
 
     private void loadManagerDetails() {
         try {
-
+            jLabel9.setText("Welcome, " + branchManagerId);
             BranchManagerDAOImpl bmdaoi = new BranchManagerDAOImpl();
             ResultSet rs = bmdaoi.getManagerById(branchManagerId);
             if (rs != null && rs.next()) {
@@ -235,7 +236,7 @@ public class branchManagerSettings extends javax.swing.JDialog {
 
         if (exitdialog == JOptionPane.OK_OPTION) {
             this.dispose();
-            logger.info("User cancelled exit");
+            logger.info("User pressed the exit button");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -280,6 +281,8 @@ public class branchManagerSettings extends javax.swing.JDialog {
             branchManagerSettings dialog = new branchManagerSettings(new javax.swing.JFrame(), true, "BM001"); 
             dialog.setVisible(true);
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
