@@ -1,0 +1,100 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="branchFinanceReports" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37b5307a-e2bb-4e63-a012-da3ea7087097">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SupramartDA.jrdax"/>
+	<parameter name="branchId" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[SELECT 
+    b.branch_name,
+    DATE_FORMAT(i.date, '%Y-%m') AS month,
+    COALESCE(SUM(i.monthly_income), 0) AS income,
+    COALESCE(SUM(e.monthly_expenses), 0) AS expenses,
+    (COALESCE(SUM(i.monthly_income), 0) - COALESCE(SUM(e.monthly_expenses), 0)) AS profit
+FROM branches b
+LEFT JOIN income i ON b.branch_id = i.branches_branch_id
+LEFT JOIN expenses e ON b.branch_id = e.branches_branch_id
+	AND DATE_FORMAT(i.date, '%Y-%m') = DATE_FORMAT(e.date, '%Y-%m')
+WHERE b.branch_id = $P{branchId}
+GROUP BY b.branch_name, DATE_FORMAT(i.date, '%Y-%m')
+ORDER BY DATE_FORMAT(i.date, '%Y-%m')]]></query>
+	<field name="branch_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="branch_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="branch_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="branches"/>
+	</field>
+	<field name="month" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="month"/>
+		<property name="com.jaspersoft.studio.field.label" value="month"/>
+	</field>
+	<field name="income" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="income"/>
+		<property name="com.jaspersoft.studio.field.label" value="income"/>
+	</field>
+	<field name="expenses" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="expenses"/>
+		<property name="com.jaspersoft.studio.field.label" value="expenses"/>
+	</field>
+	<field name="profit" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="profit"/>
+		<property name="com.jaspersoft.studio.field.label" value="profit"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="d22dfb23-6b69-4b7d-8344-70b218adf35c" x="142" y="30" width="270" height="30" fontSize="19.0" bold="true">
+			<text><![CDATA[BRANCH FINANCE REPORT]]></text>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="2b05190b-8447-403c-b8f9-adcbf12ced8d" x="90" y="0" width="110" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Branch Name]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2be2626f-67e3-4445-b7ba-f3142c7e02b7"/>
+		</element>
+		<element kind="staticText" uuid="92c79ee1-3bdc-43eb-b841-36e35f8306e5" x="298" y="0" width="90" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Income]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57ad01cb-7a34-4113-8d17-a162758be728"/>
+		</element>
+		<element kind="staticText" uuid="ff2d8694-9c78-49d5-b5ef-09771837d3a4" x="390" y="0" width="100" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Expenses]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c666710e-b3ff-4215-8c40-34ac3e263812"/>
+		</element>
+		<element kind="staticText" uuid="bc12ac60-7756-4125-a098-4c3354df31b2" x="490" y="0" width="85" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Profit]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6e9c925d-1cd9-4f61-9c9c-e6826ebe58b6"/>
+		</element>
+		<element kind="staticText" uuid="40fa074c-bc62-4899-9480-48aaaf5e3ff6" x="-10" y="0" width="100" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Branch ID]]></text>
+		</element>
+		<element kind="staticText" uuid="33581097-7131-410a-8b7c-5868e4d84a7d" x="210" y="0" width="75" height="30" fontSize="16.0" bold="true">
+			<text><![CDATA[Month]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="32c482c6-4338-4f71-857f-2f29264ae214" x="-10" y="0" width="100" height="30" hTextAlign="Center">
+				<expression><![CDATA[$P{branchId}]]></expression>
+			</element>
+			<element kind="textField" uuid="bc385bfb-42eb-49b4-abc6-76ac3eef0702" x="90" y="0" width="100" height="30">
+				<expression><![CDATA[$F{branch_name}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2be2626f-67e3-4445-b7ba-f3142c7e02b7"/>
+			</element>
+			<element kind="textField" uuid="355bb3ec-e537-40c9-aa46-1b77acd38ca4" x="283" y="-1" width="93" height="30">
+				<expression><![CDATA[$F{income}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="57ad01cb-7a34-4113-8d17-a162758be728"/>
+			</element>
+			<element kind="textField" uuid="2a46a1d0-bdf4-4227-90c0-63082db6a88a" x="378" y="0" width="90" height="30">
+				<expression><![CDATA[$F{expenses}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c666710e-b3ff-4215-8c40-34ac3e263812"/>
+			</element>
+			<element kind="textField" uuid="7a1ce3d8-cbb6-4638-8222-4d68a63182de" x="475" y="0" width="100" height="30">
+				<expression><![CDATA[$F{profit}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6e9c925d-1cd9-4f61-9c9c-e6826ebe58b6"/>
+			</element>
+			<element kind="textField" uuid="95f78300-02f1-46de-9608-3dd3b2af4129" x="198" y="-1" width="90" height="30">
+				<expression><![CDATA[$F{month}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
