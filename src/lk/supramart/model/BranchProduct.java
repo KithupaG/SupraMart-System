@@ -10,6 +10,7 @@ package lk.supramart.model;
  */
 public class BranchProduct {
 
+    private String branchId;
     private String branchName;
     private int productId;
     private String productName;
@@ -17,7 +18,8 @@ public class BranchProduct {
     private String supplierName;
 
     // Constructor
-    public BranchProduct(String branchName, int productId, String productName, int availableStock, String supplierName) {
+    public BranchProduct(String branchId, String branchName, int productId, String productName, int availableStock, String supplierName) {
+        this.branchId = branchId;
         this.branchName = branchName;
         this.productId = productId;
         this.productName = productName;
@@ -26,6 +28,10 @@ public class BranchProduct {
     }
 
     // Getters
+    public String getBranchId() {
+        return branchId;
+    }
+
     public String getBranchName() {
         return branchName;
     }

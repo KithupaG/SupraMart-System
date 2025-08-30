@@ -403,7 +403,7 @@ public class branchManagerDashboard extends javax.swing.JFrame {
         try {
             // 1) Manager + Address
             int managerRoleId = lk.supramart.enums.UserRole.BRANCH_MANAGER.getId();
-            try (ResultSet rsInfo = dao.getBranchInfo(branchName, managerRoleId)) {
+            try (ResultSet rsInfo = dao.getBranchInfo(branchName,   managerRoleId)) {
                 if (rsInfo != null && rsInfo.next()) {
                     String mgr = rsInfo.getString("manager_name");
                     if (mgr != null && !mgr.isBlank()) {
@@ -416,7 +416,6 @@ public class branchManagerDashboard extends javax.swing.JFrame {
                 }
             }
 
-            // 2) Employees (choose COUNT or LIST)
             int count = 0;
             StringBuilder list = new StringBuilder();
             try (ResultSet rsEmp = dao.getBranchEmployees(branchName)) {

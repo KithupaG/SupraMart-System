@@ -22,15 +22,15 @@ import lk.supramart.util.LoggerUtil;
  * @author kithu
  */
 public class BranchManagerDAOImpl implements BranchManagerDAO {
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BranchManagerDAOImpl.class.getName());
-    
+
     @Override
     public List<BranchManager> getAllBranches() {
         List<BranchManager> branchManagerList = new ArrayList<>();
-        String query = "SELECT * FROM branches";
+        String query = "SELECT DISTINCT branch_id, branch_name, City_city_id FROM branches ORDER BY branch_name";
 
-        try {
-            ResultSet rs = MySQL.executePreparedSearch(query);
+        try (ResultSet rs = MySQL.executePreparedSearch(query)) {
             while (rs.next()) {
                 BranchManager bm = new BranchManager.Builder()
                         .setId(rs.getString("branch_id"))
@@ -62,7 +62,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
     }
 
     public List<BranchProduct> getAllBranchProducts() throws Exception {
-        String sql = "SELECT b.branch_name, "
+        String sql = "SELECT b.branch_id, b.branch_name, "
                 + "       p.product_id, p.name, "
                 + "       bhp.quantity_change AS available_stock, "
                 + "       s.supplier_name "
@@ -76,6 +76,7 @@ public class BranchManagerDAOImpl implements BranchManagerDAO {
 
         while (rs.next()) {
             BranchProduct bp = new BranchProduct(
+                    rs.getString("branch_id"), // <-- added branchId here
                     rs.getString("branch_name"),
                     rs.getInt("product_id"),
                     rs.getString("name"),

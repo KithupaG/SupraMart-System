@@ -4,13 +4,36 @@
  */
 package lk.supramart.gui.branchManager;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import lk.supramart.connection.MySQL;
+import lk.supramart.controller.BranchManagerController;
+import lk.supramart.dao.BranchManagerDAOImpl;
+import lk.supramart.model.BranchProduct;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+import lk.supramart.model.BranchManager;
+
 /**
  *
  * @author kithu
  */
 public class exportReport extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(exportReport.class.getName());
+    private Map<String, BranchProduct> branchMap = new HashMap<>();
 
     /**
      * Creates new form exportReport
@@ -18,6 +41,55 @@ public class exportReport extends javax.swing.JDialog {
     public exportReport(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadBranches();
+    }
+
+    private final BranchManagerController controller = new BranchManagerController();
+    private final Map<String, String> branchNameToId = new HashMap<>(); // name -> id
+
+    public List<BranchProduct> getAllBranches() throws Exception {
+        String sql = "SELECT DISTINCT branch_id, branch_name FROM branches";
+        ResultSet rs = MySQL.executePreparedSearch(sql);
+        List<BranchProduct> list = new ArrayList<>();
+
+        while (rs.next()) {
+            // Create a BranchProduct with dummy values for product fields
+            BranchProduct bp = new BranchProduct(
+                    rs.getString("branch_id"),
+                    rs.getString("branch_name"),
+                    0, // productId
+                    "", // productName
+                    0, // availableStock
+                    "" // supplierName
+            );
+            list.add(bp);
+        }
+
+        return list;
+    }
+
+    private void loadBranches() {
+        try {
+            List<BranchManager> branches = controller.getAllBranch();
+
+            branchNameToId.clear(); // important if dialog reused
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+
+            // Optional: prevent same name appearing twice if DB has accidental dup names
+            java.util.Set<String> seenNames = new java.util.HashSet<>();
+
+            for (BranchManager b : branches) {
+                String name = b.getName();
+                if (seenNames.add(name)) {
+                    model.addElement(name);
+                    branchNameToId.put(name, b.getId()); // store the branch_id
+                }
+            }
+            branchSelector.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to load branches: " + e.getMessage());
+        }
     }
 
     /**
@@ -37,7 +109,11 @@ public class exportReport extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         branchSelector.setFont(new java.awt.Font("Segoe UI Variable", 0, 12)); // NOI18N
-        branchSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        branchSelector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchSelectorActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(0, 102, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI Variable", 1, 12)); // NOI18N
@@ -94,8 +170,58 @@ public class exportReport extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String selectedBranchName = (String) branchSelector.getSelectedItem();
+        if (selectedBranchName != null && branchNameToId.containsKey(selectedBranchName)) {
+            String selectedBranchId = branchNameToId.get(selectedBranchName);
+            try {
+                generateBranchReport(selectedBranchId);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to generate report: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a branch.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void branchSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchSelectorActionPerformed
+
+    }//GEN-LAST:event_branchSelectorActionPerformed
+
+    public void generateBranchReport(String branchId) throws SQLException {
+        try {
+            // Path to your compiled Jasper file in the classpath
+            String reportPath = "/lk/supramart/reports/branchFinanceReports.jasper";
+
+            // Load the compiled report as an InputStream from classpath
+            InputStream reportStream = getClass().getResourceAsStream(reportPath);
+            if (reportStream == null) {
+                throw new IllegalStateException("Report file not found on classpath: " + reportPath
+                        + "\nCheck that the file is in src/main/resources/lk/supramart/reports/");
+            }
+
+            // Prepare parameters
+            Map<String, Object> params = new HashMap<>();
+            params.put("branchId", branchId); // must match JR parameter name
+
+            // Get database connection
+            Connection conn = MySQL.getConnection();
+
+            // Fill the report directly from InputStream
+            JasperPrint print = JasperFillManager.fillReport(reportStream, params, conn);
+
+            // View the report
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Failed to generate report: " + e.getMessage(),
+                    "Report Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
