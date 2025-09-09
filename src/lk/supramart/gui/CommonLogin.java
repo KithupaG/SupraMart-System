@@ -9,7 +9,6 @@ import lk.supramart.gui.admin.adminDashboard;
 import lk.supramart.gui.admin.adminLogin;
 import lk.supramart.gui.auditor.AuditorDashboard;
 import lk.supramart.gui.auditor.AuditorLogin;
-import lk.supramart.gui.branchManager.branchManagerDashboard;
 import lk.supramart.gui.branchManager.branchManagerLogin;
 import lk.supramart.gui.cashier.cashierLogin;
 import lk.supramart.gui.inventoryManager.inventoryManagerDashboard;
