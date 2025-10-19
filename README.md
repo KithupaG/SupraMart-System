@@ -4,7 +4,11 @@
 
 <p align="center"><img src="https://img.shields.io/badge/project-under_development-blue" alt="shields"></p>
 
-  
+<h2>Some preview screenshots as the project is still under construction</h2>
+<img width="395" height="503" alt="image" src="https://github.com/user-attachments/assets/9fb0c09d-7495-46dc-a05d-df86b786848e" />
+<img width="1130" height="767" alt="image" src="https://github.com/user-attachments/assets/f7c7dadd-ddbb-4e5b-b39e-2778f5001211" />
+<img width="1098" height="673" alt="image" src="https://github.com/user-attachments/assets/f0af9877-a982-4e8b-aa40-f63fa1034b05" />
+
   
 <h2>🧐 Features</h2>
 
