@@ -22,6 +22,7 @@ Here're some of the project's best features:
 *   MySQL Database connected using JDBC
 *   DAO Layering for ease of development
 *   .exe file built through Launch4J
+*   Further in-detail documentation available inside the "Documents" folder
 
 <h2>🛠️ Installation Steps:</h2>
 
